@@ -1,0 +1,75 @@
+
+buttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+multi_player_active
+  rotate: false
+  xy: 0, 350
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+multi_player_inactive
+  rotate: false
+  xy: 0, 280
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+play_active
+  rotate: false
+  xy: 400, 350
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+play_inactive
+  rotate: false
+  xy: 0, 210
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+quit_active
+  rotate: false
+  xy: 400, 280
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+quit_inactive
+  rotate: false
+  xy: 0, 140
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+single_player_active
+  rotate: false
+  xy: 400, 210
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+single_player_inactive
+  rotate: false
+  xy: 0, 70
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+tutorial_active
+  rotate: false
+  xy: 400, 140
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+tutorial_inactive
+  rotate: false
+  xy: 0, 0
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1

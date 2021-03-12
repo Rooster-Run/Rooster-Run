@@ -1,0 +1,12 @@
+
+explosion.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Webp.net-resizeimage
+  rotate: false
+  xy: 1, 1
+  size: 960, 96
+  orig: 960, 96
+  offset: 0, 0
+  index: -1

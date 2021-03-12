@@ -1,0 +1,47 @@
+
+MyButtons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+back_active
+  rotate: false
+  xy: 1, 145
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+back_inactive
+  rotate: false
+  xy: 1, 73
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+continue_active
+  rotate: false
+  xy: 403, 145
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+continue_inactive
+  rotate: false
+  xy: 1, 1
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+quit_active
+  rotate: false
+  xy: 403, 73
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+quit_inactive
+  rotate: false
+  xy: 403, 1
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1

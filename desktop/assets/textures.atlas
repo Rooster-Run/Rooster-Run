@@ -1,0 +1,46 @@
+
+textures.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+wall
+  rotate: false
+  xy: 1, 1
+  size: 910, 908
+  orig: 910, 908
+  offset: 0, 0
+  index: -1
+
+textures2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+rooster-sprite
+  rotate: false
+  xy: 1, 1
+  size: 840, 673
+  orig: 840, 673
+  offset: 0, 0
+  index: -1
+
+textures3.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+badlogic
+  rotate: false
+  xy: 502, 245
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+chicken
+  rotate: false
+  xy: 1, 1
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
