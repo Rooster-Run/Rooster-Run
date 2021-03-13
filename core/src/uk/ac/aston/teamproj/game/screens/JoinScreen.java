@@ -75,9 +75,9 @@ public class JoinScreen implements Screen {
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		System.out.println("token:");
-		String response = in.next();
+		String response = getToken();
 		System.out.println("name:");
-		String response2 = in.next();
+		String response2 = getName();
 
 		new MPClient("localhost", response2, game);
 		JoinGameSession packet = new JoinGameSession();
@@ -85,7 +85,8 @@ public class JoinScreen implements Screen {
 		MPClient.client.sendTCP(packet);
 
 	}
-	
+
+
 	private void initializeButtons() {		
 		ImageButtonStyle style;
 		
@@ -98,6 +99,7 @@ public class JoinScreen implements Screen {
 		continueBtn.addListener(new InputListener() {
 			
 				@Override
+				
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					
 					//plays button sounds	         
@@ -128,11 +130,11 @@ public class JoinScreen implements Screen {
 	    				}
 	    			});
 	    			
-	    			promptConfirm();
-//	    			new MPClient("localhost", name, game);
-//	    			JoinGameSession packet = new JoinGameSession();
-//	    			packet.token = token;
-//	    			MPClient.client.sendTCP(packet);
+//	    			promptConfirm();
+	    			new MPClient("localhost", name, game);
+	    			JoinGameSession packet = new JoinGameSession();
+	    			packet.token = getToken();
+	    			MPClient.client.sendTCP(packet);
 	    			
 	    			dispose();
 	    			// create add chicken command in playscreen
@@ -245,6 +247,14 @@ public class JoinScreen implements Screen {
 	public void hide() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public String getToken() {
+		return txt_token.getText();
+	}
+	
+	private String getName() {
+		return txt_name.getText();
 	}
 
 	@Override
