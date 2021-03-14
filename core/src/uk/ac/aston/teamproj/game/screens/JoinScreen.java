@@ -134,6 +134,7 @@ public class JoinScreen implements Screen {
 	    			new MPClient("localhost", name, game);
 	    			JoinGameSession packet = new JoinGameSession();
 	    			packet.token = getToken();
+	    			packet.name = getName();
 	    			MPClient.client.sendTCP(packet);
 	    			
 	    			dispose();

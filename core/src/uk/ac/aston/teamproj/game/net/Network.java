@@ -7,6 +7,7 @@ import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.Movement;
+import uk.ac.aston.teamproj.game.net.packet.PlayersInSession;
 
 public class Network {
 
@@ -19,6 +20,8 @@ public class Network {
 		kryo.register(CreateGameSession.class);
 		kryo.register(JoinGameSession.class);
 		kryo.register(Movement.class);
+		kryo.register(PlayersInSession.class);
+		kryo.register(java.util.ArrayList.class);
 	}
 	
 }
