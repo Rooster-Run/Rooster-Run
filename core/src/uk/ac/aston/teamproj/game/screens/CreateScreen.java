@@ -122,6 +122,7 @@ public class CreateScreen implements Screen {
 	    			new MPClient(txt_ip.getText(), txt_name.getText(), game);
 	    			dispose();
 	    			CreateGameSession packet = new CreateGameSession();
+	    			packet.name = getName();
 	    			MPClient.client.sendTCP(packet);
 	            	return true;
 		
@@ -291,5 +292,9 @@ public class CreateScreen implements Screen {
 		skin.dispose();
 		txt_skin.dispose();
 		stage.dispose();
+	}
+	
+	private String getName() {
+		return txt_name.getText();
 	}
 }

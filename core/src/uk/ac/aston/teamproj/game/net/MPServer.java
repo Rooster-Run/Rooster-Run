@@ -11,6 +11,7 @@ import com.esotericsoftware.minlog.Log;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
+import uk.ac.aston.teamproj.game.net.packet.PlayersInSession;
 
 public class MPServer {
 
@@ -47,11 +48,11 @@ public class MPServer {
 				if(object instanceof CreateGameSession) {
 					// make a token and store the game ID to that connection
 					// its 4am check this over when im awake
-					CreateGameSession packet = new CreateGameSession();
+					CreateGameSession packet = (CreateGameSession) object;
 					String token = generateGameToken();
 					packet.token = token;
 					GameSession session = new GameSession(token);
-					session.addPlayer(connection.getID());
+					session.addPlayer(connection.getID(), packet.name);
 					session.setHost(connection.getID());
 					sessions.add(session);
 					
@@ -66,10 +67,15 @@ public class MPServer {
 						System.out.println("There are currently " + sessions.get(0).getPlayers().size() + " players in the room.");
 						System.out.println(session.getToken() + " == " + packet.token);
 						if(session.getToken().equals(packet.token)) {
-							session.addPlayer(connection.getID());
-//							for(Integer x : session.getPlayers()) {
-//								server.sendToTCP(x, packet);
-//							}
+							session.addPlayer(connection.getID(), packet.name);
+
+							PlayersInSession packet2 = new PlayersInSession();
+							packet2.players = session.getPlayers();
+							packet2.names = session.getPlayerNames();
+							for (Integer connectionID : session.getPlayers()) {
+								server.sendToTCP(connectionID, packet2);
+							}
+							
 							System.out.println("There are currently " + sessions.get(0).getPlayers().size() + " players in the room.");
 							server.sendToTCP(connection.getID(), packet);
 							break;
