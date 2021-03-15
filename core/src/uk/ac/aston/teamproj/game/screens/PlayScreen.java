@@ -91,7 +91,7 @@ public class PlayScreen implements Screen {
 
 		// Create our game HUD for scores /timers/level info/players in the game etc
 		hud = new Hud(game.batch);
-		progressBar = new PlayerProgressBar(game.batch, players.size());
+		progressBar = new PlayerProgressBar(game.batch, players);
 
 		// Load our map and setup our map renderer
 		mapLoader = new TmxMapLoader();
@@ -164,21 +164,9 @@ public class PlayScreen implements Screen {
 
 		// update player based on delta time
 		player.update(dt);
-
-		// update score based on location
-//		if (player.getPositionX() * MainGame.PPM > (hud.getScore() + 1) * SCORE_LOC) {
-//			hud.updateScore();
-//		}
-//		if (player2.getPositionX() * MainGame.PPM > (hud2.getScore() + 1) * SCORE_LOC) {
-//			hud2.updateScore();
-//		}
 		
-		float[] progresses = new float[players.size()];
-		for (int i = 0; i < players.size(); i++) {
-			progresses[i] = players.get(i).getPosX();
-		}
 		if (player.currentState != Rooster.State.DEAD) {
-			progressBar.updateProgress(progresses);
+			progressBar.updateProgress(players);
 		}
 
 		// Everytime chicken moves we want to track him with our game cam
@@ -262,13 +250,6 @@ public class PlayScreen implements Screen {
 		game.batch.begin();
 		player.draw(game.batch); // draw
 		game.batch.end();
-
-		// Set our batch to now draw what the hud camera sees
-//		game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-//		hud.stage.draw();
-
-//		game.batch.setProjectionMatrix(hud2.stage.getCamera().combined);
-//		hud2.stage.draw();
 		
 		progressBar.draw();
 		
