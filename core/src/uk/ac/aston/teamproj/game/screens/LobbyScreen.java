@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.net.MPClient;
+import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
 /**
  * @author Suleman
@@ -35,6 +37,8 @@ public class LobbyScreen implements Screen {
 	private TextureAtlas buttonsAtlas; // the sprite-sheet containing all buttons
 	private Skin skin; // skin for buttons
 	private ImageButton[] buttons;
+	
+	public static boolean isGameAboutToStart = false;
 
 	public LobbyScreen(MainGame game) {
 		this.game = game;
@@ -65,9 +69,10 @@ public class LobbyScreen implements Screen {
 				// plays button sounds
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
 				sound.play(1F);
-				System.out.println("MULTI");
-				LobbyScreen.this.dispose();
-				game.setScreen(new MultiplayerMenuScreen(game));
+				System.out.println("START GAME");
+				StartGame packet = new StartGame();
+				packet.token = PlayScreen.sessionID;
+				MPClient.client.sendTCP(packet);
 				return true;
 			}
 		});
@@ -106,11 +111,17 @@ public class LobbyScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		stage.draw();
-		stage.act(delta);
+		if (!isGameAboutToStart) {
+			Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	
+			stage.draw();
+			stage.act(delta);
+		} else {
+			dispose();
+			isGameAboutToStart = false;	// reset for next time
+			game.setScreen(new LoadingScreen(game));
+		}
 	}
 
 	@Override

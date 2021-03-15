@@ -1,6 +1,7 @@
 package uk.ac.aston.teamproj.game.net;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -11,12 +12,15 @@ import com.esotericsoftware.minlog.Log;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
-import uk.ac.aston.teamproj.game.net.packet.PlayersInSession;
+import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
+import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
+import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
 public class MPServer {
 
+	private final static int TOKEN_LENGTH = 5;
 	public Server server;
-	public ArrayList<GameSession> sessions;
+	public HashMap<String, GameSession> sessions;
 		
 	public MPServer() {
 		server = new Server();
@@ -24,7 +28,7 @@ public class MPServer {
 		
 		Network.register(server);
 		
-		sessions = new ArrayList<>();
+		sessions = new HashMap<>();
 				
 		try {
 			server.bind(Network.TCP_PORT, Network.UDP_PORT);
@@ -51,54 +55,87 @@ public class MPServer {
 					CreateGameSession packet = (CreateGameSession) object;
 					String token = generateGameToken();
 					packet.token = token;
-					GameSession session = new GameSession(token);
+					GameSession session = new GameSession(token, packet.mapPath);
 					session.addPlayer(connection.getID(), packet.name);
 					session.setHost(connection.getID());
-					sessions.add(session);
+					sessions.put(token, session);
 					
 					server.sendToTCP(connection.getID(), packet);
+					notifyAllPlayers(session);
 				}
 				
 				if(object instanceof JoinGameSession) {
 					// get his token and see if exists
 					JoinGameSession packet = (JoinGameSession) object;
 
-					for(GameSession session: sessions) {
-						System.out.println("There are currently " + sessions.get(0).getPlayers().size() + " players in the room.");
-						System.out.println(session.getToken() + " == " + packet.token);
-						if(session.getToken().equals(packet.token)) {
-							session.addPlayer(connection.getID(), packet.name);
-
-							PlayersInSession packet2 = new PlayersInSession();
-							packet2.players = session.getPlayers();
-							packet2.names = session.getPlayerNames();
-							for (Integer connectionID : session.getPlayers()) {
-								server.sendToTCP(connectionID, packet2);
-							}
+						if(sessions.get(packet.token) != null) {
+							GameSession session = sessions.get(packet.token);
+							System.out.println(session.getToken() + " == " + packet.token);
+							System.out.println("There are currently " + session.getPlayers().size() + " players in the room.");
 							
-							System.out.println("There are currently " + sessions.get(0).getPlayers().size() + " players in the room.");
+							session.addPlayer(connection.getID(), packet.name);
+							notifyAllPlayers(session);
+							
+							System.out.println("There are currently " + session.getPlayers().size() + " players in the room.");
 							server.sendToTCP(connection.getID(), packet);
-							break;
+						}
+						
+						// TODO
+						// if it does put him into the same lobby
+						// if not its an invalid token
+				}
+				
+				if (object instanceof StartGame) {
+					StartGame packet = (StartGame) object;
+					if(sessions.get(packet.token) != null) {
+						GameSession session = sessions.get(packet.token);
+						packet.playerIDs = session.getPlayerIDs();
+						packet.playerNames = session.getPlayerNames();
+						for (Integer connectionID : session.getPlayerIDs()) {
+							server.sendToTCP(connectionID, packet);
 						}
 					}
-
-					// if it does put him into the same lobby
-					// if not its an invalid token
+				}
+				
+				if (object instanceof PlayerPosition) {
+					PlayerPosition packet = (PlayerPosition) object;
+					if (sessions.get(packet.token) != null) {
+						GameSession session = sessions.get(packet.token);
+						for (Integer connectionID : session.getPlayerIDs()) {
+							server.sendToTCP(connectionID, packet);
+						}
+					}
 				}
 			}
 		});	
 	}
 	
-	public String generateGameToken() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
-        while (salt.length() < 18) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        String saltStr = salt.toString();
-        return saltStr;
+	private void notifyAllPlayers(GameSession session) {
+		SessionInfo packet = new SessionInfo();
+		packet.playerIDs = session.getPlayerIDs();
+		packet.playerNames = session.getPlayerNames();
+		packet.mapPath = session.getMapPath();
+		packet.token = session.getToken();
+		for (Integer connectionID : session.getPlayerIDs()) {
+			packet.playerID = connectionID;
+			server.sendToTCP(connectionID, packet);
+		}
+	}
+	
+	private String generateGameToken() {
+		String saltStr;
+		do {
+	        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	        StringBuilder salt = new StringBuilder();
+	        Random rnd = new Random();
+	        while (salt.length() < TOKEN_LENGTH) { // length of the random string.
+	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	            salt.append(SALTCHARS.charAt(index));
+	        }
+	        saltStr = salt.toString();	        
+		} while(sessions.get(saltStr) != null);
+		
+		return saltStr;
 	}
 	
 	public static void main(String[] args) {

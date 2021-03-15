@@ -1,5 +1,7 @@
 package uk.ac.aston.teamproj.game.net;
 
+import java.util.ArrayList;
+
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -9,8 +11,12 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
-import uk.ac.aston.teamproj.game.net.packet.PlayersInSession;
+import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
+import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
+import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
+import uk.ac.aston.teamproj.game.screens.LobbyScreen;
+import uk.ac.aston.teamproj.game.screens.PlayScreen;
 
 public class MPClient {
 	
@@ -37,7 +43,7 @@ public class MPClient {
 		try {
 			client.connect(60000, ip, Network.TCP_PORT, Network.UDP_PORT);
 			requestLogin();
-			game.setScreen(new LoadingScreen(game, mapPath));
+			game.setScreen(new LobbyScreen(game));
 		} catch (Exception e) {
 			System.err.println("Error. Cannot reach the server.");
 		}
@@ -67,20 +73,45 @@ public class MPClient {
 					System.out.println(packet.token);
 				}
 				
-				if(object instanceof PlayersInSession) {
-					PlayersInSession packet = (PlayersInSession) object;
-					System.out.println("Total players: " + packet.players.size());
-					System.out.print("Player names: ");
-					for (int i = 0 ; i < packet.players.size(); i++) {
-						System.out.print("[" + packet.players.get(i) + " - " + packet.names.get(i) +  "] ");
+				if(object instanceof SessionInfo) {
+					SessionInfo packet = (SessionInfo) object;
+					System.out.println("Total players: " + packet.playerIDs.size());
+					System.out.print("Players: ");
+					for (int i = 0 ; i < packet.playerIDs.size(); i++) {
+						System.out.print("[" + packet.playerIDs.get(i) + " - " + packet.playerNames.get(i) +  "] ");
 					}
 					System.out.println();
+					System.out.println("Map: " + packet.mapPath);
+					PlayScreen.mapPath = packet.mapPath;
+					PlayScreen.sessionID = packet.token;
+					PlayScreen.myID = packet.playerID;
+				}
+				
+				if(object instanceof StartGame) {
+					StartGame packet = (StartGame) object;
+					PlayScreen.players = new ArrayList<Player>();
+					for (int i = 0; i < packet.playerIDs.size() && i < packet.playerNames.size(); i++) {
+						Player p = new Player(packet.playerIDs.get(i), packet.playerNames.get(i));
+						PlayScreen.players.add(p);
+					}
+					
+					LobbyScreen.isGameAboutToStart = true;
+				}
+				
+				if(object instanceof PlayerPosition) {
+					PlayerPosition packet = (PlayerPosition) object;
+					for (Player p : PlayScreen.players) {
+						if (p.getID() == packet.playerID) {
+							p.setPosX(packet.posX);
+						}
+					}
 				}
 			}
 
 		}));
 		
 	}
+	
 
 	public void requestLogin() {
 		Login login = new Login();
