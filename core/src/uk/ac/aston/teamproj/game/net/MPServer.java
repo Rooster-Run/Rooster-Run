@@ -53,7 +53,7 @@ public class MPServer {
 					CreateGameSession packet = (CreateGameSession) object;
 					String token = generateGameToken();
 					packet.token = token;
-					GameSession session = new GameSession(token);
+					GameSession session = new GameSession(token, packet.mapPath);
 					session.addPlayer(connection.getID(), packet.name);
 					session.setHost(connection.getID());
 					sessions.put(token, session);
@@ -87,11 +87,12 @@ public class MPServer {
 	}
 	
 	private void notifyAllPlayers(GameSession session) {
-		SessionInfo packet2 = new SessionInfo();
-		packet2.players = session.getPlayers();
-		packet2.names = session.getPlayerNames();
+		SessionInfo packet = new SessionInfo();
+		packet.players = session.getPlayers();
+		packet.names = session.getPlayerNames();
+		packet.mapPath = session.getMapPath();
 		for (Integer connectionID : session.getPlayers()) {
-			server.sendToTCP(connectionID, packet2);
+			server.sendToTCP(connectionID, packet);
 		}
 	}
 	

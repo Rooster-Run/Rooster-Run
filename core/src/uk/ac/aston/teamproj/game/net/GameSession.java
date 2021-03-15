@@ -10,8 +10,11 @@ public class GameSession {
 	private ArrayList<Integer> players;
 	private ArrayList<String> names;
 	
-	public GameSession(String token) {
+	private String mapPath;
+	
+	public GameSession(String token, String mapPath) {
 		this.token = token;
+		this.mapPath = mapPath;
 		players = new ArrayList<>();
 		names = new ArrayList<>();
 	}
@@ -39,5 +42,9 @@ public class GameSession {
 	
 	public int getHost() {
 		return hostID;
+	}
+	
+	public String getMapPath() {
+		return mapPath;
 	}
 }

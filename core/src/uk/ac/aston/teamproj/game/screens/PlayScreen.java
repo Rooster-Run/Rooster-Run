@@ -67,7 +67,11 @@ public class PlayScreen implements Screen {
 	
 	private final PlayerProgressBar progressBar;
 	
-	public PlayScreen(MainGame game, String mapPath) {
+	public static int sessionID;	// i.e. token
+	public static int playerNumbers;
+	public static String mapPath;
+	
+	public PlayScreen(MainGame game) {
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken.pack");
 

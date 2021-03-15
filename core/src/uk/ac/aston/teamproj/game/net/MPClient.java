@@ -11,6 +11,7 @@ import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
+import uk.ac.aston.teamproj.game.screens.PlayScreen;
 
 public class MPClient {
 	
@@ -75,6 +76,8 @@ public class MPClient {
 						System.out.print("[" + packet.players.get(i) + " - " + packet.names.get(i) +  "] ");
 					}
 					System.out.println();
+					System.out.println("Map: " + packet.mapPath);
+					PlayScreen.mapPath = packet.mapPath;
 				}
 			}
 

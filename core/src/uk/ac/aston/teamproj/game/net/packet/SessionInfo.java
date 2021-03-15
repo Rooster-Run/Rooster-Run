@@ -6,4 +6,5 @@ public class SessionInfo {
 	
 	public ArrayList<Integer> players;
 	public ArrayList<String> names;
+	public String mapPath;
 }

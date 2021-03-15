@@ -122,6 +122,7 @@ public class CreateScreen implements Screen {
 	    			new MPClient(txt_ip.getText(), txt_name.getText(), game);
 	    			dispose();
 	    			CreateGameSession packet = new CreateGameSession();
+	    			packet.mapPath = mapsPaths[mapIdx];
 	    			packet.name = getName();
 	    			MPClient.client.sendTCP(packet);
 	            	return true;
