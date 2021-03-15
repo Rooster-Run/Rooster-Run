@@ -25,7 +25,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
+import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
 import uk.ac.aston.teamproj.game.scenes.Hud;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
@@ -69,11 +71,15 @@ public class PlayScreen implements Screen {
 	
 	private final PlayerProgressBar progressBar;
 	
+	public static int myID;
 	public static String sessionID;	// i.e. token
-	public static ArrayList<Player> players = new ArrayList<>();
+	public static ArrayList<Player> players;
 	public static String mapPath;
 	
+	private long prevUpdateTime;
+	
 	public PlayScreen(MainGame game) {
+		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken.pack");
 
@@ -85,7 +91,7 @@ public class PlayScreen implements Screen {
 
 		// Create our game HUD for scores /timers/level info/players in the game etc
 		hud = new Hud(game.batch);
-		progressBar = new PlayerProgressBar(game.batch);
+		progressBar = new PlayerProgressBar(game.batch, players.size());
 
 		// Load our map and setup our map renderer
 		mapLoader = new TmxMapLoader();
@@ -111,8 +117,7 @@ public class PlayScreen implements Screen {
 
 		world.setContactListener(new WorldContactListener(this));
 
-//		Sound sound = Gdx.audio.newSound(Gdx.files.internal("game_soundtrack.mp3"));
-//        sound.play(1F);
+		prevUpdateTime = System.currentTimeMillis();		
 	}
 
 	@Override
@@ -167,8 +172,14 @@ public class PlayScreen implements Screen {
 //		if (player2.getPositionX() * MainGame.PPM > (hud2.getScore() + 1) * SCORE_LOC) {
 //			hud2.updateScore();
 //		}
-		if (player.currentState != Rooster.State.DEAD)
-			progressBar.updateProgress(player.getPositionX());
+		
+		float[] progresses = new float[players.size()];
+		for (int i = 0; i < players.size(); i++) {
+			progresses[i] = players.get(i).getPosX();
+		}
+		if (player.currentState != Rooster.State.DEAD) {
+			progressBar.updateProgress(progresses);
+		}
 
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != Rooster.State.DEAD) {
@@ -188,30 +199,39 @@ public class PlayScreen implements Screen {
 		float y = gamecam.position.y - h / 2;
 
 		renderer.setView(gamecam.combined, x, y, w, h); // Only render what our game can see
-//        renderer.setView(gamecam);
+//      renderer.setView(gamecam);
 
-			//for (HashMap.Entry<Bomb, Float> entry : toExplode.entrySet()) {
-			for (Iterator<HashMap.Entry<Bomb, Float>> iter = toExplode.entrySet().iterator();
-					iter.hasNext();) {
-				HashMap.Entry<Bomb, Float> entry = iter.next();
-				Bomb bomb = entry.getKey();
-				@SuppressWarnings("rawtypes")
-				Animation a = bomb.getAnimation();
-				float time = entry.getValue();
+		for (Iterator<HashMap.Entry<Bomb, Float>> iter = toExplode.entrySet().iterator();
+				iter.hasNext();) {
+			HashMap.Entry<Bomb, Float> entry = iter.next();
+			Bomb bomb = entry.getKey();
+			@SuppressWarnings("rawtypes")
+			Animation a = bomb.getAnimation();
+			float time = entry.getValue();
 
-				if (time <= 1f) { // if the animation is still running
-					time += dt;
-					toExplode.put(bomb, time);
-					if (time < 0.9f) {
-						TextureRegion region = (TextureRegion) a.getKeyFrame(time);
-						bomb.getCell().setTile(new StaticTiledMapTile(region));
-					} else
-						bomb.getCell().setTile(null); // last frame in animation should be empty
+			if (time <= 1f) { // if the animation is still running
+				time += dt;
+				toExplode.put(bomb, time);
+				if (time < 0.9f) {
+					TextureRegion region = (TextureRegion) a.getKeyFrame(time);
+					bomb.getCell().setTile(new StaticTiledMapTile(region));
+				} else
+					bomb.getCell().setTile(null); // last frame in animation should be empty
 
-				} else { // else if the animation is finished
-					iter.remove();
-				}
+			} else { // else if the animation is finished
+				iter.remove();
 			}
+		}
+		
+		long currentTime = System.currentTimeMillis();
+		if (currentTime-prevUpdateTime >= 100) {
+			prevUpdateTime = currentTime;
+			PlayerPosition packet = new PlayerPosition();
+			packet.playerID = myID;
+			packet.token = sessionID;
+			packet.posX = player.getPositionX();
+			MPClient.client.sendTCP(packet);
+		}
 	}
 
 	public void updateCoins() {

@@ -25,4 +25,8 @@ public class Player {
 	public String getName() {
 		return name;
 	}
+	
+	public float getPosX() {
+		return posX;
+	}
 }

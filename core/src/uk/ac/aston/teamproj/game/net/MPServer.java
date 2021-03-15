@@ -12,6 +12,7 @@ import com.esotericsoftware.minlog.Log;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
+import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
@@ -95,6 +96,16 @@ public class MPServer {
 						}
 					}
 				}
+				
+				if (object instanceof PlayerPosition) {
+					PlayerPosition packet = (PlayerPosition) object;
+					if (sessions.get(packet.token) != null) {
+						GameSession session = sessions.get(packet.token);
+						for (Integer connectionID : session.getPlayerIDs()) {
+							server.sendToTCP(connectionID, packet);
+						}
+					}
+				}
 			}
 		});	
 	}
@@ -106,6 +117,7 @@ public class MPServer {
 		packet.mapPath = session.getMapPath();
 		packet.token = session.getToken();
 		for (Integer connectionID : session.getPlayerIDs()) {
+			packet.playerID = connectionID;
 			server.sendToTCP(connectionID, packet);
 		}
 	}

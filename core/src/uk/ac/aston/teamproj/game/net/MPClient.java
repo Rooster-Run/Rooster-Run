@@ -1,5 +1,7 @@
 package uk.ac.aston.teamproj.game.net;
 
+import java.util.ArrayList;
+
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -9,6 +11,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
+import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
@@ -81,16 +84,27 @@ public class MPClient {
 					System.out.println("Map: " + packet.mapPath);
 					PlayScreen.mapPath = packet.mapPath;
 					PlayScreen.sessionID = packet.token;
+					PlayScreen.myID = packet.playerID;
 				}
 				
 				if(object instanceof StartGame) {
 					StartGame packet = (StartGame) object;
+					PlayScreen.players = new ArrayList<Player>();
 					for (int i = 0; i < packet.playerIDs.size() && i < packet.playerNames.size(); i++) {
 						Player p = new Player(packet.playerIDs.get(i), packet.playerNames.get(i));
 						PlayScreen.players.add(p);
 					}
 					
 					LobbyScreen.isGameAboutToStart = true;
+				}
+				
+				if(object instanceof PlayerPosition) {
+					PlayerPosition packet = (PlayerPosition) object;
+					for (Player p : PlayScreen.players) {
+						if (p.getID() == packet.playerID) {
+							p.setPosX(packet.posX);
+						}
+					}
 				}
 			}
 
