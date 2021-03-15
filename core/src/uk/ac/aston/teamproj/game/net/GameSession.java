@@ -7,8 +7,7 @@ public class GameSession {
 	private String token;
 	private int hostID;
 	private boolean active;
-	private ArrayList<Integer> players;
-	private ArrayList<String> names;
+	private ArrayList<Player> players;
 	
 	private String mapPath;
 	
@@ -16,24 +15,34 @@ public class GameSession {
 		this.token = token;
 		this.mapPath = mapPath;
 		players = new ArrayList<>();
-		names = new ArrayList<>();
 	}
 	
 	public void addPlayer(int id, String name) {
-		players.add(id);
-		names.add(name);
+		players.add(new Player(id, name));
 	}
 	
 	public void setHost(int id) {
 		this.hostID = id;
 	}
 	
-	public ArrayList<Integer> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return players;
 	}
 	
+	public ArrayList<Integer> getPlayerIDs() {
+		ArrayList<Integer> list = new ArrayList<>();
+		for (Player p : players) {
+			list.add(p.getID());
+		}
+		return list;
+	}
+	
 	public ArrayList<String> getPlayerNames() {
-		return names;
+		ArrayList<String> list = new ArrayList<>();
+		for (Player p : players) {
+			list.add(p.getName());
+		}
+		return list;
 	}
 	
 	public String getToken() {

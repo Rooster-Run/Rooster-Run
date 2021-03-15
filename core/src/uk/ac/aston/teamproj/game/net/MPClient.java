@@ -72,10 +72,10 @@ public class MPClient {
 				
 				if(object instanceof SessionInfo) {
 					SessionInfo packet = (SessionInfo) object;
-					System.out.println("Total players: " + packet.players.size());
-					System.out.print("Player names: ");
-					for (int i = 0 ; i < packet.players.size(); i++) {
-						System.out.print("[" + packet.players.get(i) + " - " + packet.names.get(i) +  "] ");
+					System.out.println("Total players: " + packet.playerIDs.size());
+					System.out.print("Players: ");
+					for (int i = 0 ; i < packet.playerIDs.size(); i++) {
+						System.out.print("[" + packet.playerIDs.get(i) + " - " + packet.playerNames.get(i) +  "] ");
 					}
 					System.out.println();
 					System.out.println("Map: " + packet.mapPath);
@@ -84,6 +84,12 @@ public class MPClient {
 				}
 				
 				if(object instanceof StartGame) {
+					StartGame packet = (StartGame) object;
+					for (int i = 0; i < packet.playerIDs.size() && i < packet.playerNames.size(); i++) {
+						Player p = new Player(packet.playerIDs.get(i), packet.playerNames.get(i));
+						PlayScreen.players.add(p);
+					}
+					
 					LobbyScreen.isGameAboutToStart = true;
 				}
 			}

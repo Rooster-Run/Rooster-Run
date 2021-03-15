@@ -88,7 +88,9 @@ public class MPServer {
 					StartGame packet = (StartGame) object;
 					if(sessions.get(packet.token) != null) {
 						GameSession session = sessions.get(packet.token);
-						for (Integer connectionID : session.getPlayers()) {
+						packet.playerIDs = session.getPlayerIDs();
+						packet.playerNames = session.getPlayerNames();
+						for (Integer connectionID : session.getPlayerIDs()) {
 							server.sendToTCP(connectionID, packet);
 						}
 					}
@@ -99,11 +101,11 @@ public class MPServer {
 	
 	private void notifyAllPlayers(GameSession session) {
 		SessionInfo packet = new SessionInfo();
-		packet.players = session.getPlayers();
-		packet.names = session.getPlayerNames();
+		packet.playerIDs = session.getPlayerIDs();
+		packet.playerNames = session.getPlayerNames();
 		packet.mapPath = session.getMapPath();
 		packet.token = session.getToken();
-		for (Integer connectionID : session.getPlayers()) {
+		for (Integer connectionID : session.getPlayerIDs()) {
 			server.sendToTCP(connectionID, packet);
 		}
 	}

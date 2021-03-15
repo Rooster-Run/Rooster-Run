@@ -1,5 +1,6 @@
 package uk.ac.aston.teamproj.game.screens;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -24,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.scenes.Hud;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
@@ -68,7 +70,7 @@ public class PlayScreen implements Screen {
 	private final PlayerProgressBar progressBar;
 	
 	public static String sessionID;	// i.e. token
-	public static int playerNumbers;
+	public static ArrayList<Player> players = new ArrayList<>();
 	public static String mapPath;
 	
 	public PlayScreen(MainGame game) {

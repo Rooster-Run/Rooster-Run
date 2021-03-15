@@ -70,8 +70,6 @@ public class LobbyScreen implements Screen {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
 				sound.play(1F);
 				System.out.println("START GAME");
-				//game.setScreen(new LoadingScreen(game));
-				//LobbyScreen.this.dispose();
 				StartGame packet = new StartGame();
 				packet.token = PlayScreen.sessionID;
 				MPClient.client.sendTCP(packet);

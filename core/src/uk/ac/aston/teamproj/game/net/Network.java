@@ -24,7 +24,7 @@ public class Network {
 		kryo.register(SessionInfo.class);
 		kryo.register(java.util.ArrayList.class);
 		kryo.register(StartGame.class);
-		
+		kryo.register(uk.ac.aston.teamproj.game.net.Player.class);
 	}
 	
 }
