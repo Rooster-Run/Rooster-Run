@@ -28,13 +28,11 @@ public class LoadingScreen implements Screen {
     private Viewport viewport;
     private Texture background;
     
-    public LoadingScreen(Game game, String mapPath) {
+    public LoadingScreen(Game game) {
         mGame = (MainGame) game;
         batch = mGame.batch;
         bf_loadProgress = new BitmapFont();
         mShapeRenderer = new ShapeRenderer();
-        
-        this.mapPath = mapPath;
         
         viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
         background = new Texture("buttons/multiplayer_menu_bg.jpg");   

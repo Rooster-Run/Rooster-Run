@@ -67,7 +67,7 @@ public class PlayScreen implements Screen {
 	
 	private final PlayerProgressBar progressBar;
 	
-	public static int sessionID;	// i.e. token
+	public static String sessionID;	// i.e. token
 	public static int playerNumbers;
 	public static String mapPath;
 	

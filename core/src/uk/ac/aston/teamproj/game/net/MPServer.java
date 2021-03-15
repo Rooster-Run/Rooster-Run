@@ -13,6 +13,7 @@ import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
+import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
 public class MPServer {
 
@@ -81,7 +82,17 @@ public class MPServer {
 						// TODO
 						// if it does put him into the same lobby
 						// if not its an invalid token
-				}					
+				}
+				
+				if (object instanceof StartGame) {
+					StartGame packet = (StartGame) object;
+					if(sessions.get(packet.token) != null) {
+						GameSession session = sessions.get(packet.token);
+						for (Integer connectionID : session.getPlayers()) {
+							server.sendToTCP(connectionID, packet);
+						}
+					}
+				}
 			}
 		});	
 	}
@@ -91,6 +102,7 @@ public class MPServer {
 		packet.players = session.getPlayers();
 		packet.names = session.getPlayerNames();
 		packet.mapPath = session.getMapPath();
+		packet.token = session.getToken();
 		for (Integer connectionID : session.getPlayers()) {
 			server.sendToTCP(connectionID, packet);
 		}

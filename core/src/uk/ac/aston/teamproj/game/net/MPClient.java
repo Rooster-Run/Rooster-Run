@@ -10,7 +10,9 @@ import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
+import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
+import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 
 public class MPClient {
@@ -38,7 +40,7 @@ public class MPClient {
 		try {
 			client.connect(60000, ip, Network.TCP_PORT, Network.UDP_PORT);
 			requestLogin();
-			game.setScreen(new LoadingScreen(game, mapPath));
+			game.setScreen(new LobbyScreen(game));
 		} catch (Exception e) {
 			System.err.println("Error. Cannot reach the server.");
 		}
@@ -78,12 +80,18 @@ public class MPClient {
 					System.out.println();
 					System.out.println("Map: " + packet.mapPath);
 					PlayScreen.mapPath = packet.mapPath;
+					PlayScreen.sessionID = packet.token;
+				}
+				
+				if(object instanceof StartGame) {
+					LobbyScreen.isGameAboutToStart = true;
 				}
 			}
 
 		}));
 		
 	}
+	
 
 	public void requestLogin() {
 		Login login = new Login();
