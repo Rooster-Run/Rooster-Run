@@ -9,7 +9,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
-import uk.ac.aston.teamproj.game.net.packet.PlayersInSession;
+import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
 
 public class MPClient {
@@ -67,8 +67,8 @@ public class MPClient {
 					System.out.println(packet.token);
 				}
 				
-				if(object instanceof PlayersInSession) {
-					PlayersInSession packet = (PlayersInSession) object;
+				if(object instanceof SessionInfo) {
+					SessionInfo packet = (SessionInfo) object;
 					System.out.println("Total players: " + packet.players.size());
 					System.out.print("Player names: ");
 					for (int i = 0 ; i < packet.players.size(); i++) {

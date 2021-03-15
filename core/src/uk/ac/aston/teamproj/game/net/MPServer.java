@@ -12,7 +12,7 @@ import com.esotericsoftware.minlog.Log;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
-import uk.ac.aston.teamproj.game.net.packet.PlayersInSession;
+import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 
 public class MPServer {
 
@@ -87,7 +87,7 @@ public class MPServer {
 	}
 	
 	private void notifyAllPlayers(GameSession session) {
-		PlayersInSession packet2 = new PlayersInSession();
+		SessionInfo packet2 = new SessionInfo();
 		packet2.players = session.getPlayers();
 		packet2.names = session.getPlayerNames();
 		for (Integer connectionID : session.getPlayers()) {
