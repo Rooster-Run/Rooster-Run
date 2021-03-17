@@ -1,7 +1,5 @@
 package uk.ac.aston.teamproj.game.scenes;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 
 public class PlayerProgressBar implements Disposable {
@@ -42,10 +39,9 @@ public class PlayerProgressBar implements Disposable {
 	// players
 	private final float[] relativePositions;
 	private final Image[] playerIcons;
-	private ArrayList<Player> players;
 	private int playerIndex;
 	
-	public PlayerProgressBar(SpriteBatch sb, ArrayList<Player> players) {
+	public PlayerProgressBar(SpriteBatch sb) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 		
@@ -76,12 +72,11 @@ public class PlayerProgressBar implements Disposable {
 		}
 		
 		// players
-		this.players = players;
-		this.relativePositions = new float[players.size()];
-		this.playerIcons = new Image[players.size()];
-		for (int i = 0; i < players.size(); i++) {
+		this.relativePositions = new float[PlayScreen.players.size()];
+		this.playerIcons = new Image[PlayScreen.players.size()];
+		for (int i = 0; i < PlayScreen.players.size(); i++) {
 			playerIcons[i] = new Image(new Texture("progress_bar/player" + (i+1) + ".png"));
-			if (players.get(i).getID() == PlayScreen.myID) {
+			if (PlayScreen.players.get(i).getID() == PlayScreen.myID) {
 				playerIcons[i].setColor(1f, 1f, 1f, 1f);
 				playerIndex = i;
 			} else {
@@ -94,7 +89,7 @@ public class PlayerProgressBar implements Disposable {
 		
 		Group group = new Group();
 		group.addActor(bar);
-		for (int i = 0; i < players.size(); i ++) {
+		for (int i = 0; i < PlayScreen.players.size(); i ++) {
 			playerIcons[i].setBounds(12 + relativePositions[i], 372f, PLAYER_RADIUS, PLAYER_RADIUS + 3);
 			if (i != playerIndex)
 				group.addActor(playerIcons[i]);
@@ -116,32 +111,19 @@ public class PlayerProgressBar implements Disposable {
 		stage.dispose();
 	}
 	
-	public void updateProgress(ArrayList<Player> players) {		
-		for (int i = 0; i < players.size(); i++) {
-			float actualPosition = (players.get(i).getPosX()* MainGame.PPM) / 100;
+	public void update() {		
+		for (int i = 0; i < PlayScreen.players.size(); i++) {
+			float actualPosition = (PlayScreen.players.get(i).getPosX()* MainGame.PPM) / 100;
 			float percentage = (actualPosition * 100) / MAP_SIZE;
 			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 		}
-	}
-	
-	public void updateCoins(int value) {
-		PlayScreen.player.updateCoins(value);
+		
 		coinsCollected = PlayScreen.player.getCoins();
 		coinsLabel.setText(String.format("%02d", coinsCollected));
-	}
-	
-	public void updateLives() {
-		int lives;
-		if (PlayScreen.player.isDead())
-			lives = 0;
-		else
-			lives = PlayScreen.player.getLives();
-		if (lives < hearts.length)
-			hearts[lives].setVisible(false);
-	}
-	
-	public int getCoinsCollected() {
-		return coinsCollected;
+		
+		int lives = PlayScreen.player.getLives();
+		for (int i = lives; i < 3; i++) 
+			hearts[i].setVisible(false);
 	}
 }

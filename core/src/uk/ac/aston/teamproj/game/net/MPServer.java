@@ -11,7 +11,7 @@ import com.esotericsoftware.kryonet.Server;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
-import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
+import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
@@ -96,8 +96,8 @@ public class MPServer {
 					}
 				}
 				
-				if (object instanceof PlayerPosition) {
-					PlayerPosition packet = (PlayerPosition) object;
+				if (object instanceof PlayerInfo) {
+					PlayerInfo packet = (PlayerInfo) object;
 					if (sessions.get(packet.token) != null) {
 						GameSession session = sessions.get(packet.token);
 						for (Integer connectionID : session.getPlayerIDs()) {

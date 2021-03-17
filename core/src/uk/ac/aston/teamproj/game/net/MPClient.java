@@ -11,7 +11,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
-import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
+import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
@@ -98,11 +98,13 @@ public class MPClient {
 					LobbyScreen.isGameAboutToStart = true;
 				}
 				
-				if(object instanceof PlayerPosition) {
-					PlayerPosition packet = (PlayerPosition) object;
+				if(object instanceof PlayerInfo) {
+					PlayerInfo packet = (PlayerInfo) object;
 					for (Player p : PlayScreen.players) {
 						if (p.getID() == packet.playerID) {
 							p.setPosX(packet.posX);
+							p.setLives(packet.lives);
+							p.setCoins(packet.coins);
 						}
 					}
 				}

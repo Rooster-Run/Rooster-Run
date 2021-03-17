@@ -27,9 +27,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
-import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
+import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.scenes.Hud;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
+import uk.ac.aston.teamproj.game.scenes.PlayersTab;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
@@ -46,7 +47,6 @@ public class PlayScreen implements Screen {
 	// Aspect ratio
 	private OrthographicCamera gamecam;
 	private Viewport gamePort;
-	private Hud hud;
 
 	// Tiled map variables
 	private TmxMapLoader mapLoader;
@@ -65,18 +65,17 @@ public class PlayScreen implements Screen {
 	private int jumpCount = 0;
 
 	private HashMap<Bomb, Float> toExplode = new HashMap<>();
-	
-	public static int score;
-	public static int coins;
-	
-	private final PlayerProgressBar progressBar;
-	
+		
 	public static int myID;
 	public static String sessionID;	// i.e. token
 	public static ArrayList<Player> players;
 	public static String mapPath;
 	
 	private long prevUpdateTime;
+	
+	private final PlayerProgressBar progressBar;
+	private final PlayersTab tab;
+	private boolean isTabOn = false; 
 	
 	public PlayScreen(MainGame game) {
 		System.out.println("Size is: " + players.size() + "!!");
@@ -89,10 +88,10 @@ public class PlayScreen implements Screen {
 		// Create a FitViewport to maintain virtual aspect ratio despite screen size
 		gamePort = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
 
-		// Create our game HUD for scores /timers/level info/players in the game etc
-		hud = new Hud(game.batch);
-		progressBar = new PlayerProgressBar(game.batch, players);
-
+		// Create progress bar and tab
+		progressBar = new PlayerProgressBar(game.batch);
+		tab = new PlayersTab(game.batch);
+		
 		// Load our map and setup our map renderer
 		mapLoader = new TmxMapLoader();
 		String correctMapPath = (mapPath != null)? mapPath : DEFAULT_MAP_PATH;
@@ -130,13 +129,10 @@ public class PlayScreen implements Screen {
 		// If our user is holding down mouse over camera throughout the game world.
 		if (player.currentState != Rooster.State.DEAD) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
-
 				 //plays button swoosh sound
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
                 sound.play(1F);
-
                 player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
-
 				jumpCount++;
 			}
 
@@ -148,6 +144,9 @@ public class PlayScreen implements Screen {
                 player.b2body.setLinearVelocity(-1.0f, player.b2body.getLinearVelocity().y);
 			}
 			
+			if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+	        	isTabOn = !isTabOn;
+	        }
 		}
 
 	}
@@ -164,10 +163,9 @@ public class PlayScreen implements Screen {
 
 		// update player based on delta time
 		player.update(dt);
-		
-		if (player.currentState != Rooster.State.DEAD) {
-			progressBar.updateProgress(players);
-		}
+		progressBar.update();
+		tab.update();
+
 
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != Rooster.State.DEAD) {
@@ -180,15 +178,30 @@ public class PlayScreen implements Screen {
 		// tell our renderer to draw only what the camera sees in our game world.
 		float width = gamecam.viewportWidth * gamecam.zoom;
 		float height = gamecam.viewportHeight * gamecam.zoom;
-
 		float w = width * Math.abs(gamecam.up.y) + height * Math.abs(gamecam.up.x);
 		float h = height * Math.abs(gamecam.up.y) + width * Math.abs(gamecam.up.x);
 		float x = gamecam.position.x - w / 2;
 		float y = gamecam.position.y - h / 2;
-
 		renderer.setView(gamecam.combined, x, y, w, h); // Only render what our game can see
 //      renderer.setView(gamecam);
 
+		updateBombExplosionAnimation(dt);
+		
+		// send position to server
+		long currentTime = System.currentTimeMillis();
+		if (currentTime-prevUpdateTime >= 100) {
+			prevUpdateTime = currentTime;
+			PlayerInfo packet = new PlayerInfo();
+			packet.playerID = myID;
+			packet.token = sessionID;
+			packet.posX = player.getPositionX();
+			packet.lives = player.getLives();
+			packet.coins = player.getCoins();
+			MPClient.client.sendTCP(packet);
+		}
+	}
+	
+	private void updateBombExplosionAnimation(float delta) {
 		for (Iterator<HashMap.Entry<Bomb, Float>> iter = toExplode.entrySet().iterator();
 				iter.hasNext();) {
 			HashMap.Entry<Bomb, Float> entry = iter.next();
@@ -198,7 +211,7 @@ public class PlayScreen implements Screen {
 			float time = entry.getValue();
 
 			if (time <= 1f) { // if the animation is still running
-				time += dt;
+				time += delta;
 				toExplode.put(bomb, time);
 				if (time < 0.9f) {
 					TextureRegion region = (TextureRegion) a.getKeyFrame(time);
@@ -210,24 +223,6 @@ public class PlayScreen implements Screen {
 				iter.remove();
 			}
 		}
-		
-		long currentTime = System.currentTimeMillis();
-		if (currentTime-prevUpdateTime >= 100) {
-			prevUpdateTime = currentTime;
-			PlayerPosition packet = new PlayerPosition();
-			packet.playerID = myID;
-			packet.token = sessionID;
-			packet.posX = player.getPositionX();
-			MPClient.client.sendTCP(packet);
-		}
-	}
-
-	public void updateCoins() {
-		progressBar.updateCoins(1);
-	}
-
-	public void updateLives() {
-		progressBar.updateLives();
 	}
 
 	@Override
@@ -251,7 +246,10 @@ public class PlayScreen implements Screen {
 		player.draw(game.batch); // draw
 		game.batch.end();
 		
-		progressBar.draw();
+		if (!isTabOn)
+			progressBar.draw();
+		else
+			tab.draw();
 		
 		if (gameOver()) {
 			game.setScreen(new GameOverScreen(game));
@@ -289,7 +287,8 @@ public class PlayScreen implements Screen {
 		renderer.dispose();
 		world.dispose();
 		b2dr.dispose();
-		hud.dispose();
+		progressBar.dispose();
+		tab.dispose();
 	}
 
 	public TextureAtlas getAtlas() {
@@ -298,8 +297,6 @@ public class PlayScreen implements Screen {
 
 	// TEMP
 	private boolean gameOver() {
-		coins = hud.getCoins();
-		score = hud.getScore();
 		return (player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3);
 	}
 

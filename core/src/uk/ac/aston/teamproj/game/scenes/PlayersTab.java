@@ -1,5 +1,7 @@
 package uk.ac.aston.teamproj.game.scenes;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 
 public class PlayersTab implements Disposable {
@@ -41,32 +44,36 @@ public class PlayersTab implements Disposable {
 	private final float[] relativePositions;
 	private final Image[] playerIcons;
 	
-	public PlayersTab(SpriteBatch sb, int players) {
+	public PlayersTab(SpriteBatch sb) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 		
 		// bar, coins, lives
 		Texture barTexture = new Texture("progress_bar/grey_bar.png");
-		bars = new Image[players];
+		bars = new Image[PlayScreen.players.size()];
 		
 		Texture coinTexture = new Texture("progress_bar/coin.png");
-		coins = new Image[players];
-		coinsLabels = new Label[players];
+		coins = new Image[PlayScreen.players.size()];
+		coinsLabels = new Label[PlayScreen.players.size()];
+		coinsCollected = new int[PlayScreen.players.size()];
 		
 		Texture heartTexture = new Texture("progress_bar/heart.png");
-		hearts = new Image[players][3];
+		hearts = new Image[PlayScreen.players.size()][3];
 		
 		// players
-		this.totalPlayers = players;
-		this.relativePositions = new float[players];
-		this.playerIcons = new Image[players];
-		for (int i = 0; i < players; i++) {
-			playerIcons[i] = new Image(new Texture("progress_bar/player" + i + ".png"));
-			playerIcons[i].setColor(1f, 1f, 1f, 0.6f);	
+		this.totalPlayers = PlayScreen.players.size();
+		this.relativePositions = new float[PlayScreen.players.size()];
+		this.playerIcons = new Image[PlayScreen.players.size()];
+		for (int i = 0; i < PlayScreen.players.size(); i++) {
+			playerIcons[i] = new Image(new Texture("progress_bar/player" + (i+1) + ".png"));
+			if (PlayScreen.players.get(i).getID() == PlayScreen.myID) {
+				playerIcons[i].setColor(1f, 1f, 1f, 1f);
+			} else {
+				playerIcons[i].setColor(1f, 1f, 1f, 0.5f);
+			}
 		}
-		playerIcons[0].setColor(1f, 1f, 1f, 0.9f);
 		
-		for (int i = 0, posY = 370; i < players; i++, posY -= BAR_HEIGHT + 10 ) {
+		for (int i = 0, posY = 370; i < PlayScreen.players.size(); i++, posY -= BAR_HEIGHT + 10 ) {
 			// bars			
 			bars[i] = new Image(barTexture);
 			bars[i].setColor(1f, 1f, 1f, 0.5f);
@@ -78,7 +85,7 @@ public class PlayersTab implements Disposable {
 			coins[i].setBounds(500, posY, 32, 32);
 			
 			// coinsLabels
-			coinsLabels[i] = new Label(String.format("\t%02d", coinsCollected), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+			coinsLabels[i] = new Label(String.format("\t%02d", coinsCollected[i]), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 			coinsLabels[i].setColor(1f,  1f,  1f,  0.6f);
 			coinsLabels[i].setX(540);
 			coinsLabels[i].setY(posY + 6);
@@ -123,28 +130,18 @@ public class PlayersTab implements Disposable {
 	}
 
 	
-	public void updateProgress(float[] positions) {
-		for (int i = 0; i < positions.length; i++) {
-			float actualPosition = (positions[i] * MainGame.PPM) / 100;
-			float percentage = (actualPosition * 100) / MAP_SIZE;
+	public void update() {		
+		for (int i = 0; i < PlayScreen.players.size(); i++) {
+			Player p = PlayScreen.players.get(i);
 			
+			float actualPosition = (p.getPosX()* MainGame.PPM) / 100;
+			float percentage = (actualPosition * 100) / MAP_SIZE;			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
+	
+			coinsCollected[i] = p.getCoins();
+			
+			for (int j = p.getLives(); j < 3; j++) 
+				hearts[i][j].setVisible(false);
 		}
-	}
-	
-	public void updateCoins(int value) {
-//		PlayScreen.player.updateCoins(value);
-//		coinsCollected = PlayScreen.player.getCoins();
-//		coinsLabel.setText(String.format("%02d", coinsCollected));
-	}
-	
-	public void updateLives() {
-//		int lives;
-//		if (PlayScreen.player.isDead())
-//			lives = 0;
-//		else
-//			lives = PlayScreen.player.getLives();
-//		if (lives < hearts.length)
-//			hearts[lives].setVisible(false);
 	}
 }

@@ -113,6 +113,7 @@ public class Rooster extends Sprite {
 		if (!isDead) {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -10/MainGame.PPM) {
+				lives = 0;
 				isDead = true;
 			}
 			
@@ -223,28 +224,6 @@ public class Rooster extends Sprite {
 		b2body.createFixture(fdef).setUserData("legs"); //uniquely identifies this fixture as "legs"						
 	}
 	
-	public void bombHit() {
-		
-		if (lives > 1) {
-			lives--;
-			
-		} else {
-		isDead = true;
-
-		//redefine what Rooster can collide with (i.e. nothing, he's dead)
-		//To do so, for every fixture attached to rooster, reset the masks bits
-		//mask bits are what fixtures a fixture can collide with
-		Filter filter = new Filter();
-		filter.maskBits = MainGame.NOTHING_BIT;
-		for (Fixture f: b2body.getFixtureList())
-			f.setFilterData(filter);
-		
-		//make rooster go up
-		b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);		
-	
-		}
-	}
-	
 	public void onFinish() {
 		hasWon = true;
 	}
@@ -315,4 +294,22 @@ public class Rooster extends Sprite {
 		coins += value;
 	}
 
+	public void decreaseLives() {
+		lives--;
+
+		if (lives < 1) {
+			isDead = true;
+	
+			//redefine what Rooster can collide with (i.e. nothing, he's dead)
+			//To do so, for every fixture attached to rooster, reset the masks bits
+			//mask bits are what fixtures a fixture can collide with
+			Filter filter = new Filter();
+			filter.maskBits = MainGame.NOTHING_BIT;
+			for (Fixture f: b2body.getFixtureList())
+				f.setFilterData(filter);
+			
+			//make rooster go up
+			b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);		
+		}
+	}
 }
