@@ -80,7 +80,7 @@ public class PlayScreen implements Screen {
 	public PlayScreen(MainGame game) {
 		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
-		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken.pack");
+		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken2.pack");
 
 		// Create a cam to follow chicken in the game world
 		gamecam = new OrthographicCamera();

@@ -65,7 +65,7 @@ public class Rooster extends Sprite {
 		
 	@SuppressWarnings("unchecked")
 	public Rooster(World world, PlayScreen screen) {
-		super(screen.getAtlas().findRegion("new_chicken")); //pass the required texture region to the superclass
+		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
 		defineRooster();
 		
@@ -90,13 +90,13 @@ public class Rooster extends Sprite {
 			frames.add(tr);
 		}
 		roosterRun = new Animation(0.1f, frames); //0.1f = duration of each image frame
-		frames.clear();
 		
+		frames.clear();		
 		//initialize jump animation
 		{
 			frames.add(roosterStand);
-			//frames.add(new TextureRegion(getTexture(), 48*7, 6*48, 48, 48));
-			//frames.add(new TextureRegion(getTexture(), 48*7, 2*48, 48, 48));
+			//frames.add(new TextureRegion(getTexture(), 3*96, 0, 96, 96));
+			//frames.add(new TextureRegion(getTexture(), 4*96, 0, 96, 96));
 		}
 		roosterJump = new Animation(0.1f, frames);
 		frames.clear();
@@ -134,7 +134,7 @@ public class Rooster extends Sprite {
 		TextureRegion region;
 		switch(currentState) {
 			case JUMPING:
-				region = (TextureRegion) roosterJump.getKeyFrame(stateTimer); 
+				region = (TextureRegion) roosterJump.getKeyFrame(stateTimer, true); 
 				break;
 			case RUNNING: 
 			case RUNNING_FAST: 

@@ -73,7 +73,7 @@ public class PlayersTab implements Disposable {
 			if (PlayScreen.players.get(i).getID() == PlayScreen.myID) {
 				playerIcons[i].setColor(1f, 1f, 1f, 1f);
 			} else {
-				playerIcons[i].setColor(1f, 1f, 1f, 0.4f);
+				playerIcons[i].setColor(1f, 1f, 1f, 0.6f);
 			}
 		}
 		
@@ -99,6 +99,7 @@ public class PlayersTab implements Disposable {
 			playerNames[i].setX(20);
 			playerNames[i].setY(posY + 6);
 			playerNames[i].setFontScale(1.4f);
+			playerNames[i].setColor(1f, 1f, 1f, 0.5f);
 
 			// hearts
 			hearts[i][0] = new Image(heartTexture);
