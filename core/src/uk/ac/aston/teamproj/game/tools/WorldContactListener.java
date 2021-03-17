@@ -44,15 +44,13 @@ public class WorldContactListener implements ContactListener {
 		}
 		
 		switch (cDef) {
-			case (MainGame.ROOSTER_BIT | MainGame.BOMB_BIT):
-				PlayScreen.player.bombHit();
-			
+			case (MainGame.ROOSTER_BIT | MainGame.BOMB_BIT):			
 				Fixture bombFixture = (fixA.getFilterData().categoryBits == MainGame.BOMB_BIT) ? fixA : fixB;
 				Bomb bomb = ((Bomb) bombFixture.getUserData());
 				
 				bomb.onHit();
 				playScreen.makeBombExplode(bomb);
-				playScreen.updateLives();
+				PlayScreen.player.decreaseLives();
 				break;
 
 			case (MainGame.ROOSTER_BIT | MainGame.BRICK_BIT):
@@ -62,7 +60,7 @@ public class WorldContactListener implements ContactListener {
 
 			case (MainGame.ROOSTER_BIT | MainGame.COIN_BIT):
 				
-				playScreen.updateCoins();
+				PlayScreen.player.updateCoins(1);
 
 				Fixture coinFixture = (fixA.getFilterData().categoryBits == MainGame.COIN_BIT) ? fixA : fixB;
 				((Coin) coinFixture.getUserData()).onHit();

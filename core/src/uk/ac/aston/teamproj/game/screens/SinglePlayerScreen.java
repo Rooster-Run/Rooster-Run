@@ -27,7 +27,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
-import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
+import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.scenes.Hud;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
@@ -228,7 +228,7 @@ public class SinglePlayerScreen implements Screen {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime-prevUpdateTime >= 100) {
 			prevUpdateTime = currentTime;
-			PlayerPosition packet = new PlayerPosition();
+			PlayerInfo packet = new PlayerInfo();
 //			packet.playerID = myID;
 //			packet.token = sessionID;
 			packet.posX = player.getPositionX();

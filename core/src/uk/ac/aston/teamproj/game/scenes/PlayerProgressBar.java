@@ -37,11 +37,11 @@ public class PlayerProgressBar implements Disposable {
 	private Image[] hearts = new Image[3];
 	
 	// players
-	private final int totalPlayers;
 	private final float[] relativePositions;
 	private final Image[] playerIcons;
+	private int playerIndex;
 	
-	public PlayerProgressBar(SpriteBatch sb, int players) {
+	public PlayerProgressBar(SpriteBatch sb) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 		
@@ -72,24 +72,30 @@ public class PlayerProgressBar implements Disposable {
 		}
 		
 		// players
-		this.totalPlayers = players;
-		this.relativePositions = new float[players];
-		this.playerIcons = new Image[players];
-		for (int i = 0; i < players; i++) {
-			playerIcons[i] = new Image(new Texture("progress_bar/player" + i + ".png"));
-			playerIcons[i].setColor(1f, 1f, 1f, 0.6f);	
+		this.relativePositions = new float[PlayScreen.players.size()];
+		this.playerIcons = new Image[PlayScreen.players.size()];
+		for (int i = 0; i < PlayScreen.players.size(); i++) {
+			playerIcons[i] = new Image(new Texture("progress_bar/player" + (i+1) + ".png"));
+			if (PlayScreen.players.get(i).getID() == PlayScreen.myID) {
+				playerIcons[i].setColor(1f, 1f, 1f, 1f);
+				playerIndex = i;
+			} else {
+				playerIcons[i].setColor(1f, 1f, 1f, 0.5f);
+			}
 		}
-		playerIcons[0].setColor(1f, 1f, 1f, 0.9f);
 	}
 
 	public void draw() {		
-		for (int i = 0; i < totalPlayers; i ++)
-			playerIcons[i].setBounds(12 + relativePositions[i], 372f, PLAYER_RADIUS, PLAYER_RADIUS + 3);
 		
 		Group group = new Group();
 		group.addActor(bar);
-		for (int i = totalPlayers - 1; i >= 0; i--)
-			group.addActor(playerIcons[i]);
+		for (int i = 0; i < PlayScreen.players.size(); i ++) {
+			playerIcons[i].setBounds(12 + relativePositions[i], 372f, PLAYER_RADIUS, PLAYER_RADIUS + 3);
+			if (i != playerIndex)
+				group.addActor(playerIcons[i]);
+		}
+		group.addActor(playerIcons[playerIndex]);
+		
 		for (Image life : hearts)
 			group.addActor(life);
 		group.addActor(coin);
@@ -105,32 +111,19 @@ public class PlayerProgressBar implements Disposable {
 		stage.dispose();
 	}
 	
-	public void updateProgress(float[] positions) {
-		for (int i = 0; i < positions.length; i++) {
-			float actualPosition = (positions[i] * MainGame.PPM) / 100;
+	public void update() {		
+		for (int i = 0; i < PlayScreen.players.size(); i++) {
+			float actualPosition = (PlayScreen.players.get(i).getPosX()* MainGame.PPM) / 100;
 			float percentage = (actualPosition * 100) / MAP_SIZE;
 			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 		}
-	}
-	
-	public void updateCoins(int value) {
-		PlayScreen.player.updateCoins(value);
+		
 		coinsCollected = PlayScreen.player.getCoins();
 		coinsLabel.setText(String.format("%02d", coinsCollected));
-	}
-	
-	public void updateLives() {
-		int lives;
-		if (PlayScreen.player.isDead())
-			lives = 0;
-		else
-			lives = PlayScreen.player.getLives();
-		if (lives < hearts.length)
-			hearts[lives].setVisible(false);
-	}
-	
-	public int getCoinsCollected() {
-		return coinsCollected;
+		
+		int lives = PlayScreen.player.getLives();
+		for (int i = lives; i < 3; i++) 
+			hearts[i].setVisible(false);
 	}
 }
