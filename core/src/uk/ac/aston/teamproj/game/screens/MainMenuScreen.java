@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
 		
 		buttonsAtlas = new TextureAtlas("buttons/buttons.pack");
 		skin = new Skin(buttonsAtlas);
-		buttons = new ImageButton[3];
+		buttons = new ImageButton[4];
 		
 		initializeButtons();		
 		populateTable();		
@@ -52,28 +52,30 @@ public class MainMenuScreen implements Screen {
 	private void initializeButtons() {		
 		ImageButtonStyle style;
 		
-//		//Single player Button
-//		style = new ImageButtonStyle();
-//		style.up = skin.getDrawable("single_player_inactive");  //set default image
-//		style.over = skin.getDrawable("single_player_active");  //set image for mouse over
-//		
-//		ImageButton singleBtn = new ImageButton(style);
-//		singleBtn.addListener(new InputListener() {
-//	            @Override
-//	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-//	                //do something
-//	            	System.out.println("SINGLE");
-//	            	MainMenuScreen.this.dispose();
-//	            	game.setScreen(new PlayScreen(game, 0));
-//	            	return true;
-//	            }	       
-//	    });
+		//Single player Button
+		style = new ImageButtonStyle();
+		style.up = skin.getDrawable("single_player_inactive");  //set default image
+		style.over = skin.getDrawable("single_player_active");  //set image for mouse over
+		
+		ImageButton singleBtn = new ImageButton(style);
+		singleBtn.addListener(new InputListener() {
+	            @Override
+	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+	                //do something
+	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+	                sound.play(1F);
+	            	System.out.println("SINGLE");
+	            	MainMenuScreen.this.dispose();
+	            	game.setScreen(new SinglePlayerScreen(game));
+	            	return true;
+	            }	       
+	    });
 		
 		
 		//Multiplayer Button
 		style = new ImageButtonStyle();
-		style.up = skin.getDrawable("play_inactive");  //set default image
-		style.over = skin.getDrawable("play_active");  //set image for mouse over
+		style.up = skin.getDrawable("multi_player_inactive");  //set default image
+		style.over = skin.getDrawable("multi_player_active");  //set image for mouse over
 		
 		ImageButton multiBtn = new ImageButton(style);
 		multiBtn.addListener(new InputListener() {
@@ -130,10 +132,10 @@ public class MainMenuScreen implements Screen {
 	            }	       
 	    });
 		
-		//buttons[0] = singleBtn;
-		buttons[0] = multiBtn;
-		buttons[1] = tutorialBtn;
-		buttons[2] = quitBtn;
+		buttons[0] = singleBtn;
+		buttons[1] = multiBtn;
+		buttons[2] = tutorialBtn;
+		buttons[3] = quitBtn;
 	}
 	
 	private void populateTable() {

@@ -16,9 +16,10 @@ import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.SinglePlayerScreen;
 
 
-public class Rooster extends Sprite {
+public class SingleRooster extends Sprite {
 	
 	private final static float MIN_SPEED_SLOW = 0.5f;
 	private final static float MIN_SPEED_NORMAL = 2;	
@@ -64,8 +65,8 @@ public class Rooster extends Sprite {
 	private int coins = 0;
 		
 	@SuppressWarnings("unchecked")
-	public Rooster(World world, PlayScreen screen) {
-		super(screen.getAtlas().findRegion("new_chicken")); //pass the required texture region to the superclass
+	public SingleRooster(World world, SinglePlayerScreen singlePlayerScreen) {
+		super(singlePlayerScreen.getAtlas().findRegion("new_chicken")); //pass the required texture region to the superclass
 		this.world = world;
 		defineRooster();
 		

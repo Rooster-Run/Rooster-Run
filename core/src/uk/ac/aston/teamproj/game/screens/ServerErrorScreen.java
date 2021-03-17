@@ -21,9 +21,9 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.scenes.Hud;
 
 /**
- * 
- * Created by Junaid on 17/03/2021
- *
+ * @author Junaid, Marcus, Suleman
+ * @since 17.03.2021
+ * @date 17/03/2021
  */
 
 public class ServerErrorScreen implements Screen {
@@ -35,9 +35,7 @@ public class ServerErrorScreen implements Screen {
 	private Game game;
 	
 	public ServerErrorScreen(Game game) {
-//		Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
-//      sound.play(1F);
-		
+
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
@@ -55,7 +53,7 @@ public class ServerErrorScreen implements Screen {
 		table.row();
 		stage.addActor(table);
 		
-		Texture background = new Texture("buttons/untitled.png");
+		Texture background = new Texture("buttons/ServerScreen.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 	}
 	
@@ -68,7 +66,7 @@ public class ServerErrorScreen implements Screen {
 	public void render(float delta) {
 		
 		if(Gdx.input.justTouched()) {
-			game.setScreen(new ServerErrorScreen(( MainGame )game));
+			game.setScreen(new MultiplayerMenuScreen(( MainGame )game));
 			dispose();
 		}
 		

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
+import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
 
 public class MainGame extends Game {
 	
