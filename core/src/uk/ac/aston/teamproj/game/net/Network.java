@@ -7,7 +7,7 @@ import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.Movement;
-import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
+import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
@@ -25,7 +25,7 @@ public class Network {
 		kryo.register(SessionInfo.class);
 		kryo.register(java.util.ArrayList.class);
 		kryo.register(StartGame.class);
-		kryo.register(PlayerPosition.class);
+		kryo.register(PlayerInfo.class);
 	}
 	
 }

@@ -65,7 +65,7 @@ public class Rooster extends Sprite {
 		
 	@SuppressWarnings("unchecked")
 	public Rooster(World world, PlayScreen screen) {
-		super(screen.getAtlas().findRegion("new_chicken")); //pass the required texture region to the superclass
+		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
 		defineRooster();
 		
@@ -90,13 +90,13 @@ public class Rooster extends Sprite {
 			frames.add(tr);
 		}
 		roosterRun = new Animation(0.1f, frames); //0.1f = duration of each image frame
-		frames.clear();
 		
+		frames.clear();		
 		//initialize jump animation
 		{
 			frames.add(roosterStand);
-			//frames.add(new TextureRegion(getTexture(), 48*7, 6*48, 48, 48));
-			//frames.add(new TextureRegion(getTexture(), 48*7, 2*48, 48, 48));
+			//frames.add(new TextureRegion(getTexture(), 3*96, 0, 96, 96));
+			//frames.add(new TextureRegion(getTexture(), 4*96, 0, 96, 96));
 		}
 		roosterJump = new Animation(0.1f, frames);
 		frames.clear();
@@ -113,6 +113,7 @@ public class Rooster extends Sprite {
 		if (!isDead) {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -10/MainGame.PPM) {
+				lives = 0;
 				isDead = true;
 			}
 			
@@ -133,7 +134,7 @@ public class Rooster extends Sprite {
 		TextureRegion region;
 		switch(currentState) {
 			case JUMPING:
-				region = (TextureRegion) roosterJump.getKeyFrame(stateTimer); 
+				region = (TextureRegion) roosterJump.getKeyFrame(stateTimer, true); 
 				break;
 			case RUNNING: 
 			case RUNNING_FAST: 
@@ -223,28 +224,6 @@ public class Rooster extends Sprite {
 		b2body.createFixture(fdef).setUserData("legs"); //uniquely identifies this fixture as "legs"						
 	}
 	
-	public void bombHit() {
-		
-		if (lives > 1) {
-			lives--;
-			
-		} else {
-		isDead = true;
-
-		//redefine what Rooster can collide with (i.e. nothing, he's dead)
-		//To do so, for every fixture attached to rooster, reset the masks bits
-		//mask bits are what fixtures a fixture can collide with
-		Filter filter = new Filter();
-		filter.maskBits = MainGame.NOTHING_BIT;
-		for (Fixture f: b2body.getFixtureList())
-			f.setFilterData(filter);
-		
-		//make rooster go up
-		b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);		
-	
-		}
-	}
-	
 	public void onFinish() {
 		hasWon = true;
 	}
@@ -315,4 +294,22 @@ public class Rooster extends Sprite {
 		coins += value;
 	}
 
+	public void decreaseLives() {
+		lives--;
+
+		if (lives < 1) {
+			isDead = true;
+	
+			//redefine what Rooster can collide with (i.e. nothing, he's dead)
+			//To do so, for every fixture attached to rooster, reset the masks bits
+			//mask bits are what fixtures a fixture can collide with
+			Filter filter = new Filter();
+			filter.maskBits = MainGame.NOTHING_BIT;
+			for (Fixture f: b2body.getFixtureList())
+				f.setFilterData(filter);
+			
+			//make rooster go up
+			b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);		
+		}
+	}
 }

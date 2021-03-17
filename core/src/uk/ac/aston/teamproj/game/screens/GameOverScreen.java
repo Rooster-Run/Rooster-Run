@@ -70,7 +70,7 @@ public class GameOverScreen implements Screen {
 	}
 	
 	public String showCoins() {
-		return "Coins Collected: " + PlayScreen.coins;
+		return "Coins Collected: " + PlayScreen.player.getCoins();
 		
 	}
 
