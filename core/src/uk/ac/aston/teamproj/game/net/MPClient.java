@@ -14,6 +14,8 @@ import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
+import uk.ac.aston.teamproj.game.screens.CreateScreen;
+import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
@@ -29,20 +31,12 @@ public class MPClient {
 	public MainGame game;
 	private String name;
 	private String mapPath;
-	
-	//LobbyScreen variables 
-	public static int totalPlayers;
-	public static String playerName;
-	public static String token;
-	public static String playerID;
-	public static ArrayList<String> n;
-
-	
+		
 	public MPClient(String ip, String name, MainGame game) {
 		this.name = name;
 		this.game = game;
 		
-		n = new ArrayList<String>();
+//		n = new ArrayList<String>();
 		
 		client = new Client();
 		client.start();
@@ -52,7 +46,11 @@ public class MPClient {
 		try {
 			client.connect(60000, ip, Network.TCP_PORT, Network.UDP_PORT);
 			requestLogin();
-			game.setScreen(new LobbyScreen(game));
+			boolean isHost = false;
+			if (game.getScreen() instanceof CreateScreen)
+				isHost = true;
+
+			game.setScreen(new LobbyScreen(game, isHost));
 		} catch (Exception e) {
 			System.err.println("Error. Cannot reach the server.");
 		}
@@ -74,7 +72,7 @@ public class MPClient {
 				if(object instanceof CreateGameSession) {
 					CreateGameSession packet = (CreateGameSession) object;
 					System.out.println("The lobby has been created. You can invite players with the following code: " + packet.token);
-					token = packet.token;
+//					token = packet.token;
 				}
 				
 				if(object instanceof JoinGameSession) {
@@ -86,13 +84,17 @@ public class MPClient {
 				if(object instanceof SessionInfo) {
 					SessionInfo packet = (SessionInfo) object;
 					System.out.println("Total players: " + packet.playerIDs.size());
-					totalPlayers = packet.playerIDs.size();
+//					totalPlayers = packet.playerIDs.size();
 					System.out.print("Players: ");
+					LobbyScreen.currentPlayers = new ArrayList<>();
 					for (int i = 0 ; i < packet.playerIDs.size(); i++) {
-						System.out.print("[" + packet.playerIDs.get(i) + " - " + packet.playerNames.get(i) +  "] ");
-						playerName = packet.playerNames.get(i);
-						playerID = packet.playerNames.get(i);
-						n.add(packet.playerNames.get(i));
+						Integer id = packet.playerIDs.get(i);
+						String name = packet.playerNames.get(i);
+						System.out.print("[" + id + " - " + name +  "] ");
+//						playerName = packet.playerNames.get(i);
+//						playerID = packet.playerNames.get(i);
+//						n.add(packet.playerNames.get(i));
+						LobbyScreen.currentPlayers.add(new Player(id, name));
 					}
 					System.out.println();
 					System.out.println("Map: " + packet.mapPath);
@@ -107,7 +109,7 @@ public class MPClient {
 					for (int i = 0; i < packet.playerIDs.size() && i < packet.playerNames.size(); i++) {
 						Player p = new Player(packet.playerIDs.get(i), packet.playerNames.get(i));
 						PlayScreen.players.add(p);
-						LobbyScreen.names.add(p);
+//						LobbyScreen.names.add(p);
 					}
 					
 					LobbyScreen.isGameAboutToStart = true;

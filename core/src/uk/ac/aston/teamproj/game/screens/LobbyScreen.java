@@ -12,9 +12,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,138 +31,167 @@ import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
 /**
- * @author Suleman
+ * @author Suleman, Marcus, Junaid, Parminder 
  * @since 08.03.2021
- * @date 08/03/2021
+ * @date 17/03/2021
  */
 
 public class LobbyScreen implements Screen {
+	
+	private static final String String = null;
+	Image[] playerIcons = new Image[4];
+	Label[] nameLabels = new Label[4];
+	
 
 	private MainGame game;
 	private Viewport viewport;
 	private Stage stage;
 
+	//Buttons
 	private TextureAtlas buttonsAtlas; // the sprite-sheet containing all buttons
+	private TextureAtlas newButtonAtlas;
 	private Skin skin; // skin for buttons
-	private ImageButton[] buttons;
+	private Skin new_Skin;
+	private ImageButton playBtn, backBtn;
 	
 	public static boolean isGameAboutToStart = false;
 
-	public static ArrayList<Player> names = new ArrayList<Player>();
+	public static ArrayList<Player> currentPlayers = new ArrayList<Player>();
+	private boolean isHost;
+	private Texture[] textures;
+	private Image background;
 	
-	public LobbyScreen(MainGame game) {
+	public LobbyScreen(MainGame game, boolean isHost) {
 		this.game = game;
+		this.isHost = isHost;
 		viewport = new FitViewport(MainGame.V_WIDTH / 6, MainGame.V_HEIGHT / 6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
-
+		
+		//backrgound
+		background = new Image(new Texture("buttons/lobbyBck.png"));
+		background.setBounds(0, 0, MainGame.V_WIDTH / 6, MainGame.V_HEIGHT / 6);
+		
+		//icon textures
+		initTextures();
+	
+		//Buttons
 		buttonsAtlas = new TextureAtlas("buttons/buttons.pack");
+		newButtonAtlas = new TextureAtlas("buttons/new_buttons.pack");
 		skin = new Skin(buttonsAtlas);
-		buttons = new ImageButton[1];
+		new_Skin = new Skin(newButtonAtlas);
 		
 		
-		
-		
-
-
+	}
+	
+	private void initTextures() {
+		textures = new Texture[4];
+		for(int i = 0; i < textures.length; i++) {
+			textures[i] = (new Texture("progress_bar/player" + i + ".png"));
+		}
+	}
+	
+	//Methods to retrieve info from MPClient
+	private String getTotal() {
+		if(currentPlayers.size() < 4) {
+			String str = String.valueOf(currentPlayers.size());
+			return str;
+		}
+		return "GAME FULL!!!";
 	}
 	
 	private String getToken() {
-		return MPClient.token;
+		return PlayScreen.sessionID;
 	}
 	
-	private int getTotal() {
-		return MPClient.totalPlayers;
-	}
-	
-	private String numPlayers() {
-		return String.valueOf(getTotal());
-	}
-	
-	private String getPlayers() {
-		String name = null;
-		for(int i = 0; i < names.size(); i++) {
-		name = names.get(i).getName();
-		}
-		return name;
-	}
-	
-	
-
-	private void initializeButtons() {
-		ImageButtonStyle style;
-
-		// play Button
-		style = new ImageButtonStyle();
-		style.up = skin.getDrawable("play_inactive"); // set default image
-		style.over = skin.getDrawable("play_active"); // set image for mouse over
-
-		ImageButton playbtn = new ImageButton(style);
-		playbtn.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				// do something
-				// plays button sounds
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				sound.play(1F);
-				System.out.println("START GAME");
-				StartGame packet = new StartGame();
-				packet.token = PlayScreen.sessionID;
-				MPClient.client.sendTCP(packet);
-				return true;
-			}
-			});
-		
-		buttons[0] = playbtn;
-
-	}
-
 	private void populateTable() {
 		Table table = new Table();
-		table.top();
+		Table table2 = new Table();
+		
+		table.bottom();
+		table2.bottom();
+		
+		table.setFillParent(true);
+		table2.setFillParent(true);
+		
+		Texture background = new Texture("buttons/multBackgroundBlur.png");
+		table.background(new TextureRegionDrawable(new TextureRegion(background)));
+		
+		table.add(backBtn).height(22f).width(120).padRight(270).padTop(500);
+		table2.add(playBtn).height(22f).width(120).padLeft(270).padTop(500);
+		
+		
+		stage.addActor(table);
+		stage.addActor(table2);
+		Gdx.input.setInputProcessor(stage);
+		
+	}
+	
+	private void populateBackTable() {
+		Table table = new Table();
+		
+		
+		table.bottom();
+		
+		
 		table.setFillParent(true);
 		
-        ;
-
-		//Display text for token, name, num players 
-		Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-		Label showToken = new Label (getToken(), font);
-		table.add(showToken);
-		table.row().expandY();
-//		Label showName0 = new Label (names.get(0), font);
-//		table.add(showName0);
-//		table.row().expandY();
-//		Label showName1 = new Label (names.get(1), font);
-//		table.add(showName1);
-//		table.row();
-//		Label showName2 = new Label (names.get(2), font);
-//		table.add(showName2);
-//		table.row();
-//		Label showName3 = new Label (names.get(3), font);
-//		table.add(showName3);
-//		table.row();
-		Label showNumplayers = new Label (numPlayers(), font);
-		table.add(showNumplayers);
-		table.row().expandY();
 		
-		
-		
-		// draw the background
-		Texture background = new Texture("buttons/lobbyBck.png");
+		Texture background = new Texture("buttons/multBackgroundBlur.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
-
-		// draw all buttons
-		ImageButton singleBtn = buttons[0];
-		table.add(singleBtn).height(22f).width(100).pad(4).padLeft(265).padTop(125);
-		table.row().expandY();
-		for (int i = 1; i < buttons.length; i++) {
-			ImageButton button = buttons[i];
-			table.add(button).height(22f).width(120).pad(4).padLeft(200);
-			table.row().expandY();
-		}
-
+		
+		table.add(backBtn).height(22f).width(120).padRight(270).padTop(500);
+	
+		
+		
 		stage.addActor(table);
+		
 		Gdx.input.setInputProcessor(stage);
+		
 	}
+	
+	
+	private void initializeButtons() {
+		ImageButtonStyle style;
+		
+		
+		style = new ImageButtonStyle();
+		style.up = new_Skin.getDrawable("back_inactive");
+		style.over = new_Skin.getDrawable("back_active");
+		
+		backBtn = new ImageButton(style);
+		backBtn.addListener(new InputListener() {
+				@Override
+				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+					LobbyScreen.this.dispose();
+					game.setScreen(new MultiplayerMenuScreen(game));
+					return true;
+				}
+		});
+		
+		
+		
+		style = new ImageButtonStyle();
+		style.up = skin.getDrawable("play_inactive");
+		style.over = skin.getDrawable("play_active");
+		
+		playBtn = new ImageButton(style);
+		playBtn.addListener(new InputListener() {
+				@Override
+				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+					sound.play(1F);
+
+					StartGame packet = new StartGame();
+					packet.token = PlayScreen.sessionID;
+					LobbyScreen.this.dispose();
+					game.setScreen(new LoadingScreen(game));
+					MPClient.client.sendTCP(packet);
+					return true;
+				}
+		});
+		
+	}
+	
 
 	@Override
 	public void show() {
@@ -168,30 +199,81 @@ public class LobbyScreen implements Screen {
 	}
 
 	@Override
-	public void render(float delta) {
-		
-		//ArrayList
-		System.out.println(getPlayers());
+	public void render(float delta) {	
 		
 		
-		//Displaying content on screen
-		initializeButtons();
-		populateTable();
 		
-		
+		//Displaying content on screen		
 		if (!isGameAboutToStart) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	
+						
+			initializeButtons();
+		
+			Group group = new Group();	
+			
+			//background
+//			group.addActor(background);
+			
+
+			Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+			
+			//Token label
+			Label tokenLabels = new Label(getToken(), font);
+			tokenLabels.setColor(1f, 1f, 1f, 1f);
+			tokenLabels.setFontScale(1.2f);
+			tokenLabels.setBounds(215, 147, 20, 20);
+			group.addActor(tokenLabels);
+			
+			//TotalPlayers label 
+			Label totalLabels = new Label("" + getTotal(), font);
+			totalLabels.setColor(1f, 1f, 1f, 1f);
+			totalLabels.setFontScale(1.0f);
+			totalLabels.setBounds(10, 185, 20, 20);
+			group.addActor(totalLabels);
+			
+			
+		
+			
+			for (int i = 0, j = 100; i < currentPlayers.size(); i++, j -= 25) {
+				String name = currentPlayers.get(i).getName();
+				playerIcons[i] = new Image(textures[i]);
+				playerIcons[i].setColor(1, 1, 1, 1);
+				playerIcons[i].setBounds(20, j+20, 20, 20);
+				group.addActor(playerIcons[i]);
+				
+				nameLabels[i] = new Label (name, font);
+				nameLabels[i].setX(70);
+				nameLabels[i].setY(j + 20);
+				nameLabels[i].setFontScale(1.3f);
+				nameLabels[i].setColor(1, 1, 1, 1);
+				group.addActor(nameLabels[i]);
+			}
+			
+//			//PlayButton
+//			playBtn.setBounds(270, 10, 100, 20);
+//			group.addActor(playBtn);
+//			
+//			//BackButton
+//			backBtn.setBounds(30, 10, 100, 20);
+//			group.addActor(backBtn);
+		
+			
+			
+			
+			
+			stage.addActor(group);
 			stage.draw();
 			stage.act(delta);
+			
+			populateTable();
+			
 		} else {
 			dispose();
 			isGameAboutToStart = false;	// reset for next time
 			game.setScreen(new LoadingScreen(game));
-		}
-		
-		
+		}	
 		
 	}
 
@@ -222,7 +304,9 @@ public class LobbyScreen implements Screen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+		new_Skin.dispose();
 		buttonsAtlas.dispose();
+		newButtonAtlas.dispose();
 	}
 
 }
