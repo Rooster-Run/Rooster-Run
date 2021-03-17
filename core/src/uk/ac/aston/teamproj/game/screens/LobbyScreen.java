@@ -82,8 +82,7 @@ public class LobbyScreen implements Screen {
 		
 		initializeButtons();
 		populateBackgroundTable();
-		populateTable();
-		populateBackTable();
+		isHost();
 		
 	}
 	
@@ -96,11 +95,11 @@ public class LobbyScreen implements Screen {
 	
 	//Methods to retrieve info from MPClient
 	private String getTotal() {
-		if(currentPlayers.size() < 4) {
-			String str = String.valueOf(currentPlayers.size());
-			return str;
+		if(currentPlayers.size() == 4) {
+			return "LOBBY FULL!";
+		} else {
+			return "";
 		}
-		return "GAME FULL!!!";
 	}
 	
 	private String getToken() {
@@ -121,12 +120,20 @@ public class LobbyScreen implements Screen {
 
 		table2.add(playBtn).height(22f).width(120).padLeft(270).padTop(500);
 		
-		
 
 		stage.addActor(table2);
 		Gdx.input.setInputProcessor(stage);
 		
 	}
+	
+	private void isHost() {
+        if(isHost) {
+        	populateTable();
+            populateBackTable();
+        } else {
+            populateBackTable();
+        }
+    }
 	
 	private void populateBackgroundTable() {
 		Table table2 = new Table();
@@ -219,7 +226,7 @@ public class LobbyScreen implements Screen {
 			Label totalLabels = new Label("" + getTotal(), font);
 			totalLabels.setColor(1f, 1f, 1f, 1f);
 			totalLabels.setFontScale(1.0f);
-			totalLabels.setBounds(10, 185, 20, 20);
+			totalLabels.setBounds(300, 185, 20, 20);
 			group.addActor(totalLabels);
 			
 			
