@@ -43,6 +43,7 @@ public class PlayersTab implements Disposable {
 	private final int totalPlayers;
 	private final float[] relativePositions;
 	private final Image[] playerIcons;
+	private final Label[] playerNames;
 	
 	public PlayersTab(SpriteBatch sb) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
@@ -59,17 +60,20 @@ public class PlayersTab implements Disposable {
 		
 		Texture heartTexture = new Texture("progress_bar/heart.png");
 		hearts = new Image[PlayScreen.players.size()][3];
+
 		
 		// players
 		this.totalPlayers = PlayScreen.players.size();
 		this.relativePositions = new float[PlayScreen.players.size()];
 		this.playerIcons = new Image[PlayScreen.players.size()];
+		this.playerNames = new Label[PlayScreen.players.size()];
+		
 		for (int i = 0; i < PlayScreen.players.size(); i++) {
 			playerIcons[i] = new Image(new Texture("progress_bar/player" + (i+1) + ".png"));
 			if (PlayScreen.players.get(i).getID() == PlayScreen.myID) {
 				playerIcons[i].setColor(1f, 1f, 1f, 1f);
 			} else {
-				playerIcons[i].setColor(1f, 1f, 1f, 0.5f);
+				playerIcons[i].setColor(1f, 1f, 1f, 0.4f);
 			}
 		}
 		
@@ -91,6 +95,11 @@ public class PlayersTab implements Disposable {
 			coinsLabels[i].setY(posY + 6);
 			coinsLabels[i].setFontScale(1.8f);
 			
+			playerNames[i] = new Label(PlayScreen.players.get(i).getName(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+			playerNames[i].setX(20);
+			playerNames[i].setY(posY + 6);
+			playerNames[i].setFontScale(1.4f);
+
 			// hearts
 			hearts[i][0] = new Image(heartTexture);
 			hearts[i][1] = new Image(heartTexture);
@@ -108,6 +117,7 @@ public class PlayersTab implements Disposable {
 		Group group = new Group();
 		for (int i = 0, posY = 370; i < totalPlayers; i++, posY -= BAR_HEIGHT + 10 ) {
 			group.addActor(bars[i]);
+			group.addActor(playerNames[i]);
 			
 			playerIcons[i].setBounds(12 + relativePositions[i], posY + 2, PLAYER_RADIUS, PLAYER_RADIUS + 3);
 			group.addActor(playerIcons[i]);
@@ -139,6 +149,8 @@ public class PlayersTab implements Disposable {
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 	
 			coinsCollected[i] = p.getCoins();
+			coinsLabels[i].setText(String.format("%02d", coinsCollected[i]));
+
 			
 			for (int j = p.getLives(); j < 3; j++) 
 				hearts[i][j].setVisible(false);
