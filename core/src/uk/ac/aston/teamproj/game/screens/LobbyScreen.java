@@ -80,6 +80,10 @@ public class LobbyScreen implements Screen {
 		skin = new Skin(buttonsAtlas);
 		new_Skin = new Skin(newButtonAtlas);
 		
+		initializeButtons();
+		populateBackgroundTable();
+		populateTable();
+		populateBackTable();
 		
 	}
 	
@@ -104,56 +108,48 @@ public class LobbyScreen implements Screen {
 	}
 	
 	private void populateTable() {
-		Table table = new Table();
 		Table table2 = new Table();
 		
-		table.bottom();
 		table2.bottom();
 		
-		table.setFillParent(true);
+
 		table2.setFillParent(true);
 		
-		Texture background = new Texture("buttons/multBackgroundBlur.png");
-		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 		
-		table.add(backBtn).height(22f).width(120).padRight(270).padTop(500);
+
+		
+
 		table2.add(playBtn).height(22f).width(120).padLeft(270).padTop(500);
 		
 		
-		stage.addActor(table);
+
 		stage.addActor(table2);
 		Gdx.input.setInputProcessor(stage);
 		
 	}
 	
+	private void populateBackgroundTable() {
+		Table table2 = new Table();
+		table2.bottom();
+		table2.setFillParent(true);
+		Texture background = new Texture("buttons/multBackgroundBlur.png");
+		table2.background(new TextureRegionDrawable(new TextureRegion(background)));
+		stage.addActor(table2);
+		Gdx.input.setInputProcessor(stage);
+		}
+	
 	private void populateBackTable() {
 		Table table = new Table();
-		
-		
 		table.bottom();
-		
-		
 		table.setFillParent(true);
-		
-		
-		Texture background = new Texture("buttons/multBackgroundBlur.png");
-		table.background(new TextureRegionDrawable(new TextureRegion(background)));
-		
 		table.add(backBtn).height(22f).width(120).padRight(270).padTop(500);
-	
-		
-		
 		stage.addActor(table);
-		
 		Gdx.input.setInputProcessor(stage);
-		
 	}
 	
 	
 	private void initializeButtons() {
 		ImageButtonStyle style;
-		
-		
 		style = new ImageButtonStyle();
 		style.up = new_Skin.getDrawable("back_inactive");
 		style.over = new_Skin.getDrawable("back_active");
@@ -209,14 +205,7 @@ public class LobbyScreen implements Screen {
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	
 						
-			initializeButtons();
-		
 			Group group = new Group();	
-			
-			//background
-//			group.addActor(background);
-			
-
 			Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 			
 			//Token label
@@ -267,7 +256,7 @@ public class LobbyScreen implements Screen {
 			stage.draw();
 			stage.act(delta);
 			
-			populateTable();
+			
 			
 		} else {
 			dispose();
