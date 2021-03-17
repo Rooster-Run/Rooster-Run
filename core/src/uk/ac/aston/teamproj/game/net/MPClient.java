@@ -19,6 +19,7 @@ import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.LoadingScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
 
 public class MPClient {
 	
@@ -52,7 +53,8 @@ public class MPClient {
 
 			game.setScreen(new LobbyScreen(game, isHost));
 		} catch (Exception e) {
-			System.err.println("Error. Cannot reach the server.");
+//			System.err.println("Error. Cannot reach the server.");
+			game.setScreen(new ServerErrorScreen(game));
 		}
 		
 		client.addListener(new ThreadedListener(new Listener() {
