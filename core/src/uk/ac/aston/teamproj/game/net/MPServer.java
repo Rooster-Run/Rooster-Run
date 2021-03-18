@@ -101,13 +101,13 @@ public class MPServer {
 				
 				if(object instanceof SessionInfo) {
 					SessionInfo packet = (SessionInfo) object;
-					if(packet.gameOver) {
-						sessions.get(packet.token).getPlayerIDs().remove(connection.getID());
-					}
 					
 					if(sessions.get(packet.token).isEmpty()) {
 						sessions.remove(packet.token);
+					} else if(packet.gameOver) {
+						sessions.get(packet.token).getPlayerIDs().remove(connection.getID());
 					}
+					
 				}
 				
 				if (object instanceof PlayerInfo) {
