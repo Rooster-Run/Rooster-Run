@@ -28,6 +28,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
+import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
@@ -236,6 +237,12 @@ public class PlayScreen implements Screen {
 			}
 		}
 	}
+	
+	private void terminateSession() {
+		TerminateSession packet = new TerminateSession();
+		packet.token = PlayScreen.sessionID;
+		MPClient.client.sendTCP(packet);
+	}
 
 	@Override
 	public void render(float delta) {
@@ -265,9 +272,11 @@ public class PlayScreen implements Screen {
 		
 		if (gameOver()) {
 			game.setScreen(new GameOverScreen(game));
+			terminateSession();
 			dispose();
 		} else if (gameFinished()) {
 			game.setScreen(new GameFinishedScreen(game));
+			terminateSession();
 			dispose();
 		}
 	}

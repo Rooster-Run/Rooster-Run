@@ -14,6 +14,7 @@ import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
+import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 
 public class MPServer {
 
@@ -48,6 +49,11 @@ public class MPServer {
 					server.sendToTCP(connection.getID(), packet);
 				}
 				
+				if(object instanceof TerminateSession) {
+					TerminateSession packet = (TerminateSession) object;
+					sessions.remove(packet.token);
+				}
+				
 				if(object instanceof CreateGameSession) {
 					// make a token and store the game ID to that connection
 					// its 4am check this over when im awake
@@ -66,20 +72,19 @@ public class MPServer {
 				if(object instanceof JoinGameSession) {
 					// get his token and see if exists
 					JoinGameSession packet = (JoinGameSession) object;
-
-						if(sessions.get(packet.token) == null || sessions.containsKey(packet.token)) {
-							ErrorPacket invalidPacket = new ErrorPacket();
-							invalidPacket.invalidToken = true;
-							server.sendToTCP(connection.getID(), invalidPacket);
-						} else {
-							GameSession session = sessions.get(packet.token);
-							
-							session.addPlayer(connection.getID(), packet.name);
-							notifyAllPlayers(session);
-							
-							server.sendToTCP(connection.getID(), packet);
-						}
-
+					
+					if(sessions.get(packet.token) == null || !sessions.containsKey(packet.token)) {
+						ErrorPacket invalidPacket = new ErrorPacket();
+						invalidPacket.invalidToken = true;
+						server.sendToTCP(connection.getID(), invalidPacket);
+					} else {
+						GameSession session = sessions.get(packet.token);
+						
+						session.addPlayer(connection.getID(), packet.name);
+						notifyAllPlayers(session);
+						
+						server.sendToTCP(connection.getID(), packet);
+					}
 				}
 				
 				if (object instanceof StartGame) {
