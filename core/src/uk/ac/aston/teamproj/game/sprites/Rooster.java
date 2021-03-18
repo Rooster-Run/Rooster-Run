@@ -94,9 +94,9 @@ public class Rooster extends Sprite {
 		frames.clear();		
 		//initialize jump animation
 		{
-			frames.add(roosterStand);
-			//frames.add(new TextureRegion(getTexture(), 3*96, 0, 96, 96));
-			//frames.add(new TextureRegion(getTexture(), 4*96, 0, 96, 96));
+			//frames.add(roosterStand);
+			frames.add(new TextureRegion(getTexture(), 3*96, 0, 96, 96));
+			frames.add(new TextureRegion(getTexture(), 4*96, 0, 96, 96));
 		}
 		roosterJump = new Animation(0.1f, frames);
 		frames.clear();
