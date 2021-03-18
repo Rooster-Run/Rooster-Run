@@ -30,7 +30,7 @@ public class MPClient {
 	private String name;
 	private String mapPath;
 		
-	public MPClient(String ip, String name, MainGame game) {
+	public MPClient(String ip, String name, final MainGame game) {
 		this.name = name;
 		this.game = game;
 		
@@ -50,7 +50,6 @@ public class MPClient {
 
 			game.setScreen(new LobbyScreen(game, isHost));
 		} catch (Exception e) {
-//			System.err.println("Error. Cannot reach the server.");
 			game.setScreen(new ServerErrorScreen(game));
 		}
 		
@@ -65,12 +64,10 @@ public class MPClient {
 				if(object instanceof Login) {
 					Login packet = (Login) object;
 					clientID = packet.id;
-					System.out.println("I have successfully connected to the server and my clientID is: " + clientID);
 				}
 				
 				if(object instanceof CreateGameSession) {
 					CreateGameSession packet = (CreateGameSession) object;
-					System.out.println("The lobby has been created. You can invite players with the following code: " + packet.token);
 //					token = packet.token;
 				}
 				
@@ -117,7 +114,7 @@ public class MPClient {
 				if(object instanceof ErrorPacket) {
 					ErrorPacket packet = (ErrorPacket) object;
 					if(packet.invalidToken) {
-						System.out.println("Please provide a valid token.");
+						game.setScreen(new ServerErrorScreen(game));
 					}
 					// Other errors included here
 				}

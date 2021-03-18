@@ -30,15 +30,9 @@ import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 
-/**
- * @author Suleman, Marcus, Junaid, Parminder 
- * @since 08.03.2021
- * @date 17/03/2021
- */
 
 public class LobbyScreen implements Screen {
 	
-	private static final String String = null;
 	Image[] playerIcons = new Image[4];
 	Label[] nameLabels = new Label[4];
 	

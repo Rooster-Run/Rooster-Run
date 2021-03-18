@@ -28,6 +28,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
+import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
@@ -272,7 +273,6 @@ public class PlayScreen implements Screen {
 		
 		if (gameOver()) {
 			game.setScreen(new GameOverScreen(game));
-			terminateSession();
 			dispose();
 		} else if (gameFinished()) {
 			game.setScreen(new GameFinishedScreen(game));
@@ -318,7 +318,14 @@ public class PlayScreen implements Screen {
 
 	// TEMP
 	private boolean gameOver() {
-		return (player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3);
+		if(player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3) {
+			SessionInfo packet = new SessionInfo();
+			packet.gameOver = true;
+			MPClient.client.sendTCP(packet);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private boolean gameFinished() {

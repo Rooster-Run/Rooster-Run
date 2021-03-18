@@ -51,4 +51,5 @@ public class Player {
 	public int getCoins() {
 		return coins;
 	}
+	
 }
