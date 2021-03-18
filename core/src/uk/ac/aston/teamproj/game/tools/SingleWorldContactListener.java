@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.SinglePlayerScreen;
-import uk.ac.aston.teamproj.game.screens.SinglePlayerScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.Brick;
 import uk.ac.aston.teamproj.game.sprites.Coin;
@@ -20,10 +19,10 @@ import uk.ac.aston.teamproj.game.sprites.Mud;
 
 public class SingleWorldContactListener implements ContactListener {
 
-	private SinglePlayerScreen playScreen;
+	private SinglePlayerScreen SinglePlayerScreen;
 	
-	public SingleWorldContactListener(SinglePlayerScreen singlePlayerScreen) {
-		this.playScreen = singlePlayerScreen;
+	public SingleWorldContactListener(SinglePlayerScreen SinglePlayerScreen) {
+		this.SinglePlayerScreen = SinglePlayerScreen;
 	}
 
 	@Override
@@ -40,20 +39,18 @@ public class SingleWorldContactListener implements ContactListener {
 			
 			//check if other object is an interactive one
 			if (object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(object.getUserData().getClass())) {
-				playScreen.resetJumpCount1();
+				SinglePlayerScreen.resetJumpCount1();
 			}
 		}
 		
 		switch (cDef) {
-			case (MainGame.ROOSTER_BIT | MainGame.BOMB_BIT):
-				SinglePlayerScreen.player.bombHit();
-			
+			case (MainGame.ROOSTER_BIT | MainGame.BOMB_BIT):			
 				Fixture bombFixture = (fixA.getFilterData().categoryBits == MainGame.BOMB_BIT) ? fixA : fixB;
 				Bomb bomb = ((Bomb) bombFixture.getUserData());
 				
 				bomb.onHit();
-				playScreen.makeBombExplode(bomb);
-//				playScreen.updateLives();
+				SinglePlayerScreen.makeBombExplode(bomb);
+				SinglePlayerScreen.player.decreaseLives();
 				break;
 
 			case (MainGame.ROOSTER_BIT | MainGame.BRICK_BIT):
@@ -63,7 +60,7 @@ public class SingleWorldContactListener implements ContactListener {
 
 			case (MainGame.ROOSTER_BIT | MainGame.COIN_BIT):
 				
-//				playScreen.updateCoins();
+				SinglePlayerScreen.player.updateCoins(1);
 
 				Fixture coinFixture = (fixA.getFilterData().categoryBits == MainGame.COIN_BIT) ? fixA : fixB;
 				((Coin) coinFixture.getUserData()).onHit();
