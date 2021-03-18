@@ -28,7 +28,6 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
-import uk.ac.aston.teamproj.game.scenes.Hud;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
@@ -63,6 +62,11 @@ public class PlayScreen implements Screen {
 	// counts the number of consecutive jumps for each rooster
 	private static final int MAX_JUMPS = 2;
 	private int jumpCount = 0;
+	
+	// speed 
+	public static float currentSpeed = 1.0f;
+	public static boolean startTimer;
+	public static long buffDuration;
 
 	private HashMap<Bomb, Float> toExplode = new HashMap<>();
 		
@@ -71,7 +75,7 @@ public class PlayScreen implements Screen {
 	public static ArrayList<Player> players;
 	public static String mapPath;
 	
-	private long prevUpdateTime;
+	public static long prevUpdateTime;
 	
 	private final PlayerProgressBar progressBar;
 	private final PlayersTab tab;
@@ -137,11 +141,11 @@ public class PlayScreen implements Screen {
 			}
 
 			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player.b2body.setLinearVelocity(1.0f, player.b2body.getLinearVelocity().y);
+                player.b2body.setLinearVelocity(currentSpeed, player.b2body.getLinearVelocity().y);
 			}
 
 			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                player.b2body.setLinearVelocity(-1.0f, player.b2body.getLinearVelocity().y);
+                player.b2body.setLinearVelocity(-currentSpeed, player.b2body.getLinearVelocity().y);
 			}
 			
 			if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
@@ -198,6 +202,14 @@ public class PlayScreen implements Screen {
 			packet.lives = player.getLives();
 			packet.coins = player.getCoins();
 			MPClient.client.sendTCP(packet);
+		}
+		
+		if(startTimer) {
+			// 10 seconds convert back to normal speed
+			if(prevUpdateTime >= buffDuration) {
+				currentSpeed = 1.0f;
+				startTimer = false;
+			}
 		}
 	}
 	

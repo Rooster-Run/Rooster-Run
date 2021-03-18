@@ -1,6 +1,5 @@
 package uk.ac.aston.teamproj.game.net;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -9,6 +8,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
@@ -67,21 +67,19 @@ public class MPServer {
 					// get his token and see if exists
 					JoinGameSession packet = (JoinGameSession) object;
 
-						if(sessions.get(packet.token) != null) {
+						if(sessions.get(packet.token) == null || sessions.containsKey(packet.token)) {
+							ErrorPacket invalidPacket = new ErrorPacket();
+							invalidPacket.invalidToken = true;
+							server.sendToTCP(connection.getID(), invalidPacket);
+						} else {
 							GameSession session = sessions.get(packet.token);
-							System.out.println(session.getToken() + " == " + packet.token);
-							System.out.println("There are currently " + session.getPlayers().size() + " players in the room.");
 							
 							session.addPlayer(connection.getID(), packet.name);
 							notifyAllPlayers(session);
 							
-							System.out.println("There are currently " + session.getPlayers().size() + " players in the room.");
 							server.sendToTCP(connection.getID(), packet);
 						}
-						
-						// TODO
-						// if it does put him into the same lobby
-						// if not its an invalid token
+
 				}
 				
 				if (object instanceof StartGame) {

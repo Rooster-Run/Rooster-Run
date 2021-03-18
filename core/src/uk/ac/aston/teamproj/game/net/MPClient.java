@@ -9,22 +9,19 @@ import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
-import uk.ac.aston.teamproj.game.screens.JoinScreen;
-import uk.ac.aston.teamproj.game.screens.LoadingScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
 
 public class MPClient {
 	
-	private String ip = "localhost";
-
 	public static Client client;
 	public static int clientID;
 	public int sessionID;
@@ -115,6 +112,14 @@ public class MPClient {
 					}
 					
 					LobbyScreen.isGameAboutToStart = true;
+				}
+				
+				if(object instanceof ErrorPacket) {
+					ErrorPacket packet = (ErrorPacket) object;
+					if(packet.invalidToken) {
+						System.out.println("Please provide a valid token.");
+					}
+					// Other errors included here
 				}
 				
 				if(object instanceof PlayerInfo) {
