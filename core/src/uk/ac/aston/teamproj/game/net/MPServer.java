@@ -9,15 +9,18 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 
+import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerPosition;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
+import uk.ac.aston.teamproj.game.screens.GameOverScreen;
 
 public class MPServer {
 
+	private MainGame game;
 	private final static int TOKEN_LENGTH = 5;
 	public Server server;
 	public HashMap<String, GameSession> sessions;
@@ -78,6 +81,9 @@ public class MPServer {
 							
 							System.out.println("There are currently " + session.getPlayers().size() + " players in the room.");
 							server.sendToTCP(connection.getID(), packet);
+						}
+						else {
+							game.setScreen(new GameOverScreen(game));
 						}
 						
 						// TODO
