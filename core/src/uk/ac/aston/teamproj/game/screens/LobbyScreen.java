@@ -25,10 +25,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 
 public class LobbyScreen implements Screen {
@@ -159,6 +161,9 @@ public class LobbyScreen implements Screen {
 		backBtn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+	            	SoundManager.playSound(sound);
+	            	
 					LobbyScreen.this.dispose();
 					game.setScreen(new MultiplayerMenuScreen(game));
 					return true;
@@ -176,7 +181,7 @@ public class LobbyScreen implements Screen {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-					sound.play(1F);
+	            	SoundManager.playSound(sound);
 
 					StartGame packet = new StartGame();
 					packet.token = PlayScreen.sessionID;
