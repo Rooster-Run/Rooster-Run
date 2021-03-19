@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 public class JoinScreen implements Screen {
 		
@@ -79,7 +80,7 @@ public class JoinScreen implements Screen {
 		System.out.println("name:");
 		String response2 = getName();
 
-		new MPClient("localhost", response2, game);
+		new MPClient(MainGame.IP, response2, game);
 		JoinGameSession packet = new JoinGameSession();
 		packet.token = response;
 		MPClient.client.sendTCP(packet);
@@ -103,8 +104,8 @@ public class JoinScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					
 					//plays button sounds	         
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+	            	SoundManager.playSound(sound);
 	                
 					txt_token.setTextFieldListener(new TextField.TextFieldListener() {
 				    	
@@ -131,7 +132,7 @@ public class JoinScreen implements Screen {
 	    			});
 	    			
 //	    			promptConfirm();
-	    			new MPClient("localhost", name, game);
+	    			new MPClient(MainGame.IP, name, game);
 	    			JoinGameSession packet = new JoinGameSession();
 	    			packet.token = getToken();
 	    			packet.name = getName();
@@ -159,7 +160,7 @@ public class JoinScreen implements Screen {
 	            	 //plays button pop sound
 
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("Back");
 	            	JoinScreen.this.dispose();
 	            	game.setScreen(new MainMenuScreen(game));
@@ -188,16 +189,13 @@ public class JoinScreen implements Screen {
 		txt_token = new TextField("", txt_skin);
 		txt_name = new TextField(name, txt_skin);
 		
-		
 		//add contents to table
-		table.add(lbl_token).expandX();
-		table.add(txt_token).width(200).pad(4);
-		table.row();
 		table.add(lbl_name).expandX();
 		table.add(txt_name).width(200).pad(4);
 		table.row();
-		
-		
+		table.add(lbl_token).expandX();
+		table.add(txt_token).width(200).pad(4);
+		table.row();
 		
 		//draw all buttons
 		table.add(buttons[0]).height(22f).width(120).pad(4).padLeft(200).padTop(50);

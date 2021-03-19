@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 /**
@@ -76,7 +77,7 @@ public class ServerErrorScreen implements Screen {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				sound.play(1F);
+            	SoundManager.playSound(sound);
 				System.out.println("SinglePlayer");
 				ServerErrorScreen.this.dispose();
 				game.setScreen(new SinglePlayerScreen(game));
@@ -94,7 +95,7 @@ public class ServerErrorScreen implements Screen {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				sound.play(1F);
+            	SoundManager.playSound(sound);
 				System.out.println("Back");
 				ServerErrorScreen.this.dispose();
 				game.setScreen(new MainMenuScreen(game));

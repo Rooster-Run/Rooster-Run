@@ -15,27 +15,30 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 public class CreateScreen implements Screen {
 		
 	private Label lbl_ip, lbl_name;
 	private LabelStyle lbl_style;
 	private TextField txt_ip, txt_name;
-	public static String ip = "Localhost", name = "Player 1"; // change with user input
+	public static String ip = MainGame.IP, name = "Player 1"; // change with user input
+//	public static String ip = MainGame.IP, name = "Player 1"; //UNCOMMENT WHEN SERVER IS LIVE
 	private Skin txt_skin;
 	private TextButtonStyle btn_style;
 	private MainGame game;
@@ -97,17 +100,17 @@ public class CreateScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);  
+	            	SoundManager.playSound(sound); 
 	            	
-	    			txt_ip.setTextFieldListener(new TextField.TextFieldListener() {
-	    	
-	    				@Override
-	    				public void keyTyped(TextField textField, char c) {
-	    					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	    	                sound.play(1F);				
-	    					ip = textField.getText();
-	    				}
-	    			});
+//	    			txt_ip.setTextFieldListener(new TextField.TextFieldListener() {
+//	    	
+//	    				@Override
+//	    				public void keyTyped(TextField textField, char c) {
+//	    					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+//	    	                sound.play(1F);				
+//	    					ip = textField.getText();
+//	    				}
+//	    			});
 	    			txt_name.setTextFieldListener(new TextField.TextFieldListener() {
 	    				
 	    				@Override
@@ -119,7 +122,7 @@ public class CreateScreen implements Screen {
 	    			});
 	    			
 	    			// pass in map data
-	    			new MPClient(txt_ip.getText(), txt_name.getText(), game);
+	    			new MPClient(MainGame.IP, txt_name.getText(), game);
 	    			dispose();
 	    			CreateGameSession packet = new CreateGameSession();
 	    			packet.mapPath = mapsPaths[mapIdx];
@@ -128,7 +131,6 @@ public class CreateScreen implements Screen {
 	            	return true;
 		
 		}});
-		
 		
 		
 		//Go Back Button
@@ -142,7 +144,7 @@ public class CreateScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("Back");
 	            	CreateScreen.this.dispose();
 	            	game.setScreen(new MultiplayerMenuScreen(game));
@@ -163,7 +165,7 @@ public class CreateScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
@@ -183,7 +185,7 @@ public class CreateScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	mapIdx = (mapIdx + 1) % NUM_MAPS;
 	            	return true;
 	            }					       
@@ -192,7 +194,7 @@ public class CreateScreen implements Screen {
 	
 	private void populateTable() {
 		Table table = new Table();		
-		table.top();
+		table.center();
 		table.setFillParent(true);
 		
 		//draw the background
@@ -200,20 +202,20 @@ public class CreateScreen implements Screen {
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 		
 		//initialise Label
-		lbl_ip = new Label("IP Address:" , lbl_style);
+//		lbl_ip = new Label("IP Address:" , lbl_style);
 		lbl_name = new Label("Name: " , lbl_style);
 		
 		//initialise TextField
-		txt_ip = new TextField("localhost", txt_skin);
+//		txt_ip = new TextField(MainGame.LOCAL_HOST, txt_skin);
 		txt_name = new TextField(name, txt_skin);
 		
 		
 		//add contents to table
-		table.add(lbl_ip).right().expandX();
-		table.add(txt_ip).width(200).pad(4);
+//		table.add(lbl_ip).right().expandX();
+//		table.add(txt_ip).width(200).pad(4);
 		table.row();
-		table.add(lbl_name).right().expandX();
-		table.add(txt_name).width(200).pad(4);
+		table.add(lbl_name).right().expandX().padBottom(50);
+		table.add(txt_name).width(200).pad(4).padBottom(50);
 		table.row();
 		
 		
@@ -239,8 +241,8 @@ public class CreateScreen implements Screen {
 		levelsTable.add(rightBtn).height(22f).width(24.8f).pad(4);
 		
 		// Add both tables
-		table.add(levelsTable).padTop(15f);
-		table.add(optionsTable).padTop(15f);
+		table.add(levelsTable).padBottom(20);
+		table.add(optionsTable).padBottom(20);
 		table.row();
 		
 		stage.addActor(table);
