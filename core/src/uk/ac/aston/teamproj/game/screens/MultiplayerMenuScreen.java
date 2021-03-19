@@ -18,7 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 /**
  * @author Suleman
@@ -65,7 +67,7 @@ public class MultiplayerMenuScreen implements Screen {
             	 //plays button pop sound
 
             	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-                sound.play(1F);
+            	SoundManager.playSound(sound);
             	System.out.println("Create");
             	MultiplayerMenuScreen.this.dispose();
             	game.setScreen(new CreateScreen(game));
@@ -87,7 +89,7 @@ public class MultiplayerMenuScreen implements Screen {
             	 //plays button pop sound
 
             	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-                sound.play(1F);
+            	SoundManager.playSound(sound);
             	System.out.println("Join");
             	MultiplayerMenuScreen.this.dispose();
             	game.setScreen(new JoinScreen(game));
@@ -106,7 +108,7 @@ public class MultiplayerMenuScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("Back");
 	            	MultiplayerMenuScreen.this.dispose();
 	            	game.setScreen(new MainMenuScreen(game));

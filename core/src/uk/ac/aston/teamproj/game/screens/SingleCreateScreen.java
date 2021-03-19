@@ -15,20 +15,21 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 public class SingleCreateScreen implements Screen {
 		
@@ -97,7 +98,7 @@ public class SingleCreateScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);  
+	            	SoundManager.playSound(sound); 
 	            	
 //	    			txt_ip.setTextFieldListener(new TextField.TextFieldListener() {
 //	    	
@@ -142,7 +143,7 @@ public class SingleCreateScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("Back");
 	            	SingleCreateScreen.this.dispose();
 	            	game.setScreen(new MultiplayerMenuScreen(game));
@@ -163,7 +164,7 @@ public class SingleCreateScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
@@ -183,7 +184,7 @@ public class SingleCreateScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	mapIdx = (mapIdx + 1) % NUM_MAPS;
 	            	return true;
 	            }					       

@@ -18,7 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 /** 
@@ -34,7 +36,9 @@ public class MainMenuScreen implements Screen {
 	private Stage stage;
 	
 	private TextureAtlas buttonsAtlas; //the sprite-sheet containing all buttons
+	private TextureAtlas buttonsAtlas1; //the sprite-sheet containing all buttons
 	private Skin skin; //skin for buttons
+	private Skin skin1; //skin for buttons
 	private ImageButton[] buttons;
 
 	public MainMenuScreen(MainGame game) {
@@ -43,8 +47,10 @@ public class MainMenuScreen implements Screen {
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
 		buttonsAtlas = new TextureAtlas("buttons/buttons.pack");
+		buttonsAtlas1 = new TextureAtlas("buttons/Optionsbuttons.pack");
 		skin = new Skin(buttonsAtlas);
-		buttons = new ImageButton[4];
+		skin1 = new Skin(buttonsAtlas1);
+		buttons = new ImageButton[5];
 		
 		initializeButtons();		
 		populateTable();		
@@ -64,7 +70,7 @@ public class MainMenuScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	                //do something
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("SINGLE");
 	            	MainMenuScreen.this.dispose();
 	            	game.setScreen(new SinglePlayerScreen(game));
@@ -85,7 +91,7 @@ public class MainMenuScreen implements Screen {
 	            	//do something
 	            	//plays button sounds
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("MULTI");
 	            	MainMenuScreen.this.dispose();
 	            	game.setScreen(new MultiplayerMenuScreen(game));
@@ -106,12 +112,35 @@ public class MainMenuScreen implements Screen {
 	                //do something
 	            	//plays button sounds
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("TUTORIAL");
 	            	Gdx.net.openURI("https://www.youtube.com/watch?v=wHyzCWOFR3A&ab_channel=RoosterRun");
 	            	return true;
 	            }	  
 	            
+	    });
+		
+		//Options Button
+		style = new ImageButtonStyle();
+		style.up = skin1.getDrawable("options_inactive");  //set default image
+		style.over = skin1.getDrawable("options_active");  //set image for mouse over
+
+		ImageButton optionsBtn = new ImageButton(style);
+		optionsBtn.addListener(new InputListener() {
+	            @Override
+	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+	            	//do something
+
+	            	//plays button sounds
+
+	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+	            	SoundManager.playSound(sound);
+
+	            	System.out.println("OPTIONS");
+	            	MainMenuScreen.this.dispose();
+	            	game.setScreen(new OptionsScreen(game));
+	            	return true;
+	            }
 	    });
 		
 		//Quit Button
@@ -126,7 +155,7 @@ public class MainMenuScreen implements Screen {
 	                //do something
 	            	//plays button sounds
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("QUIT");
 	            	Gdx.app.exit();
 	            	return true;
@@ -136,7 +165,8 @@ public class MainMenuScreen implements Screen {
 		buttons[0] = singleBtn;
 		buttons[1] = multiBtn;
 		buttons[2] = tutorialBtn;
-		buttons[3] = quitBtn;
+		buttons[3] = optionsBtn;
+		buttons[4] = quitBtn;
 	}
 	
 	private void populateTable() {
@@ -150,7 +180,7 @@ public class MainMenuScreen implements Screen {
 
 		//draw all buttons
 		ImageButton singleBtn = buttons[0];
-		table.add(singleBtn).height(22f).width(120).pad(4).padLeft(200).padTop(60);
+		table.add(singleBtn).height(22f).width(120).pad(4).padLeft(200).padTop(40);
 		table.row();
 		for (int i = 1; i < buttons.length; i++) {
 			ImageButton button = buttons[i];

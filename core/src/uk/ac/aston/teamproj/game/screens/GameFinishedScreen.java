@@ -3,6 +3,7 @@ package uk.ac.aston.teamproj.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 /**
  * 
@@ -33,6 +35,9 @@ public class GameFinishedScreen implements Screen {
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
+		
+//      Sound sound = Gdx.audio.newSound(Gdx.files.internal("firstplace.wav"));
+//    	SoundManager.playSound(sound);
 		
 		Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 		
