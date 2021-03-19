@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.scenes;
+package uk.ac.aston.teamproj.singleplayer;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 public class SingleProgressBar implements Disposable {
 	
@@ -72,17 +72,14 @@ public class SingleProgressBar implements Disposable {
 		}
 		
 		// players
-		this.relativePositions = new float[SinglePlayerScreen.players.size()];
-		this.playerIcons = new Image[SinglePlayerScreen.players.size()];
-		for (int i = 0; i < SinglePlayerScreen.players.size(); i++) {
-			playerIcons[i] = new Image(new Texture("progress_bar/player" + (i+1) + ".png"));
-			if (SinglePlayerScreen.players.get(i).getID() == SinglePlayerScreen.myID) {
-				playerIcons[i].setColor(1f, 1f, 1f, 1f);
-				playerIndex = i;
-			} else {
-				playerIcons[i].setColor(1f, 1f, 1f, 0.5f);
-			}
-		}
+		this.relativePositions = new float[1];
+		this.playerIcons = new Image[1];
+		
+			playerIcons[0] = new Image(new Texture("progress_bar/player0.png"));
+			playerIcons[0].setColor(1f, 1f, 1f, 1f);
+			playerIndex = 0;
+			
+		
 	}
 
 	public void draw() {		

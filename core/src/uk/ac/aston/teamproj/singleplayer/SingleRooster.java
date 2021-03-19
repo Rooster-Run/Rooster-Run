@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.sprites;
+package uk.ac.aston.teamproj.singleplayer;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 
 public class SingleRooster extends Sprite {
@@ -203,7 +203,7 @@ public class SingleRooster extends Sprite {
 		
 		//set category bit (what this fixture is) and mask bit (what this fixture can collide with)
 
-		fdef.filter.categoryBits = MainGame.ROOSTER_BIT;
+		fdef.filter.categoryBits = MainGame.ROOSTER_BIT2;
 		//
 		fdef.filter.maskBits = MainGame.DEFAULT_BIT |
 				MainGame.BRICK_BIT | MainGame.BOMB_BIT |
