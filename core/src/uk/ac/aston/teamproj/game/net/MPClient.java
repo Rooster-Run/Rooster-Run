@@ -19,6 +19,7 @@ import uk.ac.aston.teamproj.game.screens.CreateScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
+import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 
 public class MPClient {
 	
@@ -114,7 +115,7 @@ public class MPClient {
 				if(object instanceof ErrorPacket) {
 					ErrorPacket packet = (ErrorPacket) object;
 					if(packet.invalidToken) {
-						game.setScreen(new ServerErrorScreen(game));
+						game.setScreen(new TokenErrorScreen(game));
 					}
 					// Other errors included here
 				}

@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.singleplayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,12 +30,13 @@ import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
-import uk.ac.aston.teamproj.game.scenes.SingleProgressBar;
+import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
+import uk.ac.aston.teamproj.game.screens.GameFinishedScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
-import uk.ac.aston.teamproj.game.sprites.SingleRooster;
+import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
-import uk.ac.aston.teamproj.game.tools.SingleWorldContactListener;
+import uk.ac.aston.teamproj.singleplayer.SingleWorldContactListener;
 
 public class SinglePlayerScreen implements Screen {
 
@@ -245,11 +246,11 @@ public class SinglePlayerScreen implements Screen {
 		}
 	}
 	
-	private void terminateSession() {
-		TerminateSession packet = new TerminateSession();
-		packet.token = SinglePlayerScreen.sessionID;
-		MPClient.client.sendTCP(packet);
-	}
+//	private void terminateSession() {
+//		TerminateSession packet = new TerminateSession();
+//		packet.token = SinglePlayerScreen.sessionID;
+//		MPClient.client.sendTCP(packet);
+//	}
 
 	@Override
 	public void render(float delta) {
@@ -272,17 +273,15 @@ public class SinglePlayerScreen implements Screen {
 		player.draw(game.batch); // draw
 		game.batch.end();
 		
-		if (!isTabOn)
+		if (!isTabOn) {
 			progressBar.draw();
-		else
-//			tab.draw();
-		
+		}
 		if (gameOver()) {
-			game.setScreen(new GameOverScreen(game));
+			game.setScreen(new SingleGameOverScreen(game));
 			dispose();
 		} else if (gameFinished()) {
 			game.setScreen(new GameFinishedScreen(game));
-			terminateSession();
+//			terminateSession();
 			dispose();
 		}
 	}
@@ -315,6 +314,7 @@ public class SinglePlayerScreen implements Screen {
 		world.dispose();
 		b2dr.dispose();
 		progressBar.dispose();
+
 //		tab.dispose();
 	}
 
@@ -324,10 +324,10 @@ public class SinglePlayerScreen implements Screen {
 
 	// TEMP
 	private boolean gameOver() {
-		if(player.currentState == SingleRooster.State.DEAD && player.getStateTimer() > 3) {
+		if(player.currentState == SingleRooster.State.DEAD && player.getStateTimer() > 1) {
 			SessionInfo packet = new SessionInfo();
 			packet.gameOver = true;
-			MPClient.client.sendTCP(packet);
+//			MPClient.client.sendTCP(packet);
 			return true;
 		} else {
 			return false;
