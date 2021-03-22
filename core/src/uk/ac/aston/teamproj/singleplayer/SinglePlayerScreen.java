@@ -32,6 +32,7 @@ import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 import uk.ac.aston.teamproj.game.screens.GameFinishedScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.singleplayer.SingleRooster;
@@ -143,8 +144,8 @@ public class SinglePlayerScreen implements Screen {
 		if (player.currentState != SingleRooster.State.DEAD) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
-                sound.play(1F);
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
+            	SoundManager.playSound(sound);
                 player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
 				jumpCount++;
 			}
