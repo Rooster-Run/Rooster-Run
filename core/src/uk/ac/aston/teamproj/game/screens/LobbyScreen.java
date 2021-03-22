@@ -85,7 +85,7 @@ public class LobbyScreen implements Screen {
 	private void initTextures() {
 		textures = new Texture[4];
 		for(int i = 0; i < textures.length; i++) {
-			textures[i] = (new Texture("progress_bar/player" + i + ".png"));
+			textures[i] = (new Texture("progress_bar/player" + (i+1) + ".png"));
 		}
 	}
 	
@@ -106,20 +106,11 @@ public class LobbyScreen implements Screen {
 		Table table2 = new Table();
 		
 		table2.bottom();
-		
-
 		table2.setFillParent(true);
-		
-		
-
-		
-
-		table2.add(playBtn).height(22f).width(120).padLeft(270).padTop(500);
-		
-
+		table2.add(playBtn).height(22f).width(120).padLeft(265).padBottom(5);
+	
 		stage.addActor(table2);
-		Gdx.input.setInputProcessor(stage);
-		
+		Gdx.input.setInputProcessor(stage);		
 	}
 	
 	private void isHost() {
@@ -139,13 +130,13 @@ public class LobbyScreen implements Screen {
 		table2.background(new TextureRegionDrawable(new TextureRegion(background)));
 		stage.addActor(table2);
 		Gdx.input.setInputProcessor(stage);
-		}
+	}
 	
 	private void populateBackTable() {
 		Table table = new Table();
 		table.bottom();
 		table.setFillParent(true);
-		table.add(backBtn).height(22f).width(120).padRight(270).padTop(500);
+		table.add(backBtn).height(22f).width(120).padRight(265).padBottom(5);
 		stage.addActor(table);
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -201,10 +192,7 @@ public class LobbyScreen implements Screen {
 	}
 
 	@Override
-	public void render(float delta) {	
-		
-		
-		
+	public void render(float delta) {			
 		//Displaying content on screen		
 		if (!isGameAboutToStart) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -260,9 +248,7 @@ public class LobbyScreen implements Screen {
 			
 			stage.addActor(group);
 			stage.draw();
-			stage.act(delta);
-			
-			
+			stage.act(delta);		
 			
 		} else {
 			dispose();
