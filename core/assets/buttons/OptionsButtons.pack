@@ -1,0 +1,47 @@
+
+OptionsButtons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+audio_off_active
+  rotate: false
+  xy: 1, 145
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+audio_off_inactive
+  rotate: false
+  xy: 1, 73
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+audio_on_active
+  rotate: false
+  xy: 403, 145
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+audio_on_inactive
+  rotate: false
+  xy: 1, 1
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+options_active
+  rotate: false
+  xy: 403, 73
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1
+options_inactive
+  rotate: false
+  xy: 403, 1
+  size: 400, 70
+  orig: 400, 70
+  offset: 0, 0
+  index: -1

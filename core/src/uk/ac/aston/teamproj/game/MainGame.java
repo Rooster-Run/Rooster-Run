@@ -3,7 +3,6 @@ package uk.ac.aston.teamproj.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 
 public class MainGame extends Game {
@@ -32,6 +31,7 @@ public class MainGame extends Game {
 	public static final short ROOSTER_BIT2 = 1024;
 	public static final short GROUND_BIT = 2048;
 
+	public static final String IP = "localhost";
 
 	@Override
 	public void create () {

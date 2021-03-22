@@ -28,17 +28,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
-public class CreateScreen implements Screen {
+public class SingleCreateScreen implements Screen {
 		
-	private Label lbl_ip, lbl_name;
+//	private Label lbl_ip, lbl_name;
 	private LabelStyle lbl_style;
 	private TextField txt_ip, txt_name;
-	public static String ip = MainGame.IP, name = "Player 1"; // change with user input
-//	public static String ip = MainGame.IP, name = "Player 1"; //UNCOMMENT WHEN SERVER IS LIVE
+	public static String ip = "Localhost", name = "Player 1"; // change with user input
 	private Skin txt_skin;
 	private TextButtonStyle btn_style;
 	private MainGame game;
@@ -58,7 +56,7 @@ public class CreateScreen implements Screen {
 	private Image mapPreview = new Image();
 	private int mapIdx = 0;
 
-	public CreateScreen(MainGame game) {
+	public SingleCreateScreen(MainGame game) {
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
@@ -89,7 +87,7 @@ public class CreateScreen implements Screen {
 	private void initializeButtons() {		
 		ImageButtonStyle style;
 		
-		//Continue Button
+		//start Button
 		style = new ImageButtonStyle();
 		style.up = skin.getDrawable("start_inactive");  //set default image
 		style.over = skin.getDrawable("start_active");  //set image for mouse over
@@ -111,26 +109,27 @@ public class CreateScreen implements Screen {
 //	    					ip = textField.getText();
 //	    				}
 //	    			});
-	    			txt_name.setTextFieldListener(new TextField.TextFieldListener() {
-	    				
-	    				@Override
-	    				public void keyTyped(TextField textField, char c) {
-	    					Sound sound2 = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	    	                sound2.play(1F);
-	    					name = textField.getText();
-	    				}
-	    			});
+//	    			txt_name.setTextFieldListener(new TextField.TextFieldListener() {
+//	    				
+//	    				@Override
+//	    				public void keyTyped(TextField textField, char c) {
+//	    					Sound sound2 = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+//	    	                sound2.play(1F);
+//	    					name = textField.getText();
+//	    				}
+//	    			});
 	    			
 	    			// pass in map data
-	    			new MPClient(MainGame.IP, txt_name.getText(), game);
+//	    			new MPClient(txt_ip.getText(), txt_name.getText(), game);
 	    			dispose();
 	    			CreateGameSession packet = new CreateGameSession();
 	    			packet.mapPath = mapsPaths[mapIdx];
-	    			packet.name = getName();
-	    			MPClient.client.sendTCP(packet);
+//	    			packet.name = getName();
+//	    			MPClient.client.sendTCP(packet);
 	            	return true;
 		
 		}});
+		
 		
 		
 		//Go Back Button
@@ -146,7 +145,7 @@ public class CreateScreen implements Screen {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
 	            	SoundManager.playSound(sound);
 	            	System.out.println("Back");
-	            	CreateScreen.this.dispose();
+	            	SingleCreateScreen.this.dispose();
 	            	game.setScreen(new MultiplayerMenuScreen(game));
 	            	return true;
 	            }	       
@@ -194,29 +193,29 @@ public class CreateScreen implements Screen {
 	
 	private void populateTable() {
 		Table table = new Table();		
-		table.center();
+		table.top();
 		table.setFillParent(true);
 		
 		//draw the background
 		Texture background = new Texture("buttons/multiplayer_menu_bg.jpg");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 		
-		//initialise Label
+//		//initialise Label
 //		lbl_ip = new Label("IP Address:" , lbl_style);
-		lbl_name = new Label("Name: " , lbl_style);
+//		lbl_name = new Label("Name: " , lbl_style);
 		
-		//initialise TextField
-//		txt_ip = new TextField(MainGame.LOCAL_HOST, txt_skin);
-		txt_name = new TextField(name, txt_skin);
+//		//initialise TextField
+//		txt_ip = new TextField("localhost", txt_skin);
+//		txt_name = new TextField(name, txt_skin);
 		
 		
-		//add contents to table
+//		//add contents to table
 //		table.add(lbl_ip).right().expandX();
 //		table.add(txt_ip).width(200).pad(4);
-		table.row();
-		table.add(lbl_name).right().expandX().padBottom(50);
-		table.add(txt_name).width(200).pad(4).padBottom(50);
-		table.row();
+//		table.row();
+//		table.add(lbl_name).right().expandX();
+//		table.add(txt_name).width(200).pad(4);
+//		table.row();
 		
 		
 		
@@ -225,7 +224,7 @@ public class CreateScreen implements Screen {
 		
 		// startBtn
 		ImageButton singleBtn = optionButtons[0];
-		optionsTable.add(singleBtn).height(22f).width(120).pad(4);
+		optionsTable.add(singleBtn).height(22f).width(120).pad(10).padTop(50);
 		optionsTable.row();
 		
 		// backBtn
@@ -236,13 +235,13 @@ public class CreateScreen implements Screen {
 		// ************** LEVELS SUB-TABLE*******************		
 		Table levelsTable = new Table();
 		
-		levelsTable.add(leftBtn).height(22f).width(24.8f).pad(4).padLeft(15f);
-		levelsTable.add(mapPreview).height(80).width(120).pad(4);
-		levelsTable.add(rightBtn).height(22f).width(24.8f).pad(4);
+		levelsTable.add(leftBtn).height(22f).width(24.8f).pad(4).padLeft(15f).padTop(50);
+		levelsTable.add(mapPreview).height(80).width(120).pad(4).padTop(50);
+		levelsTable.add(rightBtn).height(22f).width(24.8f).pad(4).padTop(50);
 		
 		// Add both tables
-		table.add(levelsTable).padBottom(20);
-		table.add(optionsTable).padBottom(20);
+		table.add(levelsTable).padTop(15f);
+		table.add(optionsTable).padTop(15f);
 		table.row();
 		
 		stage.addActor(table);
@@ -297,7 +296,7 @@ public class CreateScreen implements Screen {
 		stage.dispose();
 	}
 	
-	private String getName() {
-		return txt_name.getText();
-	}
+//	private String getName() {
+//		return txt_name.getText();
+//	}
 }

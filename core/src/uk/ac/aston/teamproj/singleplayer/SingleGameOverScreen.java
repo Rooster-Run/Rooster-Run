@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.singleplayer;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -19,30 +19,27 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.scenes.Hud;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
-/**
- * 
- * Created by Parmo on 8/11/2020
- *
- */
 
-public class GameOverScreen implements Screen {
+
+public class SingleGameOverScreen implements Screen {
 
 	private Viewport viewport;
 	private Stage stage;
-	
+
 	@SuppressWarnings("unused")
 	private Game game;
 	
-	public GameOverScreen(Game game) {
+	public SingleGameOverScreen(Game game) {
+		Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
+        sound.play(1F);
 		
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
-    	SoundManager.playSound(sound);
-    	
+        
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
+		
+		
 		
 		Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 		
@@ -70,15 +67,15 @@ public class GameOverScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-	
+		
 	public String showCoins() {
-		return "Coins Collected: " + PlayScreen.player.getCoins();
+		return "Coins Collected: " + SinglePlayerScreen.player.getCoins();
 	}
 
 	@Override
 	public void render(float delta) {
 		if(Gdx.input.justTouched()) {
-			game.setScreen(new MultiplayerMenuScreen(( MainGame )game));
+			game.setScreen(new SinglePlayerScreen(( MainGame )game));
 			dispose();
 		}
 		

@@ -25,20 +25,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
-/**
- * @author Suleman, Marcus, Junaid, Parminder 
- * @since 08.03.2021
- * @date 17/03/2021
- */
 
 public class LobbyScreen implements Screen {
 	
-	private static final String String = null;
 	Image[] playerIcons = new Image[4];
 	Label[] nameLabels = new Label[4];
 	
@@ -64,6 +60,7 @@ public class LobbyScreen implements Screen {
 	public LobbyScreen(MainGame game, boolean isHost) {
 		this.game = game;
 		this.isHost = isHost;
+		
 		viewport = new FitViewport(MainGame.V_WIDTH / 6, MainGame.V_HEIGHT / 6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
@@ -82,9 +79,15 @@ public class LobbyScreen implements Screen {
 		
 		initializeButtons();
 		populateBackgroundTable();
-		populateTable();
-		populateBackTable();
+		isHost();
 		
+	}
+	
+	private void authenticateToken() {
+		System.out.println("Does the token give us an error?" + MPClient.errorToken);
+		if(MPClient.errorToken == false) {
+			game.setScreen(new TokenErrorScreen(game));
+		}
 	}
 	
 	private void initTextures() {
@@ -96,11 +99,11 @@ public class LobbyScreen implements Screen {
 	
 	//Methods to retrieve info from MPClient
 	private String getTotal() {
-		if(currentPlayers.size() < 4) {
-			String str = String.valueOf(currentPlayers.size());
-			return str;
+		if(currentPlayers.size() == 4) {
+			return "LOBBY FULL!";
+		} else {
+			return "";
 		}
-		return "GAME FULL!!!";
 	}
 	
 	private String getToken() {
@@ -121,12 +124,20 @@ public class LobbyScreen implements Screen {
 
 		table2.add(playBtn).height(22f).width(120).padLeft(270).padTop(500);
 		
-		
 
 		stage.addActor(table2);
 		Gdx.input.setInputProcessor(stage);
 		
 	}
+	
+	private void isHost() {
+        if(isHost) {
+        	populateTable();
+            populateBackTable();
+        } else {
+            populateBackTable();
+        }
+    }
 	
 	private void populateBackgroundTable() {
 		Table table2 = new Table();
@@ -158,6 +169,9 @@ public class LobbyScreen implements Screen {
 		backBtn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+	            	SoundManager.playSound(sound);
+	            	
 					LobbyScreen.this.dispose();
 					game.setScreen(new MultiplayerMenuScreen(game));
 					return true;
@@ -175,7 +189,7 @@ public class LobbyScreen implements Screen {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-					sound.play(1F);
+	            	SoundManager.playSound(sound);
 
 					StartGame packet = new StartGame();
 					packet.token = PlayScreen.sessionID;
@@ -197,8 +211,6 @@ public class LobbyScreen implements Screen {
 	@Override
 	public void render(float delta) {	
 		
-		
-		
 		//Displaying content on screen		
 		if (!isGameAboutToStart) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -219,7 +231,7 @@ public class LobbyScreen implements Screen {
 			Label totalLabels = new Label("" + getTotal(), font);
 			totalLabels.setColor(1f, 1f, 1f, 1f);
 			totalLabels.setFontScale(1.0f);
-			totalLabels.setBounds(10, 185, 20, 20);
+			totalLabels.setBounds(300, 185, 20, 20);
 			group.addActor(totalLabels);
 			
 			
@@ -264,6 +276,9 @@ public class LobbyScreen implements Screen {
 			game.setScreen(new LoadingScreen(game));
 		}	
 		
+		if(MPClient.errorToken == true) {
+			game.setScreen(new TokenErrorScreen(game));
+		}
 	}
 
 	@Override

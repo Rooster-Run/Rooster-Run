@@ -6,7 +6,6 @@ public class GameSession {
 	
 	private String token;
 	private int hostID;
-	private boolean active;
 	private ArrayList<Player> players;
 	
 	private String mapPath;
@@ -55,5 +54,9 @@ public class GameSession {
 	
 	public String getMapPath() {
 		return mapPath;
+	}
+	
+	public boolean isEmpty() {
+		return players.isEmpty();
 	}
 }

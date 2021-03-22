@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.sprites;
+package uk.ac.aston.teamproj.singleplayer;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,10 +15,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 
-public class Rooster extends Sprite {
+public class SingleRooster extends Sprite {
 	
 	private final static float MIN_SPEED_SLOW = 0.5f;
 	private final static float MIN_SPEED_NORMAL = 2;	
@@ -64,7 +64,7 @@ public class Rooster extends Sprite {
 	private int coins = 0;
 		
 	@SuppressWarnings("unchecked")
-	public Rooster(World world, PlayScreen screen) {
+	public SingleRooster(World world, SinglePlayerScreen screen) {
 		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
 		defineRooster();
@@ -203,7 +203,7 @@ public class Rooster extends Sprite {
 		
 		//set category bit (what this fixture is) and mask bit (what this fixture can collide with)
 
-		fdef.filter.categoryBits = MainGame.ROOSTER_BIT;
+		fdef.filter.categoryBits = MainGame.ROOSTER_BIT2;
 		//
 		fdef.filter.maskBits = MainGame.DEFAULT_BIT |
 				MainGame.BRICK_BIT | MainGame.BOMB_BIT |
