@@ -70,8 +70,8 @@ public class GameOverScreen implements Screen {
 	}
 	
 	public String showCoins() {
-		return "Coins Collected: " + PlayScreen.player.getCoins();
-		
+//		return "Coins Collected: " + PlayScreen.player.getCoins();
+		return "10";
 	}
 
 	@Override

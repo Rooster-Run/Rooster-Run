@@ -80,9 +80,9 @@ public class SinglePlayerScreen implements Screen {
 	
 	public static long prevUpdateTime;
 	
-	private final SingleProgressBar progressBar;
+//	private final SingleProgressBar progressBar;
 //	private final PlayersTab tab;
-	private boolean isTabOn = false; 
+//	private boolean isTabOn = false; 
 	
 	public SinglePlayerScreen(MainGame game) {
 //		System.out.println("Size is: " + players.size() + "!!");
@@ -90,9 +90,9 @@ public class SinglePlayerScreen implements Screen {
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken2.pack");
 		
 		//ArrayList
-		players = new ArrayList<Player>();
-		p = new Player(0, "");
-		players.add(p);
+//		players = new ArrayList<Player>();
+//		p = new Player(0, "");
+//		players.add(p);
 
 		// Create a cam to follow chicken in the game world
 		gamecam = new OrthographicCamera();
@@ -101,7 +101,7 @@ public class SinglePlayerScreen implements Screen {
 		gamePort = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
 
 		// Create progress bar and tab
-		progressBar = new SingleProgressBar(game.batch);
+//		progressBar = new SingleProgressBar(game.batch);
 //		tab = new PlayersTab(game.batch);
 		
 		// Load our map and setup our map renderer
@@ -128,7 +128,7 @@ public class SinglePlayerScreen implements Screen {
 
 		world.setContactListener(new SingleWorldContactListener(this));
 
-		prevUpdateTime = System.currentTimeMillis();		
+//		prevUpdateTime = System.currentTimeMillis();		
 	}
 
 	@Override
@@ -156,9 +156,9 @@ public class SinglePlayerScreen implements Screen {
                 player.b2body.setLinearVelocity(-currentSpeed, player.b2body.getLinearVelocity().y);
 			}
 			
-			if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-	        	isTabOn = !isTabOn;
-	        }
+//			if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+//	        	isTabOn = !isTabOn;
+//	        }
 		}
 
 	}
@@ -175,7 +175,7 @@ public class SinglePlayerScreen implements Screen {
 
 		// update player based on delta time
 		player.update(dt);
-		progressBar.update();
+//		progressBar.update();
 //		tab.update();
 
 
@@ -200,17 +200,17 @@ public class SinglePlayerScreen implements Screen {
 		updateBombExplosionAnimation(dt);
 		
 		// send position to server
-		long currentTime = System.currentTimeMillis();
-		if (currentTime-prevUpdateTime >= 100) {
-			prevUpdateTime = currentTime;
-			PlayerInfo packet = new PlayerInfo();
-			packet.playerID = myID;
-			packet.token = sessionID;
-			packet.posX = player.getPositionX();
-			packet.lives = player.getLives();
-			packet.coins = player.getCoins();
+//		long currentTime = System.currentTimeMillis();
+//		if (currentTime-prevUpdateTime >= 100) {
+//			prevUpdateTime = currentTime;
+//			PlayerInfo packet = new PlayerInfo();
+//			packet.playerID = myID;
+//			packet.token = sessionID;
+//			packet.posX = player.getPositionX();
+//			packet.lives = player.getLives();
+//			packet.coins = player.getCoins();
 //			MPClient.client.sendTCP(packet);
-		}
+//		}
 		
 		if(startTimer) {
 			// 10 seconds convert back to normal speed
@@ -245,11 +245,11 @@ public class SinglePlayerScreen implements Screen {
 		}
 	}
 	
-	private void terminateSession() {
-		TerminateSession packet = new TerminateSession();
-		packet.token = SinglePlayerScreen.sessionID;
-		MPClient.client.sendTCP(packet);
-	}
+//	private void terminateSession() {
+//		TerminateSession packet = new TerminateSession();
+//		packet.token = SinglePlayerScreen.sessionID;
+//		MPClient.client.sendTCP(packet);
+//	}
 
 	@Override
 	public void render(float delta) {
@@ -272,9 +272,9 @@ public class SinglePlayerScreen implements Screen {
 		player.draw(game.batch); // draw
 		game.batch.end();
 		
-		if (!isTabOn)
-			progressBar.draw();
-		else
+//		if (!isTabOn)
+//		progressBar.draw();
+//		else
 //			tab.draw();
 		
 		if (gameOver()) {
@@ -282,7 +282,7 @@ public class SinglePlayerScreen implements Screen {
 			dispose();
 		} else if (gameFinished()) {
 			game.setScreen(new GameFinishedScreen(game));
-			terminateSession();
+//			terminateSession();
 			dispose();
 		}
 	}
@@ -314,7 +314,7 @@ public class SinglePlayerScreen implements Screen {
 		renderer.dispose();
 		world.dispose();
 		b2dr.dispose();
-		progressBar.dispose();
+//		progressBar.dispose();
 //		tab.dispose();
 	}
 
@@ -325,9 +325,9 @@ public class SinglePlayerScreen implements Screen {
 	// TEMP
 	private boolean gameOver() {
 		if(player.currentState == SingleRooster.State.DEAD && player.getStateTimer() > 3) {
-			SessionInfo packet = new SessionInfo();
-			packet.gameOver = true;
-			MPClient.client.sendTCP(packet);
+//			SessionInfo packet = new SessionInfo();
+//			packet.gameOver = true;
+//			MPClient.client.sendTCP(packet);
 			return true;
 		} else {
 			return false;

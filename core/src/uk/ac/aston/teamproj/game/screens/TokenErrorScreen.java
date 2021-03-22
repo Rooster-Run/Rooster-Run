@@ -1,5 +1,6 @@
 package uk.ac.aston.teamproj.game.screens;
 
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -24,16 +25,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.scenes.Hud;
 
 /**
- * @author Junaid, Marcus, Suleman
- * @since 17.03.2021
- * @date 17/03/2021
+ * @author Marcus, Junaid, Suleman  
+ * @date 18/03/2021
  */
 
-public class ServerErrorScreen implements Screen {
-
+public class TokenErrorScreen implements Screen {
 	private Viewport viewport;
 	private Stage stage;
 	
@@ -41,16 +39,16 @@ public class ServerErrorScreen implements Screen {
 	private MainGame game;
 	
 	private ImageButton backBtn;
-	
-	public ServerErrorScreen(MainGame game) {
 
+	
+	public TokenErrorScreen(MainGame game) {
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
+		
 		initializeButton();
 		populateTable();
-		
 		
 	}
 	
@@ -75,35 +73,28 @@ public class ServerErrorScreen implements Screen {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
 	                sound.play(1F);
 	            	System.out.println("Back");
-	            	ServerErrorScreen.this.dispose();
-	            	game.setScreen(new MainMenuScreen(game));
+	            	TokenErrorScreen.this.dispose();
+	            	game.setScreen(new JoinScreen(game));
 	            	return true;
 	            }	       
 		});
 	}
 	
-private void populateTable() {
+	private void populateTable() {
 		
 		Table table = new Table();
 
 		table.setFillParent(true);
 		
-		Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 		
-		Label playAgainLabel = new Label ("Click back to return to the main menu!", font);
-		
-		table.row();
-		table.add(playAgainLabel).expandX().padTop(80f);
-		table.row();
-		table.add(backBtn).height(22f).width(100).pad(4).padLeft(10).padTop(30);
+		table.add(backBtn).height(22f).width(100).pad(4).padLeft(10).padTop(50);
 		stage.addActor(table);	
 		
-		Texture background = new Texture("buttons/ServerScreen.png");
+		Texture background = new Texture("buttons/TokenError.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 		
 		Gdx.input.setInputProcessor(stage);
 	}
-	
 	
 	@Override
 	public void show() {
@@ -112,7 +103,7 @@ private void populateTable() {
 
 	@Override
 	public void render(float delta) {
-		
+	
 		Gdx.gl.glClearColor(0,  0,  0 , 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -121,7 +112,7 @@ private void populateTable() {
 
 	@Override
 	public void resize(int width, int height) {
-			
+		viewport.update(width, height, true);
 	}
 
 	@Override
@@ -148,3 +139,4 @@ private void populateTable() {
 	}
 
 }
+
