@@ -32,10 +32,10 @@ import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.game.tools.WorldContactListener;
 
 public class PlayScreen implements Screen {

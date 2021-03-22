@@ -30,7 +30,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 
 public class LobbyScreen implements Screen {

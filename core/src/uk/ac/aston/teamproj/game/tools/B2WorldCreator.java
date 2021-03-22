@@ -60,8 +60,7 @@ public class B2WorldCreator {
 		
 		// create lightning power ups bodies/fixtures
 		for (MapObject object : map.getLayers().get(8).getObjects().getByType(EllipseMapObject.class)) {
-			//Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
+			//Rectangle rect = ((RectangleMapObject) object).getRectangle();			
 			//new Lightning(world, map, rect);		
 			
 			Ellipse circle = ((EllipseMapObject) object).getEllipse();;
