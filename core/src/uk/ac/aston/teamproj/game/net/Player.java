@@ -11,9 +11,12 @@ public class Player {
 	private int lives = DEFAULT_LIVES;
 	private int coins = 0;
 	
+	public boolean playing;
+	
 	public Player(int id, String name) {
 		this.id = id;
 		this.name = name;
+		this.playing = true;
 	}
 	
 	public void setPosX(float posX) {

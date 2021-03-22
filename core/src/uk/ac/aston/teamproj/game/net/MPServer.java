@@ -51,7 +51,12 @@ public class MPServer {
 				
 				if(object instanceof TerminateSession) {
 					TerminateSession packet = (TerminateSession) object;
-					sessions.remove(packet.token);
+					
+					sessions.get(packet.token).getPlayerByID(packet.id).playing = false;
+					
+					if(isDeleteable(packet)) {
+						sessions.remove(packet.token);
+					}
 				}
 				
 				if(object instanceof CreateGameSession) {
@@ -109,6 +114,11 @@ public class MPServer {
 				}
 			}
 		});	
+	}
+
+	private boolean isDeleteable(TerminateSession packet) {
+		for(Player player :sessions.get(packet.token).getPlayers()) if(player.playing) return false;
+		return true;
 	}
 	
 	private void notifyAllPlayers(GameSession session) {
