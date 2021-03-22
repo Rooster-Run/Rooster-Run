@@ -55,8 +55,6 @@ public class MPServer {
 				}
 				
 				if(object instanceof CreateGameSession) {
-					// make a token and store the game ID to that connection
-					// its 4am check this over when im awake
 					CreateGameSession packet = (CreateGameSession) object;
 					String token = generateGameToken();
 					packet.token = token;
@@ -74,9 +72,10 @@ public class MPServer {
 					JoinGameSession packet = (JoinGameSession) object;
 					
 					if(sessions.get(packet.token) == null || !sessions.containsKey(packet.token)) {
-						ErrorPacket invalidPacket = new ErrorPacket();
-						invalidPacket.invalidToken = true;
-						server.sendToTCP(connection.getID(), invalidPacket);
+//						ErrorPacket invalidPacket = new ErrorPacket();
+//						invalidPacket.invalidToken = true;
+						packet.errorToken = true;
+						server.sendToTCP(connection.getID(), packet);
 					} else {
 						GameSession session = sessions.get(packet.token);
 						
@@ -97,17 +96,6 @@ public class MPServer {
 							server.sendToTCP(connectionID, packet);
 						}
 					}
-				}
-				
-				if(object instanceof SessionInfo) {
-					SessionInfo packet = (SessionInfo) object;
-					
-					if(sessions.get(packet.token).isEmpty()) {
-						sessions.remove(packet.token);
-					} else if(packet.gameOver) {
-						sessions.get(packet.token).getPlayerIDs().remove(connection.getID());
-					}
-					
 				}
 				
 				if (object instanceof PlayerInfo) {

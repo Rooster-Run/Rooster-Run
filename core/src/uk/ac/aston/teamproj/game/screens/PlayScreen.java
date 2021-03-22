@@ -239,12 +239,6 @@ public class PlayScreen implements Screen {
 			}
 		}
 	}
-	
-	private void terminateSession() {
-		TerminateSession packet = new TerminateSession();
-		packet.token = PlayScreen.sessionID;
-		MPClient.client.sendTCP(packet);
-	}
 
 	@Override
 	public void render(float delta) {
@@ -277,7 +271,7 @@ public class PlayScreen implements Screen {
 			dispose();
 		} else if (gameFinished()) {
 			game.setScreen(new GameFinishedScreen(game));
-			terminateSession();
+//			terminateSession();
 			dispose();
 		}
 	}
@@ -319,16 +313,16 @@ public class PlayScreen implements Screen {
 
 	// TEMP
 	private boolean gameOver() {
-		if(player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3) {
-			SessionInfo packet = new SessionInfo();
-			packet.gameOver = true;
-			MPClient.client.sendTCP(packet);
-			return true;
-		} else {
-			return false;
-		}
+		return player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3;
 	}
-
+	
+	private void terminateSession() {
+		TerminateSession packet = new TerminateSession();
+		packet.id = MPClient.clientID;
+		packet.token = PlayScreen.sessionID;
+		MPClient.client.sendTCP(packet);
+	}
+	
 	private boolean gameFinished() {
 		return (player.currentState == Rooster.State.WON);
 	}

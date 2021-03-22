@@ -30,6 +30,9 @@ public class MPClient {
 	public MainGame game;
 	private String name;
 	private String mapPath;
+	
+	public static boolean errorToken;
+	private boolean isHost;
 		
 	public MPClient(String ip, String name, final MainGame game) {
 		this.name = name;
@@ -45,7 +48,6 @@ public class MPClient {
 		try {
 			client.connect(60000, ip, Network.TCP_PORT, Network.UDP_PORT);
 			requestLogin();
-			boolean isHost = false;
 			if (game.getScreen() instanceof CreateScreen)
 				isHost = true;
 
@@ -75,7 +77,7 @@ public class MPClient {
 				if(object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
-					System.out.println(packet.token);
+					errorToken = packet.errorToken;
 				}
 				
 				if(object instanceof SessionInfo) {
@@ -114,9 +116,6 @@ public class MPClient {
 				
 				if(object instanceof ErrorPacket) {
 					ErrorPacket packet = (ErrorPacket) object;
-					if(packet.invalidToken) {
-						game.setScreen(new TokenErrorScreen(game));
-					}
 					// Other errors included here
 				}
 				
@@ -135,7 +134,10 @@ public class MPClient {
 		}));
 		
 	}
-	
+	// TODO
+	public void tokenError() {
+		game.setScreen(new TokenErrorScreen(game));
+	}
 
 	public void requestLogin() {
 		Login login = new Login();

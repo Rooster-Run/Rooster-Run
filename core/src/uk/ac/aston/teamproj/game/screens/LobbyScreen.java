@@ -60,6 +60,7 @@ public class LobbyScreen implements Screen {
 	public LobbyScreen(MainGame game, boolean isHost) {
 		this.game = game;
 		this.isHost = isHost;
+		
 		viewport = new FitViewport(MainGame.V_WIDTH / 6, MainGame.V_HEIGHT / 6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
@@ -80,6 +81,13 @@ public class LobbyScreen implements Screen {
 		populateBackgroundTable();
 		isHost();
 		
+	}
+	
+	private void authenticateToken() {
+		System.out.println("Does the token give us an error?" + MPClient.errorToken);
+		if(MPClient.errorToken == false) {
+			game.setScreen(new TokenErrorScreen(game));
+		}
 	}
 	
 	private void initTextures() {
@@ -203,8 +211,6 @@ public class LobbyScreen implements Screen {
 	@Override
 	public void render(float delta) {	
 		
-		
-		
 		//Displaying content on screen		
 		if (!isGameAboutToStart) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -270,6 +276,9 @@ public class LobbyScreen implements Screen {
 			game.setScreen(new LoadingScreen(game));
 		}	
 		
+		if(MPClient.errorToken == true) {
+			game.setScreen(new TokenErrorScreen(game));
+		}
 	}
 
 	@Override

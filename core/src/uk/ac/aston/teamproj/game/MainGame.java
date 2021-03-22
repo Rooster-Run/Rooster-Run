@@ -3,7 +3,6 @@ package uk.ac.aston.teamproj.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import uk.ac.aston.teamproj.game.screens.CreateScreen;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 
 public class MainGame extends Game {
