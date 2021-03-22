@@ -59,4 +59,13 @@ public class GameSession {
 	public boolean isEmpty() {
 		return players.isEmpty();
 	}
+	
+	public Player getPlayerByID(int id) {
+		for(Player player: players) {
+			if(player.getID() == id) {
+				return player;
+			}
+		}
+		return null;
+	}
 }

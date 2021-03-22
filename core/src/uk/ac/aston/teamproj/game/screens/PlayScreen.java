@@ -268,10 +268,11 @@ public class PlayScreen implements Screen {
 		
 		if (gameOver()) {
 			game.setScreen(new GameOverScreen(game));
+			terminateSession();
 			dispose();
 		} else if (gameFinished()) {
 			game.setScreen(new GameFinishedScreen(game));
-//			terminateSession();
+			terminateSession();
 			dispose();
 		}
 	}
