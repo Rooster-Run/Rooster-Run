@@ -22,29 +22,29 @@ import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
 import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 
 public class MPClient {
-	
+
 	public static Client client;
 	public static int clientID;
 	public int sessionID;
-	
+
 	public MainGame game;
 	private String name;
 	private String mapPath;
-	
+
 	public static boolean errorToken;
 	private boolean isHost;
-		
+
 	public MPClient(String ip, String name, final MainGame game) {
 		this.name = name;
 		this.game = game;
-		
-//		n = new ArrayList<String>();
-		
+
+		// n = new ArrayList<String>();
+
 		client = new Client();
 		client.start();
-		
+
 		Network.register(client);
-		
+
 		try {
 			client.connect(60000, ip, Network.TCP_PORT, Network.UDP_PORT);
 			requestLogin();
@@ -55,44 +55,44 @@ public class MPClient {
 		} catch (Exception e) {
 			game.setScreen(new ServerErrorScreen(game));
 		}
-		
+
 		client.addListener(new ThreadedListener(new Listener() {
-			
+
 			public void connected(Connection connection) {
 				// get text here
 			}
-			
+
 			public void received(Connection connection, Object object) {
-				
-				if(object instanceof Login) {
+
+				if (object instanceof Login) {
 					Login packet = (Login) object;
 					clientID = packet.id;
 				}
-				
-				if(object instanceof CreateGameSession) {
+
+				if (object instanceof CreateGameSession) {
 					CreateGameSession packet = (CreateGameSession) object;
-//					token = packet.token;
+					// token = packet.token;
 				}
-				
-				if(object instanceof JoinGameSession) {
+
+				if (object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
 					errorToken = packet.errorToken;
 				}
-				
-				if(object instanceof SessionInfo) {
+
+				if (object instanceof SessionInfo) {
 					SessionInfo packet = (SessionInfo) object;
 					System.out.println("Total players: " + packet.playerIDs.size());
-//					totalPlayers = packet.playerIDs.size();
+					// totalPlayers = packet.playerIDs.size();
 					System.out.print("Players: ");
 					LobbyScreen.currentPlayers = new ArrayList<>();
-					for (int i = 0 ; i < packet.playerIDs.size(); i++) {
+					for (int i = 0; i < packet.playerIDs.size(); i++) {
 						Integer id = packet.playerIDs.get(i);
 						String name = packet.playerNames.get(i);
-						System.out.print("[" + id + " - " + name +  "] ");
-//						playerName = packet.playerNames.get(i);
-//						playerID = packet.playerNames.get(i);
-//						n.add(packet.playerNames.get(i));
+						System.out.print("[" + id + " - " + name + "] ");
+						// playerName = packet.playerNames.get(i);
+						// playerID = packet.playerNames.get(i);
+						// n.add(packet.playerNames.get(i));
 						LobbyScreen.currentPlayers.add(new Player(id, name));
 					}
 					System.out.println();
@@ -101,25 +101,25 @@ public class MPClient {
 					PlayScreen.sessionID = packet.token;
 					PlayScreen.myID = packet.playerID;
 				}
-				
-				if(object instanceof StartGame) {
+
+				if (object instanceof StartGame) {
 					StartGame packet = (StartGame) object;
 					PlayScreen.players = new ArrayList<Player>();
 					for (int i = 0; i < packet.playerIDs.size() && i < packet.playerNames.size(); i++) {
 						Player p = new Player(packet.playerIDs.get(i), packet.playerNames.get(i));
 						PlayScreen.players.add(p);
-//						LobbyScreen.names.add(p);
+
 					}
-					
+
 					LobbyScreen.isGameAboutToStart = true;
 				}
-				
-				if(object instanceof ErrorPacket) {
+
+				if (object instanceof ErrorPacket) {
 					ErrorPacket packet = (ErrorPacket) object;
 					// Other errors included here
 				}
-				
-				if(object instanceof PlayerInfo) {
+
+				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
 					for (Player p : PlayScreen.players) {
 						if (p.getID() == packet.playerID) {
@@ -132,8 +132,9 @@ public class MPClient {
 			}
 
 		}));
-		
+
 	}
+
 	// TODO
 	public void tokenError() {
 		game.setScreen(new TokenErrorScreen(game));
