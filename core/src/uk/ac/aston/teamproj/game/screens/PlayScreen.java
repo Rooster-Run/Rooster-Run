@@ -176,7 +176,13 @@ public class PlayScreen implements Screen {
 
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != Rooster.State.DEAD) {
-			gamecam.position.x = player.getPositionX();
+			if(player.getPositionX() < 1200 / MainGame.PPM) {
+				gamecam.position.x = 1200 / MainGame.PPM;
+			}else if (player.getPositionX() > (464)){
+				gamecam.position.x = 464;
+			}else {
+				gamecam.position.x = player.getPositionX();
+			}
 		}
 
 		// Update our gamecam with correct coordinates after changes
