@@ -53,12 +53,14 @@ public class MPServer {
 
 				if (object instanceof TerminateSession) {
 					TerminateSession packet = (TerminateSession) object;
-
-					sessions.get(packet.token).getPlayerByID(packet.id).playing = false;
+					System.out.println(sessions.toString());
+					sessions.get(packet.token).getPlayerByID(connection.getID()).playing = false;
 
 					if (isDeleteable(packet)) {
 						sessions.remove(packet.token);
 					}
+					System.out.println(sessions.toString());
+
 				}
 
 				if (object instanceof CreateGameSession) {
@@ -84,10 +86,8 @@ public class MPServer {
 						packet.errorToken = true;
 						server.sendToTCP(connection.getID(), packet);
 					} else {
-						GameSession session = sessions.get(packet.token);
-
-						session.addPlayer(connection.getID(), packet.name);
-						notifyAllPlayers(session);
+						sessions.get(packet.token).addPlayer(connection.getID(), packet.name);
+						notifyAllPlayers(sessions.get(packet.token));
 
 						server.sendToTCP(connection.getID(), packet);
 					}
