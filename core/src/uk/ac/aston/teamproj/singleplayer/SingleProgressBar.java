@@ -110,7 +110,7 @@ public class SingleProgressBar implements Disposable {
 	
 	public void update() {		
 		for (int i = 0; i < SinglePlayerScreen.players.size(); i++) {
-			float actualPosition = (SinglePlayerScreen.players.get(i).getPosX()* MainGame.PPM) / 100;
+			float actualPosition = (SinglePlayerScreen.player.getPositionX()* MainGame.PPM) / 100;
 			float percentage = (actualPosition * 100) / MAP_SIZE;
 			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;

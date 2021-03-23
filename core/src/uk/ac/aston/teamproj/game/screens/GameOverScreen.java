@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -33,9 +35,12 @@ public class GameOverScreen implements Screen {
 	private Stage stage;
 	
 	@SuppressWarnings("unused")
-	private Game game;
+	private MainGame game;
 	
-	public GameOverScreen(Game game) {
+	//font
+	private BitmapFont font;
+	
+	public GameOverScreen(MainGame game) {
 		
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
     	SoundManager.playSound(sound);
@@ -44,15 +49,27 @@ public class GameOverScreen implements Screen {
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
-		Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+		//font
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 20;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: 
+		// These characters should not repeat! 
+
+		font = generator.generateFont(parameter);
+		font.setColor(Color.WHITE);
+		generator.dispose();
+		
+		Label.LabelStyle labelFont = new Label.LabelStyle(font, Color.WHITE);
 		
 		Table table = new Table();
 		table.center();
 		table.setFillParent(true);
 		
 		
-		Label playAgainLabel = new Label ("Click Screen to Play Again", font);
-		Label showScore = new Label (showCoins(), font);
+		Label playAgainLabel = new Label ("Click Screen to Play Again", labelFont);
+		Label showScore = new Label (showCoins(), labelFont);
 		
 		table.row();
 		table.add(playAgainLabel).expandX().padTop(80f);
