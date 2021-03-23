@@ -55,6 +55,7 @@ public class SinglePlayerScreen implements Screen {
 	private TmxMapLoader mapLoader;
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
+	private static String PATH;
 
 	// Box2d variables
 	private World world;
