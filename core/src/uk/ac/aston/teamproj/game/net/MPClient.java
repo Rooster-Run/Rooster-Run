@@ -18,8 +18,8 @@ import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
-import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;<<<<<<<HEAD=======
-import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;>>>>>>>upstream/main
+import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
+import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 
 public class MPClient {
 

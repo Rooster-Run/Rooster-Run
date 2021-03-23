@@ -34,6 +34,7 @@ import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
 import uk.ac.aston.teamproj.game.screens.GameFinishedScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
+import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.singleplayer.SingleWorldContactListener;
@@ -177,12 +178,21 @@ public class SinglePlayerScreen implements Screen {
 		// update player based on delta time
 		player.update(dt);
 		progressBar.update();
-//		tab.update();
 
 
+		
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != SingleRooster.State.DEAD) {
-			gamecam.position.x = player.getPositionX();
+			if(player.getPositionX() < 1200 / MainGame.PPM) {
+				gamecam.position.x = 1200 / MainGame.PPM;
+			}else if (player.getPositionX() > (464)){
+				gamecam.position.x = 464;
+			}else if (player.getPositionX() > 46800 / MainGame.PPM) {
+				gamecam.position.x = 46800 / MainGame.PPM;
+			}
+			else {
+				gamecam.position.x = player.getPositionX();
+			}
 		}
 
 		// Update our gamecam with correct coordinates after changes

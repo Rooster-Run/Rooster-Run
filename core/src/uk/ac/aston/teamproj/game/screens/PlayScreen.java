@@ -180,7 +180,10 @@ public class PlayScreen implements Screen {
 				gamecam.position.x = 1200 / MainGame.PPM;
 			}else if (player.getPositionX() > (464)){
 				gamecam.position.x = 464;
-			}else {
+			}else if (player.getPositionX() > 46800 / MainGame.PPM) {
+				gamecam.position.x = 46800 / MainGame.PPM;
+			}
+			else {
 				gamecam.position.x = player.getPositionX();
 			}
 		}
