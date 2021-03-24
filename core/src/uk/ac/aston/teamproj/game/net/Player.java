@@ -1,5 +1,7 @@
 package uk.ac.aston.teamproj.game.net;
 
+import uk.ac.aston.teamproj.game.sprites.Rooster;
+
 public class Player {
 
 	private final static int DEFAULT_LIVES = 3;
@@ -53,6 +55,10 @@ public class Player {
 	
 	public int getCoins() {
 		return coins;
+	}
+	
+	public boolean hasWon() {
+		return Rooster.hasWon();
 	}
 	
 }
