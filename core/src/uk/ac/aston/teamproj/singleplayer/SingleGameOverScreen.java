@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.scenes.Hud;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.game.screens.MultiplayerMenuScreen;
 
 /**
