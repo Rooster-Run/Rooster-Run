@@ -72,8 +72,8 @@ public class GameFinishedScreen implements Screen {
 
 		initializeButtons();
 		populateTable();
-//		getWinner();
-//		System.out.println(getWinner());
+		getWinner();
+		System.out.println(getWinner());
 		PlayScreen.resetSession();
 	}
 
@@ -119,24 +119,28 @@ public class GameFinishedScreen implements Screen {
 
 	public void populateTable() {
 		
-		Table table = new Table();
-		table.top();
-		table.setFillParent(true);
+		Table LabelWinnerIsTable = new Table();
+		LabelWinnerIsTable.top();
+		LabelWinnerIsTable.setFillParent(true);
 		
-		//LabelWinnerIs:
-        Label.LabelStyle label = new Label.LabelStyle(font, Color.WHITE);
-        Label gameOverLabel = new Label ("Winner:   ", label);
-        table.add(gameOverLabel).expandX().padLeft(10).padTop(120);
-        
+		Table winnerNameTable = new Table();
+		winnerNameTable.top();
+		winnerNameTable.setFillParent(true);
+		
 		//LabelName
         Label.LabelStyle labelName = new Label.LabelStyle(font, Color.WHITE);
-        Label winnerLabel = new Label ("Test", labelName);
-        table.add(winnerLabel).expandX().padTop(80);
+        Label winnerLabel = new Label (getWinner(), labelName);
+        winnerNameTable.add(winnerLabel).expandX().padTop(100).padLeft(150);
+        
+		//LabelWinner
+        Label.LabelStyle label = new Label.LabelStyle(font, Color.WHITE);
+        Label gameOverLabel = new Label ("Winner:   ", label);
+        LabelWinnerIsTable.add(gameOverLabel).expandX().padLeft(180).padTop(50);
 		
 		// Set background textures
 		Texture background = new Texture("buttons/Sky.png");
-		table.background(new TextureRegionDrawable(new TextureRegion(background)));
-		table.row();
+		LabelWinnerIsTable.background(new TextureRegionDrawable(new TextureRegion(background)));
+		LabelWinnerIsTable.row();
 		
 		Table buttonTable = new Table();
 		buttonTable.top();
@@ -144,11 +148,12 @@ public class GameFinishedScreen implements Screen {
 		
 		// backBtn
 		ImageButton backBtn = optionButtons[0];
-		table.add(backBtn).height(22f).width(120).padTop(175).padRight(240);
-		table.row();
+		buttonTable.add(backBtn).height(22f).width(120).padTop(175).padRight(240);
+		buttonTable.row();
 		
 		// Adding table to screen
-		stage.addActor(table);
+		stage.addActor(LabelWinnerIsTable);
+		stage.addActor(winnerNameTable);
 		stage.addActor(buttonTable);
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -177,13 +182,17 @@ public class GameFinishedScreen implements Screen {
 	}
 	
 	public String getWinner() {
-		for(int i = 0; i < PlayScreen.players.size(); i++ ) {
-			if(PlayScreen.players.get(i).hasWon()) {
-				winnerName = PlayScreen.players.get(i).getName();
-			}
-		}
-		return winnerName;
+		return PlayScreen.winner;
 	}
+	
+//	public String getWinner() {
+//		for(int i = 0; i < PlayScreen.players.size(); i++ ) {
+//			if(PlayScreen.players.get(i).getWonState()) {
+//				winnerName = PlayScreen.players.get(i).getName();
+//			}
+//		}
+//		return winnerName;
+//	}
 
 	@Override
 	public void dispose() {

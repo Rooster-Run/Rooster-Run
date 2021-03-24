@@ -12,6 +12,7 @@ import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
+import uk.ac.aston.teamproj.game.net.packet.Winner;
 
 public class Network {
 
@@ -30,6 +31,7 @@ public class Network {
 		kryo.register(PlayerInfo.class);
 		kryo.register(ErrorPacket.class);
 		kryo.register(TerminateSession.class);
+		kryo.register(Winner.class);
 	}
 	
 }

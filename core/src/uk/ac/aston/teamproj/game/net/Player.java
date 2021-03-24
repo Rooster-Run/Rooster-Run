@@ -1,6 +1,7 @@
 package uk.ac.aston.teamproj.game.net;
 
 import uk.ac.aston.teamproj.game.sprites.Rooster;
+import uk.ac.aston.teamproj.game.sprites.Rooster.State;
 
 public class Player {
 
@@ -57,8 +58,8 @@ public class Player {
 		return coins;
 	}
 	
-	public boolean hasWon() {
-		return Rooster.hasWon();
+	public State getWonState() {
+		return Rooster.State.WON;
 	}
 	
 }

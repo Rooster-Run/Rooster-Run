@@ -10,6 +10,8 @@ public class GameSession {
 	
 	private String mapPath;
 	
+	private String winner;
+	
 	public GameSession(String token, String mapPath) {
 		this.token = token;
 		this.mapPath = mapPath;
@@ -67,5 +69,17 @@ public class GameSession {
 			}
 		}
 		return null;
+	}
+	
+	public boolean setWinner(String winner) {
+		if (this.winner == null) {
+			this.winner = winner;
+			return true;
+		}
+		return false;
+	}
+	
+	public String getWinnerName() {
+		return winner;
 	}
 }
