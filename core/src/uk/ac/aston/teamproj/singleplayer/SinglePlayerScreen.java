@@ -32,9 +32,9 @@ import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
 import uk.ac.aston.teamproj.game.screens.GameFinishedScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
+import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.singleplayer.SingleWorldContactListener;
@@ -55,6 +55,7 @@ public class SinglePlayerScreen implements Screen {
 	private TmxMapLoader mapLoader;
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
+	private static String PATH;
 
 	// Box2d variables
 	private World world;
@@ -144,8 +145,8 @@ public class SinglePlayerScreen implements Screen {
 		if (player.currentState != SingleRooster.State.DEAD) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
-            	SoundManager.playSound(sound);
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
+                sound.play(1F);
                 player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
 				jumpCount++;
 			}
@@ -178,12 +179,21 @@ public class SinglePlayerScreen implements Screen {
 		// update player based on delta time
 		player.update(dt);
 		progressBar.update();
-//		tab.update();
 
 
+		
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != SingleRooster.State.DEAD) {
-			gamecam.position.x = player.getPositionX();
+			if(player.getPositionX() < 1200 / MainGame.PPM) {
+				gamecam.position.x = 1200 / MainGame.PPM;
+			}else if (player.getPositionX() > (464)){
+				gamecam.position.x = 464;
+			}else if (player.getPositionX() > 46800 / MainGame.PPM) {
+				gamecam.position.x = 46800 / MainGame.PPM;
+			}
+			else {
+				gamecam.position.x = player.getPositionX();
+			}
 		}
 
 		// Update our gamecam with correct coordinates after changes

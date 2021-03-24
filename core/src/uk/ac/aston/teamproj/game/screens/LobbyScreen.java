@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -57,11 +59,28 @@ public class LobbyScreen implements Screen {
 	private Texture[] textures;
 	private Image background;
 	
+	//font
+	private BitmapFont font;
+	
 	public LobbyScreen(MainGame game, boolean isHost) {
 		this.game = game;
 		this.isHost = isHost;
+		
 		viewport = new FitViewport(MainGame.V_WIDTH / 6, MainGame.V_HEIGHT / 6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
+		
+		
+		//font
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 20;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: 
+		// These characters should not repeat! 
+
+		font = generator.generateFont(parameter);
+		font.setColor(Color.WHITE);
+		generator.dispose();
 		
 		//backrgound
 		background = new Image(new Texture("buttons/lobbyBck.png"));
@@ -80,6 +99,13 @@ public class LobbyScreen implements Screen {
 		populateBackgroundTable();
 		isHost();
 		
+	}
+	
+	private void authenticateToken() {
+		System.out.println("Does the token give us an error?" + MPClient.errorToken);
+		if(MPClient.errorToken == false) {
+			game.setScreen(new TokenErrorScreen(game));
+		}
 	}
 	
 	private void initTextures() {
@@ -203,8 +229,6 @@ public class LobbyScreen implements Screen {
 	@Override
 	public void render(float delta) {	
 		
-		
-		
 		//Displaying content on screen		
 		if (!isGameAboutToStart) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -212,17 +236,18 @@ public class LobbyScreen implements Screen {
 	
 						
 			Group group = new Group();	
-			Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+			Label.LabelStyle bitmapFont = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+			Label.LabelStyle labelFont = new Label.LabelStyle(font, Color.WHITE);
 			
 			//Token label
-			Label tokenLabels = new Label(getToken(), font);
+			Label tokenLabels = new Label(getToken(), bitmapFont);
 			tokenLabels.setColor(1f, 1f, 1f, 1f);
 			tokenLabels.setFontScale(1.2f);
-			tokenLabels.setBounds(215, 147, 20, 20);
+			tokenLabels.setBounds(210, 147, 20, 20);
 			group.addActor(tokenLabels);
 			
 			//TotalPlayers label 
-			Label totalLabels = new Label("" + getTotal(), font);
+			Label totalLabels = new Label("" + getTotal(), labelFont);
 			totalLabels.setColor(1f, 1f, 1f, 1f);
 			totalLabels.setFontScale(1.0f);
 			totalLabels.setBounds(300, 185, 20, 20);
@@ -238,7 +263,7 @@ public class LobbyScreen implements Screen {
 				playerIcons[i].setBounds(20, j+20, 20, 20);
 				group.addActor(playerIcons[i]);
 				
-				nameLabels[i] = new Label (name, font);
+				nameLabels[i] = new Label (name, labelFont);
 				nameLabels[i].setX(70);
 				nameLabels[i].setY(j + 20);
 				nameLabels[i].setFontScale(1.3f);
@@ -270,6 +295,9 @@ public class LobbyScreen implements Screen {
 			game.setScreen(new LoadingScreen(game));
 		}	
 		
+		if(MPClient.errorToken == true) {
+			game.setScreen(new TokenErrorScreen(game));
+		}
 	}
 
 	@Override

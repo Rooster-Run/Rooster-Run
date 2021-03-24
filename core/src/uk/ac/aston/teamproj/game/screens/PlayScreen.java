@@ -176,7 +176,16 @@ public class PlayScreen implements Screen {
 
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != Rooster.State.DEAD) {
-			gamecam.position.x = player.getPositionX();
+			if(player.getPositionX() < 1200 / MainGame.PPM) {
+				gamecam.position.x = 1200 / MainGame.PPM;
+			}else if (player.getPositionX() > (464)){
+				gamecam.position.x = 464;
+			}else if (player.getPositionX() > 46800 / MainGame.PPM) {
+				gamecam.position.x = 46800 / MainGame.PPM;
+			}
+			else {
+				gamecam.position.x = player.getPositionX();
+			}
 		}
 
 		// Update our gamecam with correct coordinates after changes
@@ -239,12 +248,6 @@ public class PlayScreen implements Screen {
 			}
 		}
 	}
-	
-	private void terminateSession() {
-		TerminateSession packet = new TerminateSession();
-		packet.token = PlayScreen.sessionID;
-		MPClient.client.sendTCP(packet);
-	}
 
 	@Override
 	public void render(float delta) {
@@ -274,6 +277,7 @@ public class PlayScreen implements Screen {
 		
 		if (gameOver()) {
 			game.setScreen(new GameOverScreen(game));
+			terminateSession();
 			dispose();
 		} else if (gameFinished()) {
 			game.setScreen(new GameFinishedScreen(game));
@@ -319,16 +323,16 @@ public class PlayScreen implements Screen {
 
 	// TEMP
 	private boolean gameOver() {
-		if(player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3) {
-			SessionInfo packet = new SessionInfo();
-			packet.gameOver = true;
-			MPClient.client.sendTCP(packet);
-			return true;
-		} else {
-			return false;
-		}
+		return player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3;
 	}
-
+	
+	private void terminateSession() {
+		TerminateSession packet = new TerminateSession();
+		packet.id = MPClient.clientID;
+		packet.token = PlayScreen.sessionID;
+		MPClient.client.sendTCP(packet);
+	}
+	
 	private boolean gameFinished() {
 		return (player.currentState == Rooster.State.WON);
 	}

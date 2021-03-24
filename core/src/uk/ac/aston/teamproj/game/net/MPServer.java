@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
@@ -18,45 +19,51 @@ import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 
 public class MPServer {
 
+	private MainGame game;
 	private final static int TOKEN_LENGTH = 5;
 	public Server server;
 	public HashMap<String, GameSession> sessions;
-		
+
 	public MPServer() {
 		server = new Server();
 		server.start();
-		
+
 		Network.register(server);
-		
+
 		sessions = new HashMap<>();
-				
+
 		try {
 			server.bind(Network.TCP_PORT, Network.UDP_PORT);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		server.addListener(new Listener() {
 			public void connected(Connection connection) {
-				
+
 			}
-			
+
 			public void received(Connection connection, Object object) {
-				
-				if(object instanceof Login) {
+
+				if (object instanceof Login) {
 					Login packet = (Login) object;
 					packet.id = connection.getID();
 					server.sendToTCP(connection.getID(), packet);
 				}
-				
-				if(object instanceof TerminateSession) {
+
+				if (object instanceof TerminateSession) {
 					TerminateSession packet = (TerminateSession) object;
-					sessions.remove(packet.token);
+					System.out.println(sessions.toString());
+					sessions.get(packet.token).getPlayerByID(connection.getID()).playing = false;
+
+					if (isDeleteable(packet)) {
+						sessions.remove(packet.token);
+					}
+					System.out.println(sessions.toString());
+
 				}
-				
-				if(object instanceof CreateGameSession) {
-					// make a token and store the game ID to that connection
-					// its 4am check this over when im awake
+
+				if (object instanceof CreateGameSession) {
 					CreateGameSession packet = (CreateGameSession) object;
 					String token = generateGameToken();
 					packet.token = token;
@@ -64,32 +71,31 @@ public class MPServer {
 					session.addPlayer(connection.getID(), packet.name);
 					session.setHost(connection.getID());
 					sessions.put(token, session);
-					
+
 					server.sendToTCP(connection.getID(), packet);
 					notifyAllPlayers(session);
 				}
-				
-				if(object instanceof JoinGameSession) {
+
+				if (object instanceof JoinGameSession) {
 					// get his token and see if exists
 					JoinGameSession packet = (JoinGameSession) object;
-					
-					if(sessions.get(packet.token) == null || !sessions.containsKey(packet.token)) {
-						ErrorPacket invalidPacket = new ErrorPacket();
-						invalidPacket.invalidToken = true;
-						server.sendToTCP(connection.getID(), invalidPacket);
+
+					if (sessions.get(packet.token) == null || !sessions.containsKey(packet.token)) {
+						// ErrorPacket invalidPacket = new ErrorPacket();
+						// invalidPacket.invalidToken = true;
+						packet.errorToken = true;
+						server.sendToTCP(connection.getID(), packet);
 					} else {
-						GameSession session = sessions.get(packet.token);
-						
-						session.addPlayer(connection.getID(), packet.name);
-						notifyAllPlayers(session);
-						
+						sessions.get(packet.token).addPlayer(connection.getID(), packet.name);
+						notifyAllPlayers(sessions.get(packet.token));
+
 						server.sendToTCP(connection.getID(), packet);
 					}
 				}
-				
+
 				if (object instanceof StartGame) {
 					StartGame packet = (StartGame) object;
-					if(sessions.get(packet.token) != null) {
+					if (sessions.get(packet.token) != null) {
 						GameSession session = sessions.get(packet.token);
 						packet.playerIDs = session.getPlayerIDs();
 						packet.playerNames = session.getPlayerNames();
@@ -98,18 +104,7 @@ public class MPServer {
 						}
 					}
 				}
-				
-				if(object instanceof SessionInfo) {
-					SessionInfo packet = (SessionInfo) object;
-					
-					if(sessions.get(packet.token).isEmpty()) {
-						sessions.remove(packet.token);
-					} else if(packet.gameOver) {
-						sessions.get(packet.token).getPlayerIDs().remove(connection.getID());
-					}
-					
-				}
-				
+
 				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
 					if (sessions.get(packet.token) != null) {
@@ -120,9 +115,16 @@ public class MPServer {
 					}
 				}
 			}
-		});	
+		});
 	}
-	
+
+	private boolean isDeleteable(TerminateSession packet) {
+		for (Player player : sessions.get(packet.token).getPlayers())
+			if (player.playing)
+				return false;
+		return true;
+	}
+
 	private void notifyAllPlayers(GameSession session) {
 		SessionInfo packet = new SessionInfo();
 		packet.playerIDs = session.getPlayerIDs();
@@ -134,25 +136,25 @@ public class MPServer {
 			server.sendToTCP(connectionID, packet);
 		}
 	}
-	
+
 	private String generateGameToken() {
 		String saltStr;
 		do {
-	        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-	        StringBuilder salt = new StringBuilder();
-	        Random rnd = new Random();
-	        while (salt.length() < TOKEN_LENGTH) { // length of the random string.
-	            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-	            salt.append(SALTCHARS.charAt(index));
-	        }
-	        saltStr = salt.toString();	        
-		} while(sessions.get(saltStr) != null);
-		
+			String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			StringBuilder salt = new StringBuilder();
+			Random rnd = new Random();
+			while (salt.length() < TOKEN_LENGTH) { // length of the random string.
+				int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+				salt.append(SALTCHARS.charAt(index));
+			}
+			saltStr = salt.toString();
+		} while (sessions.get(saltStr) != null);
+
 		return saltStr;
 	}
-	
+
 	public static void main(String[] args) {
-//		Log.set(Log.LEVEL_DEBUG);
+		// Log.set(Log.LEVEL_DEBUG);
 		new MPServer();
 	}
 }

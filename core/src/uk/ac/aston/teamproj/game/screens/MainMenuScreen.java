@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.scenes.SoundManager;
+import uk.ac.aston.teamproj.singleplayer.SingleCreateScreen;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 /** 
@@ -73,7 +74,7 @@ public class MainMenuScreen implements Screen {
 	            	SoundManager.playSound(sound);
 	            	System.out.println("SINGLE");
 	            	MainMenuScreen.this.dispose();
-	            	game.setScreen(new SinglePlayerScreen(game));
+	            	game.setScreen(new SingleCreateScreen(game));
 	            	return true;
 	            }	       
 	    });

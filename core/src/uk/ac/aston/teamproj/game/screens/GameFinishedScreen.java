@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -28,10 +30,13 @@ public class GameFinishedScreen implements Screen {
 	private Viewport viewport;
 	private Stage stage;
 	
-	@SuppressWarnings("unused")
-	private Game game;
+	//fonts
+	private BitmapFont font;
 	
-	public GameFinishedScreen(Game game) {
+	@SuppressWarnings("unused")
+	private MainGame game;
+	
+	public GameFinishedScreen(MainGame game) {
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
@@ -39,13 +44,27 @@ public class GameFinishedScreen implements Screen {
 //      Sound sound = Gdx.audio.newSound(Gdx.files.internal("firstplace.wav"));
 //    	SoundManager.playSound(sound);
 		
-		Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 		
+		
+		//font
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 20;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: 
+		// These characters should not repeat! 
+
+		font = generator.generateFont(parameter);
+		font.setColor(Color.WHITE);
+		generator.dispose();
+		
+		
+		//table
 		Table table = new Table();
 		table.center();
 		table.setFillParent(true);
-		
-		Label gameOverLabel = new Label ("GAME FINISHED", font);
+		Label.LabelStyle label = new Label.LabelStyle(font, Color.WHITE);
+		Label gameOverLabel = new Label ("GAME FINISHED", label);
 		table.add(gameOverLabel).expandX();
 		
 		stage.addActor(table);

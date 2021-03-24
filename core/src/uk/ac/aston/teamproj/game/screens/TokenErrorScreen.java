@@ -12,14 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 /**
  * @author Marcus, Junaid, Suleman  
@@ -27,33 +28,29 @@ import uk.ac.aston.teamproj.game.MainGame;
  */
 
 public class TokenErrorScreen implements Screen {
+	
 	private Viewport viewport;
 	private Stage stage;
-	
-	@SuppressWarnings("unused")
 	private MainGame game;
+
+	
 	
 	private ImageButton backBtn;
-
 	
 	public TokenErrorScreen(MainGame game) {
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
-		
-		
+	
 		initializeButton();
 		populateTable();
-		
 	}
 	
 	private void initializeButton(){
-
-		//Back Button
 		TextureAtlas buttonsAtlas = new TextureAtlas("buttons/new_buttons.pack");
 		Skin skin = new Skin(buttonsAtlas);
+		//Back Button
 		ImageButtonStyle style = new ImageButtonStyle();
-		
 		style.up = skin.getDrawable("back_inactive");  //set default image
 		style.over = skin.getDrawable("back_active");  //set image for mouse over
 		
@@ -66,7 +63,7 @@ public class TokenErrorScreen implements Screen {
 	            	 //plays button pop sound
 
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	                sound.play(1F);
+	            	SoundManager.playSound(sound);
 	            	System.out.println("Back");
 	            	TokenErrorScreen.this.dispose();
 	            	game.setScreen(new JoinScreen(game));
@@ -75,30 +72,31 @@ public class TokenErrorScreen implements Screen {
 		});
 	}
 	
-	private void populateTable() {
-		
-		Table table = new Table();
-
-		table.setFillParent(true);
-		
-		
-		table.add(backBtn).height(22f).width(100).pad(4).padLeft(10).padTop(50);
-		stage.addActor(table);	
-		
-		Texture background = new Texture("buttons/TokenError.png");
-		table.background(new TextureRegionDrawable(new TextureRegion(background)));
-		
-		Gdx.input.setInputProcessor(stage);
-	}
 	
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 	}
+	
+	
+	public void populateTable() {
+		Table table = new Table();
+		//table.center();
+		table.setFillParent(true);
+		table.row();
+		table.add(backBtn).height(22f).width(120).pad(4).padTop(70);
+			
+		
+		Texture background = new Texture("buttons/TokenError.png");
+		table.background(new TextureRegionDrawable(new TextureRegion(background)));
+	
+		stage.addActor(table);
+		Gdx.input.setInputProcessor(stage);
+	}
 
 	@Override
 	public void render(float delta) {
-	
+		
 		Gdx.gl.glClearColor(0,  0,  0 , 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -107,7 +105,7 @@ public class TokenErrorScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		viewport.update(width, height, true);
+			
 	}
 
 	@Override

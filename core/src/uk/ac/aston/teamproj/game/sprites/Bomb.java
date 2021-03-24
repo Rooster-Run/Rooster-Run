@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
 
 /**
  * created by Parmo on 5.11.20 
@@ -53,9 +52,8 @@ public class Bomb extends InteractiveTileObject {
 	@Override
 	public void onHit() {
 		//for now, just log the event to the console
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("bomb.wav"));
-    	SoundManager.playSound(sound);
-    	
+	   	Sound sound = Gdx.audio.newSound(Gdx.files.internal("bomb.wav"));
+        sound.play(1F);
 		Gdx.app.log(String.valueOf(MPClient.clientID), "Bomb Collision");
 	
 		//set category to destroyed bit
