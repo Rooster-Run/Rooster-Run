@@ -80,6 +80,7 @@ public class GameOverScreen implements Screen {
 		
 		Texture background = new Texture("buttons/untitled.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
+		PlayScreen.resetSession();
 	}
 	
 	@Override

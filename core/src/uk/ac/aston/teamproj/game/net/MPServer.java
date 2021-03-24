@@ -53,13 +53,11 @@ public class MPServer {
 
 				if (object instanceof TerminateSession) {
 					TerminateSession packet = (TerminateSession) object;
-					System.out.println(sessions.toString());
 					sessions.get(packet.token).getPlayerByID(connection.getID()).playing = false;
 
 					if (isDeleteable(packet)) {
 						sessions.remove(packet.token);
 					}
-					System.out.println(sessions.toString());
 
 				}
 
@@ -103,6 +101,7 @@ public class MPServer {
 							server.sendToTCP(connectionID, packet);
 						}
 					}
+					System.out.println(sessions.get(packet.token));
 				}
 
 				if (object instanceof PlayerInfo) {
