@@ -8,19 +8,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -32,10 +38,12 @@ import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
+//import uk.ac.aston.teamproj.game.scenes.Revive;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
+import uk.ac.aston.teamproj.game.sprites.Ground;
 import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.game.tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
@@ -89,7 +97,7 @@ public class PlayScreen implements Screen {
 	public PlayScreen(MainGame game) {
 		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
-		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken2.pack");
+		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
 
 		// Create a cam to follow chicken in the game world
 		gamecam = new OrthographicCamera();
@@ -125,7 +133,7 @@ public class PlayScreen implements Screen {
 
 		world.setContactListener(new WorldContactListener(this));
 
-		prevUpdateTime = System.currentTimeMillis();		
+		prevUpdateTime = System.currentTimeMillis();	
 	}
 
 	@Override
@@ -136,7 +144,7 @@ public class PlayScreen implements Screen {
 
 	public void handleInput(float dt) {
 		// If our user is holding down mouse over camera throughout the game world.
-		if (player.currentState != Rooster.State.DEAD) {
+		if (player.currentState != Rooster.State.DEAD && player.currentState != Rooster.State.REVIVING) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
@@ -257,9 +265,9 @@ public class PlayScreen implements Screen {
 		update(delta);
 
 		// clear the game screen with Black
-		Gdx.gl.glClearColor(0, 0, 0, 1); // Colour and alpha
+		Gdx.gl.glClearColor(0, 0, 0, 0); // Colour and alpha
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Actually clears the screen
-
+		
 		// render our game map
 		renderer.render();
 
@@ -303,14 +311,17 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void pause() {
+		
 	}
 
 	@Override
 	public void resume() {
+		
 	}
 
 	@Override
 	public void hide() {
+		
 	}
 
 	@Override
@@ -332,6 +343,13 @@ public class PlayScreen implements Screen {
 		return player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3;
 	}
 	
+	public static void resetSession() {
+//		sessionID = null;	// i.e. token
+//		players = null;
+//		mapPath = null;
+		LobbyScreen.isGameAboutToStart = false;
+	}
+	
 	private void terminateSession() {
 		TerminateSession packet = new TerminateSession();
 		packet.id = MPClient.clientID;
@@ -351,5 +369,4 @@ public class PlayScreen implements Screen {
 	public void resetJumpCount1() {
 		jumpCount = 0;
 	}
-
 }

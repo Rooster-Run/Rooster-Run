@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 /**
  * @author Suleman, Junaid and Marcus
@@ -74,7 +74,7 @@ public class GameFinishedScreen implements Screen {
 		populateTable();
 		getWinner();
 		System.out.println(getWinner());
-
+		PlayScreen.resetSession();
 	}
 
 	@Override

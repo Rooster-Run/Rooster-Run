@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.scenes.Hud;
-import uk.ac.aston.teamproj.game.scenes.SoundManager;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 /**
  * 
@@ -80,6 +80,7 @@ public class GameOverScreen implements Screen {
 		
 		Texture background = new Texture("buttons/untitled.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
+		PlayScreen.resetSession();
 	}
 	
 	@Override
