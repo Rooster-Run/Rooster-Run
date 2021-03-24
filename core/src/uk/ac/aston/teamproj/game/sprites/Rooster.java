@@ -29,6 +29,7 @@ public class Rooster extends Sprite {
 	private final static float LINEAR_IMPULSE_FAST = 0.2f;
 	
 	private final static int DEFAULT_POWERUP_DURATION = 5;
+	private final static int DEFAULT_COINS_TO_REVIVE = 0;
 	
 	//enum variable storing different states
 	public enum State {
@@ -81,7 +82,7 @@ public class Rooster extends Sprite {
 		setRegion(roosterStand);
 		
 		//set texture associated with dead state
-		roosterDead = roosterStand;
+		roosterDead = new TextureRegion(getTexture(), 7*96, 0, 96, 96);
 		
 		//initialize state
 		currentState = State.STANDING;
@@ -128,10 +129,9 @@ public class Rooster extends Sprite {
 		if (!isDead && !isReviving) {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -10/MainGame.PPM) {
-				if (coins >= 3) {
+				if (coins >= DEFAULT_COINS_TO_REVIVE) {
 					isReviving = true;
-					setMaskBits(false);
-					coins -= 3;
+					coins -= DEFAULT_COINS_TO_REVIVE;
 					
 				} else {
 					lives = 0;
@@ -149,7 +149,6 @@ public class Rooster extends Sprite {
 			b2body.setLinearVelocity(0, 0.5f);
 			if (currentState == State.REVIVING && stateTimer >= 6.5) {
 				isReviving = false;
-				setMaskBits(true);
 			}
 		}
 	}
@@ -338,15 +337,10 @@ public class Rooster extends Sprite {
 			filter.maskBits = MainGame.NOTHING_BIT;
 			for (Fixture f: b2body.getFixtureList())
 				f.setFilterData(filter);
-			setMaskBits(false);
 			
 			//make rooster go up
 			b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);	
 		}
-	}
-	
-	private void setMaskBits(boolean allMaskBits) {
-		
 	}
 	
 	public BodyDef getBodyDef() {
