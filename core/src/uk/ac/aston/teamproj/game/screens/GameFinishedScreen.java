@@ -74,7 +74,7 @@ public class GameFinishedScreen implements Screen {
 		populateTable();
 //		getWinner();
 //		System.out.println(getWinner());
-
+		PlayScreen.resetSession();
 	}
 
 	@Override
