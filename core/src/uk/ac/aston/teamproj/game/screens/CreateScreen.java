@@ -4,12 +4,15 @@ package uk.ac.aston.teamproj.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -52,6 +55,9 @@ public class CreateScreen implements Screen {
 	private ImageButton leftBtn;
 	private ImageButton rightBtn;
 	
+	//font
+	private BitmapFont font;
+	
 	private final static int NUM_MAPS = 2;
 	private String[] mapsPaths = new String[NUM_MAPS];
 	private Texture[] mapsImages = new Texture[NUM_MAPS];
@@ -63,9 +69,22 @@ public class CreateScreen implements Screen {
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
-		//
+		
+		//font
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 20;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: 
+		// These characters should not repeat! 
+		font = generator.generateFont(parameter);
+		font.setColor(Color.WHITE);
+		generator.dispose();
+		
+		
+		
 		lbl_style = new Label.LabelStyle();
-		lbl_style.font = new BitmapFont();
+		lbl_style.font = font;
 		
 		txt_skin = new Skin(Gdx.files.internal("uiskin.json"));
 		

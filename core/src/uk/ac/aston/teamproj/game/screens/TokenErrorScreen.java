@@ -42,8 +42,7 @@ public class TokenErrorScreen implements Screen {
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 	
-//		initializeButton();
-		
+		initializeButton();
 		populateTable();
 	}
 	
@@ -82,16 +81,17 @@ public class TokenErrorScreen implements Screen {
 	
 	public void populateTable() {
 		Table table = new Table();
-		table.center();
+		//table.center();
 		table.setFillParent(true);
-//		table.row();
-//		table.add(backBtn).height(22f).width(120).pad(4).padLeft(200).padTop(50);
+		table.row();
+		table.add(backBtn).height(22f).width(120).pad(4).padTop(70);
 			
 		
 		Texture background = new Texture("buttons/TokenError.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 	
-	stage.addActor(table);
+		stage.addActor(table);
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override

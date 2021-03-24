@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 public class Lightning extends InteractiveTileObjectCircular {
 
@@ -32,6 +33,10 @@ public class Lightning extends InteractiveTileObjectCircular {
 		PlayScreen.currentSpeed = 1.5f;
 		PlayScreen.startTimer = true;
 		PlayScreen.buffDuration = PlayScreen.prevUpdateTime + 5000;
+		
+		SinglePlayerScreen.currentSpeed = 1.5f;
+		SinglePlayerScreen.startTimer = true;
+		SinglePlayerScreen.buffDuration = SinglePlayerScreen.prevUpdateTime + 5000;
 	} 	
 
 	@Override

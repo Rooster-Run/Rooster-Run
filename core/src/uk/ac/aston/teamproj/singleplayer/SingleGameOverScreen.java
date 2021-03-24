@@ -1,5 +1,6 @@
 package uk.ac.aston.teamproj.singleplayer;
 
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,37 +22,56 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.scenes.Hud;
+import uk.ac.aston.teamproj.game.scenes.SoundManager;
+import uk.ac.aston.teamproj.game.screens.MultiplayerMenuScreen;
 
-
+/**
+ * 
+ * Created by Parmo on 8/11/2020
+ *
+ */
 
 public class SingleGameOverScreen implements Screen {
 
 	private Viewport viewport;
 	private Stage stage;
-
-	@SuppressWarnings("unused")
-	private Game game;
 	
-	public SingleGameOverScreen(Game game) {
-		Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
-        sound.play(1F);
+	@SuppressWarnings("unused")
+	private MainGame game;
+	
+	//font
+	private BitmapFont font;
+	
+	public SingleGameOverScreen(MainGame game) {
 		
-        
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
+    	SoundManager.playSound(sound);
+    	
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
+		//font
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 20;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: 
+		// These characters should not repeat! 
+
+		font = generator.generateFont(parameter);
+		font.setColor(Color.WHITE);
+		generator.dispose();
 		
-		
-		Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+		Label.LabelStyle labelFont = new Label.LabelStyle(font, Color.WHITE);
 		
 		Table table = new Table();
 		table.center();
 		table.setFillParent(true);
 		
 		
-		Label playAgainLabel = new Label ("Click Screen to Play Again", font);
-		Label showScore = new Label (showCoins(), font);
+		Label playAgainLabel = new Label ("Click Screen to Play Again", labelFont);
+		Label showScore = new Label (showCoins(), labelFont);
 		
 		table.row();
 		table.add(playAgainLabel).expandX().padTop(80f);
@@ -67,7 +89,7 @@ public class SingleGameOverScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-		
+	
 	public String showCoins() {
 		return "Coins Collected: " + SinglePlayerScreen.player.getCoins();
 	}
@@ -75,7 +97,7 @@ public class SingleGameOverScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		if(Gdx.input.justTouched()) {
-			game.setScreen(new SinglePlayerScreen(( MainGame )game));
+			game.setScreen(new MultiplayerMenuScreen(( MainGame )game));
 			dispose();
 		}
 		

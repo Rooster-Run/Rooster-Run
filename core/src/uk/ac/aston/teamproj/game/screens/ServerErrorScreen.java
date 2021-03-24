@@ -52,7 +52,7 @@ public class ServerErrorScreen implements Screen {
 		buttonsAtlasBack = new TextureAtlas("buttons/new_buttons.pack");
 		skin2 = new Skin(buttonsAtlasBack);
 		optionButtons = new ImageButton[2];
-		
+
 		initializeButtons();
 		populateTable();
 
@@ -70,14 +70,14 @@ public class ServerErrorScreen implements Screen {
 		style = new ImageButtonStyle();
 		style.up = skin.getDrawable("single_player_inactive"); // set default image
 		style.over = skin.getDrawable("single_player_active"); // set image for mouse over
-		
+
 		ImageButton singlePlayerBtn = new ImageButton(style);
 		singlePlayerBtn.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-            	SoundManager.playSound(sound);
+				SoundManager.playSound(sound);
 				System.out.println("SinglePlayer");
 				ServerErrorScreen.this.dispose();
 				game.setScreen(new SinglePlayerScreen(game));
@@ -95,7 +95,7 @@ public class ServerErrorScreen implements Screen {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-            	SoundManager.playSound(sound);
+				SoundManager.playSound(sound);
 				System.out.println("Back");
 				ServerErrorScreen.this.dispose();
 				game.setScreen(new MainMenuScreen(game));
@@ -119,15 +119,15 @@ public class ServerErrorScreen implements Screen {
 	}
 
 	public void populateTable() {
-		
+
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
-		
-		//Set background textures
-		Texture background = new Texture("buttons/ServerScreen.png"); 
+
+		// Set background textures
+		Texture background = new Texture("buttons/ServerScreen.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
-		
+
 		// singlePlayBtn
 		ImageButton singlePlayerBtn = optionButtons[0];
 		table.add(singlePlayerBtn).height(22f).width(120).pad(4).padTop(110);
@@ -137,8 +137,8 @@ public class ServerErrorScreen implements Screen {
 		ImageButton backBtn = optionButtons[1];
 		table.add(backBtn).height(22f).width(120).pad(4);
 		table.row();
-		
-		//Adding table to screen
+
+		// Adding table to screen
 		stage.addActor(table);
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -151,19 +151,16 @@ public class ServerErrorScreen implements Screen {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
