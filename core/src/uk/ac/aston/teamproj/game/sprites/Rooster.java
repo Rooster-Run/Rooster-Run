@@ -39,7 +39,8 @@ public class Rooster extends Sprite {
 		DEAD, 
 		RUNNING_FAST,
 		RUNNING_SLOW,
-		WON
+		WON,
+		REVIVING
 	}
 	public State currentState;
 	public State previousState;
@@ -53,15 +54,20 @@ public class Rooster extends Sprite {
 	private TextureRegion roosterDead;
 	private Animation roosterRun;
 	private Animation roosterJump;
+	private Animation roosterRevive;
 	private boolean runningRight;
 	
 	private boolean isDead = false;
 	private boolean isRunningFast = false;
 	private boolean isRunningSlow = false;
 	private boolean hasWon = false;
+	private boolean isReviving = false;
 	
 	private int lives = 3;
 	private int coins = 0;
+	private PlayScreen screen;
+	private BodyDef bdef;
+	private FixtureDef fdef;
 		
 	@SuppressWarnings("unchecked")
 	public Rooster(World world, PlayScreen screen) {
@@ -100,6 +106,15 @@ public class Rooster extends Sprite {
 		}
 		roosterJump = new Animation(0.1f, frames);
 		frames.clear();
+		
+		//initialize revive animation
+		{
+			//frames.add(roosterStand);
+			frames.add(new TextureRegion(getTexture(), 5*96, 0, 96, 96));
+			frames.add(new TextureRegion(getTexture(), 6*96, 0, 96, 96));
+		}
+		roosterRevive = new Animation(0.1f, frames);
+		this.screen = screen;
 	}
 	
 	public void update (float dt) { //dt = delta time
@@ -110,11 +125,18 @@ public class Rooster extends Sprite {
 		
 		setRegion(getFrame(dt));
 		
-		if (!isDead) {
+		if (!isDead && !isReviving) {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -10/MainGame.PPM) {
-				lives = 0;
-				isDead = true;
+				if (coins >= 3) {
+					isReviving = true;
+					setMaskBits(false);
+					coins -= 3;
+					
+				} else {
+					lives = 0;
+					isDead = true;
+				}
 			}
 			
 			//check if rooster has already been in RUNNING_FAST state for 5 second
@@ -122,6 +144,12 @@ public class Rooster extends Sprite {
 				runFaster(false);
 			} else if (currentState == State.RUNNING_SLOW && stateTimer >= DEFAULT_POWERUP_DURATION) {
 				runSlower(false);
+			}
+		} else if (isReviving) {
+			b2body.setLinearVelocity(0, 0.5f);
+			if (currentState == State.REVIVING && stateTimer >= 6.5) {
+				isReviving = false;
+				setMaskBits(true);
 			}
 		}
 	}
@@ -133,6 +161,9 @@ public class Rooster extends Sprite {
 		
 		TextureRegion region;
 		switch(currentState) {
+			case REVIVING:
+				region = (TextureRegion) roosterRevive.getKeyFrame(stateTimer, true); 
+				break;
 			case JUMPING:
 				region = (TextureRegion) roosterJump.getKeyFrame(stateTimer, true); 
 				break;
@@ -176,6 +207,8 @@ public class Rooster extends Sprite {
 			return State.RUNNING_FAST;
 		else if (isRunningSlow)
 			return State.RUNNING_SLOW;
+		else if (isReviving)
+			return State.REVIVING;
 		else if (b2body.getLinearVelocity().y > 0 //rooster is going up
 			|| (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) //rooster was jumping and is now in descent phase 
 				return State.JUMPING;
@@ -192,19 +225,17 @@ public class Rooster extends Sprite {
 	}
 	
 	private void defineRooster() {
-		BodyDef bdef = new BodyDef();
+		bdef = new BodyDef();
 		bdef.position.set(700 / MainGame.PPM, 300 / MainGame.PPM);
 		bdef.type = BodyDef.BodyType.DynamicBody;
-		b2body = world.createBody(bdef);
-				
-		FixtureDef fdef = new FixtureDef();
+		b2body = world.createBody(bdef);							
+
+		fdef = new FixtureDef();
 		CircleShape shape = new CircleShape();
 		shape.setRadius(36 / MainGame.PPM);
 		
 		//set category bit (what this fixture is) and mask bit (what this fixture can collide with)
-
 		fdef.filter.categoryBits = MainGame.ROOSTER_BIT;
-		//
 		fdef.filter.maskBits = MainGame.DEFAULT_BIT |
 				MainGame.BRICK_BIT | MainGame.BOMB_BIT |
 				MainGame.LIGHTNING_BIT | MainGame.MUD_BIT |
@@ -221,7 +252,7 @@ public class Rooster extends Sprite {
 		fdef.shape = legsSensor;
 		fdef.isSensor = true; //it's not a colliding object, but just a sensor
 		
-		b2body.createFixture(fdef).setUserData("legs"); //uniquely identifies this fixture as "legs"						
+		b2body.createFixture(fdef).setUserData("legs"); //uniquely identifies this fixture as "legs"	
 	}
 	
 	public void onFinish() {
@@ -295,9 +326,9 @@ public class Rooster extends Sprite {
 	}
 
 	public void decreaseLives() {
-		lives--;
-
-		if (lives < 1) {
+		if (lives > 1)
+			lives--;
+		else {				
 			isDead = true;
 	
 			//redefine what Rooster can collide with (i.e. nothing, he's dead)
@@ -307,9 +338,18 @@ public class Rooster extends Sprite {
 			filter.maskBits = MainGame.NOTHING_BIT;
 			for (Fixture f: b2body.getFixtureList())
 				f.setFilterData(filter);
+			setMaskBits(false);
 			
 			//make rooster go up
-			b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);		
+			b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);	
 		}
+	}
+	
+	private void setMaskBits(boolean allMaskBits) {
+		
+	}
+	
+	public BodyDef getBodyDef() {
+		return bdef;
 	}
 }
