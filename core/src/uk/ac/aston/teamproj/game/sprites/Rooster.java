@@ -29,7 +29,7 @@ public class Rooster extends Sprite {
 	private final static float LINEAR_IMPULSE_FAST = 0.2f;
 	
 	private final static int DEFAULT_POWERUP_DURATION = 5;
-	private final static int DEFAULT_COINS_TO_REVIVE = 0;
+	private final static int DEFAULT_COINS_TO_REVIVE = 3;
 	
 	//enum variable storing different states
 	public enum State {
