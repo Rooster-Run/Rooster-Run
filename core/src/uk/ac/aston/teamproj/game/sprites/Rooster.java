@@ -61,7 +61,8 @@ public class Rooster extends Sprite {
 	private boolean isDead = false;
 	private boolean isRunningFast = false;
 	private boolean isRunningSlow = false;
-	private static boolean hasWon = false;
+
+	private boolean hasWon = false;
 	private boolean isReviving = false;
 
 	private int lives = 3;
@@ -321,8 +322,8 @@ public class Rooster extends Sprite {
 	public int getCoins() {
 		return coins;
 	}
-
-	public static boolean hasWon() {
+	
+	public boolean hasWon() {
 		return hasWon;
 	}
 

@@ -28,8 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
@@ -154,7 +154,7 @@ public class SingleCreateScreen implements Screen {
 	            	SoundManager.playSound(sound);
 	            	System.out.println("Back");
 	            	SingleCreateScreen.this.dispose();
-	            	game.setScreen(new MultiplayerMenuScreen(game));
+	            	game.setScreen(new MainMenuScreen(game));
 	            	return true;
 	            }
 		});

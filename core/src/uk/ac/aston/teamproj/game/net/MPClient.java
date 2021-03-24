@@ -15,6 +15,7 @@ import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
+import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
@@ -129,8 +130,11 @@ public class MPClient {
 						}
 					}
 				}
+				if (object instanceof Winner) {
+					Winner packet = (Winner) object;
+					PlayScreen.winner = packet.winnerName;
+				}
 			}
-
 		}));
 
 	}

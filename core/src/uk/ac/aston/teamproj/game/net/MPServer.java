@@ -9,13 +9,13 @@ import com.esotericsoftware.kryonet.Server;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
-import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
+import uk.ac.aston.teamproj.game.net.packet.Winner;
 
 public class MPServer {
 
@@ -111,6 +111,29 @@ public class MPServer {
 						for (Integer connectionID : session.getPlayerIDs()) {
 							server.sendToTCP(connectionID, packet);
 						}
+					}
+				}
+				if (object instanceof Winner) {
+					Winner packet = (Winner) object;
+					System.out.println(1);
+
+					if (sessions.get(packet.token) != null) {
+						GameSession session = sessions.get(packet.token);
+						String winnerName = "";
+						for (Player p: session.getPlayers()) {
+							if (p.getID()==packet.playerID)
+								winnerName = p.getName();
+						}
+						System.out.println(2 +" " + winnerName);
+
+						
+						if(session.setWinner(winnerName)) {
+							packet.winnerName = winnerName;							 
+							for (Integer connectionID : session.getPlayerIDs()) {
+								server.sendToTCP(connectionID, packet);
+							}
+							System.out.println(3);
+						}						
 					}
 				}
 			}
