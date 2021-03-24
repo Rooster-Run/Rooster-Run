@@ -338,6 +338,13 @@ public class PlayScreen implements Screen {
 		return player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3;
 	}
 	
+	public static void resetSession() {
+//		sessionID = null;	// i.e. token
+//		players = null;
+//		mapPath = null;
+		LobbyScreen.isGameAboutToStart = false;
+	}
+	
 	private void terminateSession() {
 		TerminateSession packet = new TerminateSession();
 		packet.id = MPClient.clientID;
