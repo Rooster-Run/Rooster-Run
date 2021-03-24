@@ -132,6 +132,7 @@ public class Rooster extends Sprite {
 				if (coins >= DEFAULT_COINS_TO_REVIVE) {
 					isReviving = true;
 					coins -= DEFAULT_COINS_TO_REVIVE;
+					setMaskBits(false);
 
 				} else {
 					lives = 0;
@@ -149,6 +150,7 @@ public class Rooster extends Sprite {
 			b2body.setLinearVelocity(0, 0.5f);
 			if (currentState == State.REVIVING && stateTimer >= 6.5) {
 				isReviving = false;
+				setMaskBits(true);
 			}
 		}
 	}
@@ -337,13 +339,35 @@ public class Rooster extends Sprite {
 			//redefine what Rooster can collide with (i.e. nothing, he's dead)
 			//To do so, for every fixture attached to rooster, reset the masks bits
 			//mask bits are what fixtures a fixture can collide with
-			Filter filter = new Filter();
-			filter.maskBits = MainGame.NOTHING_BIT;
-			for (Fixture f: b2body.getFixtureList())
-				f.setFilterData(filter);
-
-			//make rooster go up
+//			Filter filter = new Filter();
+//			filter.maskBits = MainGame.NOTHING_BIT;
+//			for (Fixture f: b2body.getFixtureList()) {
+//				f.setFilterData(filter);
+//			}
+			setMaskBits(false);
+			
+			// make rooster go up
 			b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+		}
+	}
+	
+	private void setMaskBits(boolean enableCollision) {
+		if (enableCollision) {
+			for (Fixture fixture : b2body.getFixtureList()) {
+				Filter filter = fixture.getFilterData();
+				filter.maskBits = MainGame.DEFAULT_BIT |
+						MainGame.BRICK_BIT | MainGame.BOMB_BIT |
+						MainGame.LIGHTNING_BIT | MainGame.MUD_BIT |
+						MainGame.BOUNDARY_BIT | MainGame.COIN_BIT |
+						MainGame.PLANE_BIT | MainGame.GROUND_BIT;
+				fixture.setFilterData(filter);
+			}
+		} else {
+			for (Fixture fixture : b2body.getFixtureList()) {
+				Filter filter = fixture.getFilterData();
+				filter.maskBits = MainGame.NOTHING_BIT;
+				fixture.setFilterData(filter);
+			}
 		}
 	}
 
