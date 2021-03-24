@@ -28,8 +28,8 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
-import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
+import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
 import uk.ac.aston.teamproj.game.scenes.SoundManager;
@@ -83,6 +83,8 @@ public class PlayScreen implements Screen {
 	private final PlayerProgressBar progressBar;
 	private final PlayersTab tab;
 	private boolean isTabOn = false; 
+	
+	public static String winner;
 	
 	public PlayScreen(MainGame game) {
 		System.out.println("Size is: " + players.size() + "!!");
@@ -280,6 +282,10 @@ public class PlayScreen implements Screen {
 			terminateSession();
 			dispose();
 		} else if (gameFinished()) {
+			Winner packet = new Winner();
+			packet.token = sessionID;
+			packet.playerID = myID;
+			MPClient.client.sendTCP(packet);
 			game.setScreen(new GameFinishedScreen(game));
 			terminateSession();
 			dispose();

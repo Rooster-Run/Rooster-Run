@@ -76,6 +76,7 @@ public class LoadingScreen implements Screen {
      * Move to play screen after progress reaches 100%
      */
     private void moveToPlayScreen() {
+    	PlayScreen.winner = null;
         mGame.setScreen(new PlayScreen(mGame));
         dispose();
     }

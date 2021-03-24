@@ -58,7 +58,7 @@ public class Rooster extends Sprite {
 	private boolean isDead = false;
 	private boolean isRunningFast = false;
 	private boolean isRunningSlow = false;
-	private static boolean hasWon = false;
+	private boolean hasWon = false;
 	
 	private int lives = 3;
 	private int coins = 0;
@@ -193,7 +193,7 @@ public class Rooster extends Sprite {
 	
 	private void defineRooster() {
 		BodyDef bdef = new BodyDef();
-		bdef.position.set(46800 / MainGame.PPM, 300 / MainGame.PPM);
+		bdef.position.set(700/ MainGame.PPM, 300 / MainGame.PPM);
 		bdef.type = BodyDef.BodyType.DynamicBody;
 		b2body = world.createBody(bdef);
 				
@@ -290,7 +290,7 @@ public class Rooster extends Sprite {
 		return coins;
 	}
 	
-	public static boolean hasWon() {
+	public boolean hasWon() {
 		return hasWon;
 	}
 	
