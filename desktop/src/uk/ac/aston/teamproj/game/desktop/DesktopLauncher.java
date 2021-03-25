@@ -7,7 +7,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import uk.ac.aston.teamproj.game.MainGame;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main (String[] args) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
 		config.title = "Rooster Run";

@@ -366,7 +366,7 @@ public class Rooster extends Sprite {
 		} else {
 			for (Fixture fixture : b2body.getFixtureList()) {
 				Filter filter = fixture.getFilterData();
-				filter.maskBits = MainGame.NOTHING_BIT;
+				filter.maskBits = MainGame.NOTHING_BIT | MainGame.BOUNDARY_BIT;
 				fixture.setFilterData(filter);
 			}
 		}

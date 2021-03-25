@@ -17,7 +17,7 @@ import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 public class SingleProgressBar implements Disposable {
 	
-	private static final float MAP_SIZE = 500;
+	private static float map_size;
 	private static final float BAR_WIDTH = 400;
 	private static final float BAR_HEIGHT = 32;
 	private static final float PLAYER_RADIUS = 30;
@@ -44,6 +44,10 @@ public class SingleProgressBar implements Disposable {
 	public SingleProgressBar(SpriteBatch sb) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
+		
+		//map size
+		setMapSize();
+		System.out.println(SinglePlayerScreen.mapPath);
 		
 		// progress bar
 		bar = new Image(new Texture("progress_bar/grey_bar.png"));		
@@ -111,7 +115,7 @@ public class SingleProgressBar implements Disposable {
 	public void update() {		
 		for (int i = 0; i < SinglePlayerScreen.players.size(); i++) {
 			float actualPosition = (SinglePlayerScreen.player.getPositionX()* MainGame.PPM) / 100;
-			float percentage = (actualPosition * 100) / MAP_SIZE;
+			float percentage = (actualPosition * 100) / map_size;
 			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 		}
@@ -122,5 +126,16 @@ public class SingleProgressBar implements Disposable {
 		int lives = SinglePlayerScreen.player.getLives();
 		for (int i = lives; i < 3; i++) 
 			hearts[i].setVisible(false);
+	}
+	
+	
+	public void setMapSize() {
+		if (SinglePlayerScreen.mapPath.equals("map_demo")) {
+			map_size = 180;
+			System.out.println("line 134");
+		}
+		else {
+			map_size = 300;
+		}
 	}
 }

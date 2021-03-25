@@ -58,7 +58,7 @@ public class CreateScreen implements Screen {
 	//font
 	private BitmapFont font;
 	
-	private final static int NUM_MAPS = 2;
+	private final static int NUM_MAPS = 7;
 	private String[] mapsPaths = new String[NUM_MAPS];
 	private Texture[] mapsImages = new Texture[NUM_MAPS];
 	private Image mapPreview = new Image();
@@ -100,9 +100,20 @@ public class CreateScreen implements Screen {
 		populateTable();
 		
 		mapsImages[0] = new Texture("easymap.png");
-		mapsImages[1] = new Texture("hardmap.png");
+		mapsImages[1] = new Texture("b2.png");
+		mapsImages[2] = new Texture("m2.png");
+		mapsImages[3] = new Texture("m2.png");
+		mapsImages[4] = new Texture("hardmap.png");
+		mapsImages[5] = new Texture("h2.png");
+		mapsImages[6] = new Texture("demo.png");
+		
 		mapsPaths[0] = "map_beginner_fix";
-		mapsPaths[1] = "map_hard";
+		mapsPaths[1] = "map_beginner2_fix_new";
+		mapsPaths[2] = "map_mediam_fix_new";
+		mapsPaths[3] = "map_mediam2_fix_new";
+		mapsPaths[4] = "map_hard";
+		mapsPaths[5] = "map_hard2_fix_new";
+		mapsPaths[6] = "map_demo";
 	}
 	
 	private void initializeButtons() {		

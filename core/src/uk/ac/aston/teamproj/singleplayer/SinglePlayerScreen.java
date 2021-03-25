@@ -28,16 +28,14 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
-import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
-import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
+import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
-import uk.ac.aston.teamproj.game.screens.GameFinishedScreen;
+import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
-import uk.ac.aston.teamproj.game.sprites.Rooster;
-import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
-import uk.ac.aston.teamproj.singleplayer.SingleWorldContactListener;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
+
 
 public class SinglePlayerScreen implements Screen {
 
@@ -55,7 +53,6 @@ public class SinglePlayerScreen implements Screen {
 	private TmxMapLoader mapLoader;
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
-	private static String PATH;
 
 	// Box2d variables
 	private World world;
@@ -64,7 +61,7 @@ public class SinglePlayerScreen implements Screen {
 	// Sprites
 	public static SingleRooster player;
 
-	// counts the number of consecutive jumps for each SingleRooster
+	// counts the number of consecutive jumps for each rooster
 	private static final int MAX_JUMPS = 2;
 	private int jumpCount = 0;
 	
@@ -87,16 +84,22 @@ public class SinglePlayerScreen implements Screen {
 //	private final PlayersTab tab;
 	private boolean isTabOn = false; 
 	
+	public static String winner;
+	
+	private int camPos;
+	
 	public SinglePlayerScreen(MainGame game) {
-//		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
-		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken2.pack");
+		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
+
+		//camera Position
+		setCam();
 		
 		//ArrayList
 		players = new ArrayList<Player>();
 		p = new Player(0, "");
 		players.add(p);
-
+		
 		// Create a cam to follow chicken in the game world
 		gamecam = new OrthographicCamera();
 
@@ -124,14 +127,14 @@ public class SinglePlayerScreen implements Screen {
 
 		new B2WorldCreator(world, map);
 
-		// Create SingleRooster in the world
+		// Create rooster in the world
 		player = new SingleRooster(world, this);
 
 		// make the world react of object collision
 
 		world.setContactListener(new SingleWorldContactListener(this));
 
-		prevUpdateTime = System.currentTimeMillis();		
+		prevUpdateTime = System.currentTimeMillis();	
 	}
 
 	@Override
@@ -142,11 +145,11 @@ public class SinglePlayerScreen implements Screen {
 
 	public void handleInput(float dt) {
 		// If our user is holding down mouse over camera throughout the game world.
-		if (player.currentState != SingleRooster.State.DEAD) {
+		if (player.currentState != SingleRooster.State.DEAD && player.currentState != SingleRooster.State.REVIVING) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
-                sound.play(1F);
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
+            	SoundManager.playSound(sound);
                 player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
 				jumpCount++;
 			}
@@ -179,17 +182,17 @@ public class SinglePlayerScreen implements Screen {
 		// update player based on delta time
 		player.update(dt);
 		progressBar.update();
+//		tab.update();
 
 
-		
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != SingleRooster.State.DEAD) {
 			if(player.getPositionX() < 1200 / MainGame.PPM) {
 				gamecam.position.x = 1200 / MainGame.PPM;
 			}else if (player.getPositionX() > (464)){
 				gamecam.position.x = 464;
-			}else if (player.getPositionX() > 46800 / MainGame.PPM) {
-				gamecam.position.x = 46800 / MainGame.PPM;
+			}else if (player.getPositionX() > camPos / MainGame.PPM) {
+				gamecam.position.x = camPos / MainGame.PPM;
 			}
 			else {
 				gamecam.position.x = player.getPositionX();
@@ -256,12 +259,6 @@ public class SinglePlayerScreen implements Screen {
 			}
 		}
 	}
-	
-//	private void terminateSession() {
-//		TerminateSession packet = new TerminateSession();
-//		packet.token = SinglePlayerScreen.sessionID;
-//		MPClient.client.sendTCP(packet);
-//	}
 
 	@Override
 	public void render(float delta) {
@@ -269,29 +266,33 @@ public class SinglePlayerScreen implements Screen {
 		update(delta);
 
 		// clear the game screen with Black
-		Gdx.gl.glClearColor(0, 0, 0, 1); // Colour and alpha
+		Gdx.gl.glClearColor(0, 0, 0, 0); // Colour and alpha
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Actually clears the screen
-
+		
 		// render our game map
 		renderer.render();
 
 		// renderer our Box2DDebugLines
 		b2dr.render(world, gamecam.combined);
 
-		// render SingleRooster image
+		// render rooster image
 		game.batch.setProjectionMatrix(gamecam.combined); // render only what the game camera can see
 		game.batch.begin();
 		player.draw(game.batch); // draw
 		game.batch.end();
 		
-		if (!isTabOn) {
-			progressBar.draw();
-		}
+		if (!isTabOn)
+			progressBar.draw();	
+		
 		if (gameOver()) {
 			game.setScreen(new SingleGameOverScreen(game));
 			dispose();
 		} else if (gameFinished()) {
-			game.setScreen(new GameFinishedScreen(game));
+//			Winner packet = new Winner();
+//			packet.token = sessionID;
+//			packet.playerID = myID;
+//			MPClient.client.sendTCP(packet);
+			game.setScreen(new SingleGameFinishedScreen(game));
 //			terminateSession();
 			dispose();
 		}
@@ -308,14 +309,17 @@ public class SinglePlayerScreen implements Screen {
 
 	@Override
 	public void pause() {
+		
 	}
 
 	@Override
 	public void resume() {
+		
 	}
 
 	@Override
 	public void hide() {
+		
 	}
 
 	@Override
@@ -325,7 +329,6 @@ public class SinglePlayerScreen implements Screen {
 		world.dispose();
 		b2dr.dispose();
 		progressBar.dispose();
-
 //		tab.dispose();
 	}
 
@@ -335,16 +338,23 @@ public class SinglePlayerScreen implements Screen {
 
 	// TEMP
 	private boolean gameOver() {
-		if(player.currentState == SingleRooster.State.DEAD && player.getStateTimer() > 1) {
-			SessionInfo packet = new SessionInfo();
-			packet.gameOver = true;
-//			MPClient.client.sendTCP(packet);
-			return true;
-		} else {
-			return false;
-		}
+		return player.currentState == SingleRooster.State.DEAD && player.getStateTimer() > 3;
 	}
-
+	
+	public static void resetSession() {
+//		sessionID = null;	// i.e. token
+//		players = null;
+//		mapPath = null;
+		LobbyScreen.isGameAboutToStart = false;
+	}
+	
+	private void terminateSession() {
+		TerminateSession packet = new TerminateSession();
+		packet.id = MPClient.clientID;
+		packet.token = SinglePlayerScreen.sessionID;
+		MPClient.client.sendTCP(packet);
+	}
+	
 	private boolean gameFinished() {
 		return (player.currentState == SingleRooster.State.WON);
 	}
@@ -357,5 +367,18 @@ public class SinglePlayerScreen implements Screen {
 	public void resetJumpCount1() {
 		jumpCount = 0;
 	}
-
+	
+	public String getMapPath() {
+		return mapPath;
+	}
+	
+	public void setCam() {
+		if (SinglePlayerScreen.mapPath.equals("map_demo")) {
+			camPos = 16000;
+			System.out.println("line 134");
+		}
+		else {
+			camPos = 27600;
+		}
+	}
 }
