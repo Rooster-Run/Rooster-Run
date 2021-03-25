@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
+import uk.ac.aston.teamproj.singleplayer.SingleGameFinishedScreen;
 
 public class MainGame extends Game {
 	

@@ -45,6 +45,7 @@ import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.game.tools.WorldContactListener;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 public class PlayScreen implements Screen {
 
@@ -94,11 +95,16 @@ public class PlayScreen implements Screen {
 	
 	public static String winner;
 	
+	private int camPos;
+	
 	public PlayScreen(MainGame game) {
 		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
 
+		//set camera position 
+		setCam();
+		
 		// Create a cam to follow chicken in the game world
 		gamecam = new OrthographicCamera();
 
@@ -190,8 +196,8 @@ public class PlayScreen implements Screen {
 				gamecam.position.x = 1200 / MainGame.PPM;
 			}else if (player.getPositionX() > (464)){
 				gamecam.position.x = 464;
-			}else if (player.getPositionX() > 46800 / MainGame.PPM) {
-				gamecam.position.x = 46800 / MainGame.PPM;
+			}else if (player.getPositionX() > camPos / MainGame.PPM) {
+				gamecam.position.x = camPos / MainGame.PPM;
 			}
 			else {
 				gamecam.position.x = player.getPositionX();
@@ -368,5 +374,19 @@ public class PlayScreen implements Screen {
 
 	public void resetJumpCount1() {
 		jumpCount = 0;
+	}
+	
+	public String getMapPath() {
+		return mapPath;
+	}
+	
+	public void setCam() {
+		if (mapPath.equals("map_demo")) {
+			camPos = 16000;
+			System.out.println("line 134");
+		}
+		else {
+			camPos = 27600;
+		}
 	}
 }
