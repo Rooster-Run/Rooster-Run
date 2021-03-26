@@ -8,8 +8,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
-import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
@@ -17,6 +15,7 @@ import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
+import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
@@ -30,8 +29,6 @@ public class MPClient {
 
 	public MainGame game;
 	private String name;
-	private String mapPath;
-
 	public static boolean errorToken;
 	private boolean isHost;
 
@@ -51,8 +48,9 @@ public class MPClient {
 			requestLogin();
 			if (game.getScreen() instanceof CreateScreen)
 				isHost = true;
-
+			
 			game.setScreen(new LobbyScreen(game, isHost));
+	
 		} catch (Exception e) {
 			game.setScreen(new ServerErrorScreen(game));
 		}
@@ -70,15 +68,16 @@ public class MPClient {
 					clientID = packet.id;
 				}
 
-				if (object instanceof CreateGameSession) {
-					CreateGameSession packet = (CreateGameSession) object;
-					// token = packet.token;
-				}
+//				if (object instanceof CreateGameSession) {
+//					CreateGameSession packet = (CreateGameSession) object;
+//					// token = packet.token;
+//				}
 
 				if (object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
-					errorToken = packet.errorToken;
+					errorToken = packet.errorToken; //checking for wrong token entry
+					LobbyScreen.joinedLate = packet.joinedLate; //checking for late game session joiners
 				}
 
 				if (object instanceof SessionInfo) {
@@ -115,10 +114,10 @@ public class MPClient {
 					LobbyScreen.isGameAboutToStart = true;
 				}
 
-				if (object instanceof ErrorPacket) {
-					ErrorPacket packet = (ErrorPacket) object;
-					// Other errors included here
-				}
+//				if (object instanceof ErrorPacket) {
+//					ErrorPacket packet = (ErrorPacket) object;
+//					// Other errors included here
+//				}
 
 				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
@@ -137,11 +136,6 @@ public class MPClient {
 			}
 		}));
 
-	}
-
-	// TODO
-	public void tokenError() {
-		game.setScreen(new TokenErrorScreen(game));
 	}
 
 	public void requestLogin() {
