@@ -43,13 +43,15 @@ import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.Ground;
 import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
+import uk.ac.aston.teamproj.game.tools.Map;
+import uk.ac.aston.teamproj.game.tools.MapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.game.tools.WorldContactListener;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 public class PlayScreen implements Screen {
 
-	private static final String DEFAULT_MAP_PATH = "map_beginner_fix";
+	private static final String DEFAULT_MAP_PATH = "maps/map_beginner_fix";
 
 	private MainGame game;
 	private TextureAtlas atlas; // sprite sheet that wraps all images
@@ -96,14 +98,16 @@ public class PlayScreen implements Screen {
 	public static String winner;
 	
 	private int camPos;
+	private Map levelMap;
 	
 	public PlayScreen(MainGame game) {
 		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
-
+		this.levelMap = MapManager.getMapByPath(mapPath);
+		
 		//set camera position 
-		setCam();
+		camPos = levelMap.getCamPosition();
 		
 		// Create a cam to follow chicken in the game world
 		gamecam = new OrthographicCamera();
@@ -112,7 +116,7 @@ public class PlayScreen implements Screen {
 		gamePort = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
 
 		// Create progress bar and tab
-		progressBar = new PlayerProgressBar(game.batch);
+		progressBar = new PlayerProgressBar(game.batch, levelMap);
 		tab = new PlayersTab(game.batch);
 		
 		// Load our map and setup our map renderer
@@ -150,13 +154,9 @@ public class PlayScreen implements Screen {
 
 	public void handleInput(float dt) {
 		// If our user is holding down mouse over camera throughout the game world.
-		if (player.currentState != Rooster.State.DEAD && player.currentState != Rooster.State.REVIVING) {
-			
-			//Freeze effect
-//			if(player.getOpponentIceEffect() && player.currentState == Rooster.State.FROZEN && player.getStateTimer() < 3) {
-//				
-//			}
-			
+		if (player.currentState != Rooster.State.DEAD 
+				&& player.currentState != Rooster.State.FROZEN
+				&& player.currentState != Rooster.State.REVIVING) {			
 			
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
@@ -200,20 +200,18 @@ public class PlayScreen implements Screen {
 
 		// Everytime chicken moves we want to track him with our game cam
 		if (player.currentState != Rooster.State.DEAD) {
-			if(player.getPositionX() < 1200 / MainGame.PPM) {
+			if (player.getPositionX() < 1200 / MainGame.PPM) {
 				gamecam.position.x = 1200 / MainGame.PPM;
-			}else if (player.getPositionX() > (464)){
-				gamecam.position.x = 464;
-			}else if (player.getPositionX() > camPos / MainGame.PPM) {
+			} else if (player.getPositionX() > camPos / MainGame.PPM) {
 				gamecam.position.x = camPos / MainGame.PPM;
-			}
-			else {
+			} else {
 				gamecam.position.x = player.getPositionX();
 			}
 		}
 
 		// Update our gamecam with correct coordinates after changes
 		gamecam.update();
+		System.out.println(player.getPositionX());
 
 		// tell our renderer to draw only what the camera sees in our game world.
 		float width = gamecam.viewportWidth * gamecam.zoom;
@@ -386,15 +384,5 @@ public class PlayScreen implements Screen {
 	
 	public String getMapPath() {
 		return mapPath;
-	}
-	
-	public void setCam() {
-		if (mapPath.equals("map_demo")) {
-			camPos = 16000;
-			System.out.println("line 134");
-		}
-		else {
-			camPos = 27600;
-		}
 	}
 }

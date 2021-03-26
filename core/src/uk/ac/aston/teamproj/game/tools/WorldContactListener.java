@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
@@ -90,7 +91,9 @@ public class WorldContactListener implements ContactListener {
 				Fixture iceCubeFixture = (fixA.getFilterData().categoryBits == MainGame.ICE_BIT) ? fixA : fixB;
 				((IceCube) iceCubeFixture.getUserData()).onHit();
 				IceEffect packet = new IceEffect();
-				
+				packet.token = PlayScreen.sessionID;
+				packet.playerID = PlayScreen.myID;
+				MPClient.client.sendTCP(packet);
 				break;
 
 			default:

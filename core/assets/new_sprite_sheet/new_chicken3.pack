@@ -59,3 +59,10 @@ new_rooster
   orig: 96, 96
   offset: 0, 0
   index: 8
+new_rooster
+  rotate: false
+  xy: 768, 0
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: 9
