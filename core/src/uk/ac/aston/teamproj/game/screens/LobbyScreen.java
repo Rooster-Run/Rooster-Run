@@ -52,9 +52,8 @@ public class LobbyScreen implements Screen {
 	private Skin new_Skin;
 	private ImageButton playBtn, backBtn;
 	
-	//Manage
+	
 	public static boolean isGameAboutToStart = false;
-
 
 	public static ArrayList<Player> currentPlayers = new ArrayList<Player>();
 	private boolean isHost;
@@ -297,7 +296,6 @@ public class LobbyScreen implements Screen {
 	
 		//Checking if a user tries to join game after it has started
 		if(MPClient.late) {
-			dispose();
 			game.setScreen(new GameInProgressScreen(game)); //Display an game in progress error screen
 		}
 		

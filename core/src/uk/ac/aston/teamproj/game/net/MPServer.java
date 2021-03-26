@@ -56,7 +56,6 @@ public class MPServer {
 					
 					if (isDeleteable(packet)) {
 						sessions.remove(packet.token);
-						sessions.get(packet.token).setHasStarted(false); //resetting for next time
 					}
 
 				}
@@ -67,9 +66,8 @@ public class MPServer {
 					packet.token = token;
 					GameSession session = new GameSession(token, packet.mapPath);
 					session.addPlayer(connection.getID(), packet.name);
-					session.setHost(connection.getID());
+					session.setHost(connection.getID()); 
 					sessions.put(token, session);
-
 					server.sendToTCP(connection.getID(), packet);
 					notifyAllPlayers(session);
 				}
@@ -89,7 +87,7 @@ public class MPServer {
 						server.sendToTCP(connection.getID(), packet);
 					} else {
 						sessions.get(packet.token).addPlayer(connection.getID(), packet.name);
-						packet.joinedLate = sessions.get(packet.token).getHasStarted();
+						packet.joinedLate = sessions.get(packet.token).getHasStarted(); //session hasn't started
 						notifyAllPlayers(sessions.get(packet.token));
 
 						server.sendToTCP(connection.getID(), packet);

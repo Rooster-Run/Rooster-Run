@@ -72,10 +72,11 @@ public class MPClient {
 					clientID = packet.id;
 				}
 
-//				if (object instanceof CreateGameSession) {
-//					CreateGameSession packet = (CreateGameSession) object;
-//					// token = packet.token;
-//				}
+				if (object instanceof CreateGameSession) {
+					CreateGameSession packet = (CreateGameSession) object;
+					// token = packet.token;
+					late = packet.joinedLate; //setting
+				}
 
 				if (object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
