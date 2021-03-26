@@ -7,7 +7,6 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
-import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
@@ -19,7 +18,6 @@ import uk.ac.aston.teamproj.game.net.packet.Winner;
 
 public class MPServer {
 
-	private MainGame game;
 	private final static int TOKEN_LENGTH = 5;
 	public Server server;
 	public HashMap<String, GameSession> sessions;
@@ -54,9 +52,10 @@ public class MPServer {
 				if (object instanceof TerminateSession) {
 					TerminateSession packet = (TerminateSession) object;
 					sessions.get(packet.token).getPlayerByID(connection.getID()).playing = false;
-
+					
 					if (isDeleteable(packet)) {
 						sessions.remove(packet.token);
+						sessions.get(packet.token).setHasStarted(false); //resetting for next time
 					}
 
 				}
@@ -75,13 +74,17 @@ public class MPServer {
 				}
 
 				if (object instanceof JoinGameSession) {
-					// get his token and see if exists
+					//Get users token 
 					JoinGameSession packet = (JoinGameSession) object;
-
+					//Checking if the token is correct
 					if (sessions.get(packet.token) == null || !sessions.containsKey(packet.token)) {
 						// ErrorPacket invalidPacket = new ErrorPacket();
 						// invalidPacket.invalidToken = true;
-						packet.errorToken = true;
+						packet.errorToken = true; //token is wrong
+						server.sendToTCP(connection.getID(), packet);
+					//Checking if session is in progress 
+					}else if(sessions.get(packet.token).getHasStarted()) {
+						packet.joinedLate = sessions.get(packet.token).getHasStarted(); //session has started
 						server.sendToTCP(connection.getID(), packet);
 					} else {
 						sessions.get(packet.token).addPlayer(connection.getID(), packet.name);
@@ -97,6 +100,7 @@ public class MPServer {
 						GameSession session = sessions.get(packet.token);
 						packet.playerIDs = session.getPlayerIDs();
 						packet.playerNames = session.getPlayerNames();
+						session.setHasStarted(true); //Host has started the session
 						for (Integer connectionID : session.getPlayerIDs()) {
 							server.sendToTCP(connectionID, packet);
 						}
@@ -153,6 +157,7 @@ public class MPServer {
 		packet.playerNames = session.getPlayerNames();
 		packet.mapPath = session.getMapPath();
 		packet.token = session.getToken();
+		packet.hasStarted = session.getHasStarted(); //update session info
 		for (Integer connectionID : session.getPlayerIDs()) {
 			packet.playerID = connectionID;
 			server.sendToTCP(connectionID, packet);

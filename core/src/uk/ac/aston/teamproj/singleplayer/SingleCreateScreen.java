@@ -30,16 +30,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
-import uk.ac.aston.teamproj.game.net.MPClient;
-import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.game.screens.MultiplayerMenuScreen;
 
 public class SingleCreateScreen implements Screen {
 
-	private Label lbl_ip, lbl_name;
+	private Label lbl_name;
 	private LabelStyle lbl_style;
-	private TextField txt_ip, txt_name;
+	private TextField txt_name;
 	public static String ip = MainGame.IP, name = "Player 1"; // change with user input
 //	public static String ip = MainGame.IP, name = "Player 1"; //UNCOMMENT WHEN SERVER IS LIVE
 	private Skin txt_skin;
@@ -311,7 +308,4 @@ public class SingleCreateScreen implements Screen {
 		stage.dispose();
 	}
 
-	private String getName() {
-		return txt_name.getText();
-	}
 }

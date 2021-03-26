@@ -24,7 +24,6 @@ public class LoadingScreen implements Screen {
     private long startTime;
     private ShapeRenderer mShapeRenderer;
 
-    private String mapPath;
     private Viewport viewport;
     private Texture background;
     

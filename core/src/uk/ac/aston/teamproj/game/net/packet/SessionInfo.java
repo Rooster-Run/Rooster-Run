@@ -2,8 +2,6 @@ package uk.ac.aston.teamproj.game.net.packet;
 
 import java.util.ArrayList;
 
-import uk.ac.aston.teamproj.game.net.Player;
-
 public class SessionInfo {
 	public boolean gameOver;
 	public int playerID;
@@ -11,4 +9,5 @@ public class SessionInfo {
 	public ArrayList<String> playerNames;
 	public String mapPath;
 	public String token;
+	public boolean hasStarted;
 }
