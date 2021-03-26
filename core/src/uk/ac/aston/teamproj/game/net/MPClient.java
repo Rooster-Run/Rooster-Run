@@ -8,6 +8,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
+import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
@@ -48,9 +51,9 @@ public class MPClient {
 			requestLogin();
 			if (game.getScreen() instanceof CreateScreen)
 				isHost = true;
-			
+
 			game.setScreen(new LobbyScreen(game, isHost));
-	
+
 		} catch (Exception e) {
 			game.setScreen(new ServerErrorScreen(game));
 		}
@@ -129,9 +132,14 @@ public class MPClient {
 						}
 					}
 				}
+
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
 					PlayScreen.winner = packet.winnerName;
+				}
+
+				if (object instanceof IceEffect) {
+					PlayScreen.player.setIceEffect();
 				}
 			}
 		}));

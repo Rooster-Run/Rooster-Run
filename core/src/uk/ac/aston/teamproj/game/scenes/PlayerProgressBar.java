@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 public class PlayerProgressBar implements Disposable {
@@ -42,11 +43,14 @@ public class PlayerProgressBar implements Disposable {
 	private final Image[] playerIcons;
 	private int playerIndex;
 	
-	public PlayerProgressBar(SpriteBatch sb) {
+	private Map map;
+	
+	public PlayerProgressBar(SpriteBatch sb, Map map) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 		
 		//map size
+		this.map = map;
 		setMapSize();
 		
 		// progress bar
@@ -87,6 +91,7 @@ public class PlayerProgressBar implements Disposable {
 				playerIcons[i].setColor(1f, 1f, 1f, 0.5f);
 			}
 		}
+
 	}
 
 	public void draw() {		
@@ -131,13 +136,7 @@ public class PlayerProgressBar implements Disposable {
 			hearts[i].setVisible(false);
 	}
 	
-	public void setMapSize() {
-		if (PlayScreen.mapPath.equals("map_demo")) {
-			map_size = 180;
-			System.out.println("line 134");
-		}
-		else {
-			map_size = 300;
-		}
+	private void setMapSize() {
+		map_size = map.getLength();
 	}
 }

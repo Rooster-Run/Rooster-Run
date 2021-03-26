@@ -33,6 +33,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.tools.MapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 public class CreateScreen implements Screen {
@@ -58,9 +59,7 @@ public class CreateScreen implements Screen {
 	//font
 	private BitmapFont font;
 	
-	private final static int NUM_MAPS = 7;
-	private String[] mapsPaths = new String[NUM_MAPS];
-	private Texture[] mapsImages = new Texture[NUM_MAPS];
+
 	private Image mapPreview = new Image();
 	private int mapIdx = 0;
 
@@ -99,21 +98,7 @@ public class CreateScreen implements Screen {
 		initializeButtons();		
 		populateTable();
 		
-		mapsImages[0] = new Texture("easymap.png");
-		mapsImages[1] = new Texture("b2.png");
-		mapsImages[2] = new Texture("m2.png");
-		mapsImages[3] = new Texture("m2.png");
-		mapsImages[4] = new Texture("hardmap.png");
-		mapsImages[5] = new Texture("h2.png");
-		mapsImages[6] = new Texture("demo.png");
-		
-		mapsPaths[0] = "map_beginner_fix";
-		mapsPaths[1] = "map_beginner2_fix_new";
-		mapsPaths[2] = "map_mediam_fix_new";
-		mapsPaths[3] = "map_mediam2_fix_new";
-		mapsPaths[4] = "map_hard";
-		mapsPaths[5] = "map_hard2_fix_new";
-		mapsPaths[6] = "map_demo";
+
 	}
 	
 	private void initializeButtons() {		
@@ -155,7 +140,7 @@ public class CreateScreen implements Screen {
 	    			new MPClient(MainGame.IP, txt_name.getText(), game);
 	    			dispose();
 	    			CreateGameSession packet = new CreateGameSession();
-	    			packet.mapPath = mapsPaths[mapIdx];
+	    			packet.mapPath = MapManager.getMapByIndex(mapIdx).getPath();
 	    			packet.name = getName();
 	    			MPClient.client.sendTCP(packet);
 	            	return true;
@@ -199,7 +184,7 @@ public class CreateScreen implements Screen {
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
-	            		mapIdx = NUM_MAPS - 1;
+	            		mapIdx = MapManager.getTotalMaps() - 1;
 	            	}
 	            	return true;
 	            }					       
@@ -216,7 +201,7 @@ public class CreateScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
 	            	SoundManager.playSound(sound);
-	            	mapIdx = (mapIdx + 1) % NUM_MAPS;
+	            	mapIdx = (mapIdx + 1) % MapManager.getTotalMaps();
 	            	return true;
 	            }					       
 		});
@@ -292,7 +277,7 @@ public class CreateScreen implements Screen {
 		stage.draw();
 		stage.act(delta);
 		
-		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(mapsImages[mapIdx])));
+		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(MapManager.getMapByIndex(mapIdx).getImage())));
 	}
 
 

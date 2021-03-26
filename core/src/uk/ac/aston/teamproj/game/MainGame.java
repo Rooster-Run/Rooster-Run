@@ -29,7 +29,7 @@ public class MainGame extends Game {
 	public static final short BOUNDARY_BIT = 128;
 	public static final short COIN_BIT = 256;
 	public static final short PLANE_BIT = 512;
-	public static final short ROOSTER_BIT2 = 1024;
+	public static final short ICE_BIT = 1024;
 	public static final short GROUND_BIT = 2048;
 
 	public static final String IP = "localhost";

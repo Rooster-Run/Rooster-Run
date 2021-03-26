@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
@@ -117,9 +118,9 @@ public class MPServer {
 						}
 					}
 				}
+				
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
-					System.out.println(1);
 
 					if (sessions.get(packet.token) != null) {
 						GameSession session = sessions.get(packet.token);
@@ -128,7 +129,6 @@ public class MPServer {
 							if (p.getID()==packet.playerID)
 								winnerName = p.getName();
 						}
-						System.out.println(2 +" " + winnerName);
 
 						
 						if(session.setWinner(winnerName)) {
@@ -136,8 +136,18 @@ public class MPServer {
 							for (Integer connectionID : session.getPlayerIDs()) {
 								server.sendToTCP(connectionID, packet);
 							}
-							System.out.println(3);
 						}						
+					}
+				}
+				
+				if (object instanceof IceEffect) {
+					IceEffect packet = (IceEffect) object;
+					if (sessions.get(packet.token) != null) {
+						GameSession session = sessions.get(packet.token);	 
+						for (Integer connectionID : session.getPlayerIDs()) {
+							if (connectionID != packet.playerID)
+								server.sendToTCP(connectionID, packet);
+						}
 					}
 				}
 			}
