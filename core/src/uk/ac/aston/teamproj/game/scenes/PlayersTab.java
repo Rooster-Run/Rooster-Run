@@ -1,6 +1,5 @@
 package uk.ac.aston.teamproj.game.scenes;
 
-import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;

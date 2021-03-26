@@ -46,7 +46,6 @@ public class GameFinishedScreen implements Screen {
 	// font
 	private BitmapFont font;
 	
-	private String winnerName;
 
 	public GameFinishedScreen(MainGame game) {
 		

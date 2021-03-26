@@ -53,9 +53,9 @@ public class SingleRooster extends Sprite {
 
 	private TextureRegion roosterStand; //region containing the "idle" rooster
 	private TextureRegion roosterDead;
-	private Animation roosterRun;
-	private Animation roosterJump;
-	private Animation roosterRevive;
+	private Animation<TextureRegion> roosterRevive;
+	private Animation<TextureRegion> roosterRun;
+	private Animation<TextureRegion> roosterJump;
 	private boolean runningRight;
 
 	private boolean isDead = false;
@@ -67,11 +67,10 @@ public class SingleRooster extends Sprite {
 
 	private int lives = 3;
 	private int coins = 0;
-	private SinglePlayerScreen screen;
 	private BodyDef bdef;
 	private FixtureDef fdef;
 
-	@SuppressWarnings("unchecked")
+
 	public SingleRooster(World world, SinglePlayerScreen screen) {
 		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
@@ -97,16 +96,16 @@ public class SingleRooster extends Sprite {
 			TextureRegion tr = new TextureRegion(getTexture(), i*96, 0, 96, 96);
 			frames.add(tr);
 		}
-		roosterRun = new Animation(0.1f, frames); //0.1f = duration of each image frame
-
-		frames.clear();
+		roosterRun = new Animation<TextureRegion> (0.1f, frames); //0.1f = duration of each image frame
+		
+		frames.clear();		
 		//initialize jump animation
 		{
 			//frames.add(roosterStand);
 			frames.add(new TextureRegion(getTexture(), 3*96, 0, 96, 96));
 			frames.add(new TextureRegion(getTexture(), 4*96, 0, 96, 96));
 		}
-		roosterJump = new Animation(0.1f, frames);
+		roosterJump = new Animation<TextureRegion> (0.1f, frames);
 		frames.clear();
 
 		//initialize revive animation
@@ -115,8 +114,7 @@ public class SingleRooster extends Sprite {
 			frames.add(new TextureRegion(getTexture(), 5*96, 0, 96, 96));
 			frames.add(new TextureRegion(getTexture(), 6*96, 0, 96, 96));
 		}
-		roosterRevive = new Animation(0.1f, frames);
-		this.screen = screen;
+		roosterRevive = new Animation<TextureRegion>(0.1f, frames);
 	}
 
 	public void update (float dt) { //dt = delta time
@@ -366,7 +364,7 @@ public class SingleRooster extends Sprite {
 		} else {
 			for (Fixture fixture : b2body.getFixtureList()) {
 				Filter filter = fixture.getFilterData();
-				filter.maskBits = MainGame.NOTHING_BIT;
+				filter.maskBits = MainGame.NOTHING_BIT | MainGame.BOUNDARY_BIT;
 				fixture.setFilterData(filter);
 			}
 		}

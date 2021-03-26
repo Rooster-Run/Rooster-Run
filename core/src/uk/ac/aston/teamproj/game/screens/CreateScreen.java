@@ -37,9 +37,9 @@ import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 public class CreateScreen implements Screen {
 		
-	private Label lbl_ip, lbl_name;
+	private Label lbl_name;
 	private LabelStyle lbl_style;
-	private TextField txt_ip, txt_name;
+	private TextField txt_name;
 	public static String ip = MainGame.IP, name = "Player 1"; // change with user input
 //	public static String ip = MainGame.IP, name = "Player 1"; //UNCOMMENT WHEN SERVER IS LIVE
 	private Skin txt_skin;
