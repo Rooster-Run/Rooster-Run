@@ -151,6 +151,13 @@ public class PlayScreen implements Screen {
 	public void handleInput(float dt) {
 		// If our user is holding down mouse over camera throughout the game world.
 		if (player.currentState != Rooster.State.DEAD && player.currentState != Rooster.State.REVIVING) {
+			
+			//Freeze effect
+//			if(player.getOpponentIceEffect() && player.currentState == Rooster.State.FROZEN && player.getStateTimer() < 3) {
+//				
+//			}
+			
+			
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
@@ -159,6 +166,7 @@ public class PlayScreen implements Screen {
 				jumpCount++;
 			}
 
+			
 			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 player.b2body.setLinearVelocity(currentSpeed, player.b2body.getLinearVelocity().y);
 			}

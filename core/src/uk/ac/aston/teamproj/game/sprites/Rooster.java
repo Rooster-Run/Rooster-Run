@@ -41,7 +41,8 @@ public class Rooster extends Sprite {
 		RUNNING_FAST,
 		RUNNING_SLOW,
 		WON,
-		REVIVING
+		REVIVING,
+		FROZEN
 	}
 	public State currentState;
 	public State previousState;
@@ -70,6 +71,10 @@ public class Rooster extends Sprite {
 	private PlayScreen screen;
 	private BodyDef bdef;
 	private FixtureDef fdef;
+	
+	//Ice feature
+	private boolean freezeHit = false;
+	private boolean opponentIceEffect = false;
 
 	@SuppressWarnings("unchecked")
 	public Rooster(World world, PlayScreen screen) {
@@ -205,6 +210,8 @@ public class Rooster extends Sprite {
 			return State.DEAD;
 		else if (hasWon)
 			return State.WON;
+		else if (opponentIceEffect)
+			return State.FROZEN;
 		else if (isRunningFast)
 			return State.RUNNING_FAST;
 		else if (isRunningSlow)
@@ -242,7 +249,8 @@ public class Rooster extends Sprite {
 				MainGame.BRICK_BIT | MainGame.BOMB_BIT |
 				MainGame.LIGHTNING_BIT | MainGame.MUD_BIT |
 				MainGame.BOUNDARY_BIT | MainGame.COIN_BIT |
-				MainGame.PLANE_BIT | MainGame.GROUND_BIT;
+				MainGame.PLANE_BIT | MainGame.GROUND_BIT |
+				MainGame.ICE_BIT;
 
 		fdef.shape = shape;
 		b2body.createFixture(fdef);
@@ -352,6 +360,16 @@ public class Rooster extends Sprite {
 		}
 	}
 	
+
+	//Freeze effect
+	public boolean getOpponentIceEffect() {
+		return opponentIceEffect;
+	}
+	
+	public void setOpponentIceEffect(boolean opponentIceEffect) {
+		this.opponentIceEffect = opponentIceEffect;
+	}
+	
 	private void setMaskBits(boolean enableCollision) {
 		if (enableCollision) {
 			for (Fixture fixture : b2body.getFixtureList()) {
@@ -360,7 +378,8 @@ public class Rooster extends Sprite {
 						MainGame.BRICK_BIT | MainGame.BOMB_BIT |
 						MainGame.LIGHTNING_BIT | MainGame.MUD_BIT |
 						MainGame.BOUNDARY_BIT | MainGame.COIN_BIT |
-						MainGame.PLANE_BIT | MainGame.GROUND_BIT;
+						MainGame.PLANE_BIT | MainGame.GROUND_BIT |
+						MainGame.ICE_BIT;
 				fixture.setFilterData(filter);
 			}
 		} else {

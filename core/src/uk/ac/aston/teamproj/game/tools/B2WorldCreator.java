@@ -1,28 +1,20 @@
 package uk.ac.aston.teamproj.game.tools;
 
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.Boundary;
 import uk.ac.aston.teamproj.game.sprites.Brick;
 import uk.ac.aston.teamproj.game.sprites.Coin;
 import uk.ac.aston.teamproj.game.sprites.EndPlane;
 import uk.ac.aston.teamproj.game.sprites.Ground;
+import uk.ac.aston.teamproj.game.sprites.IceCube;
 import uk.ac.aston.teamproj.game.sprites.Lightning;
 import uk.ac.aston.teamproj.game.sprites.Mud;
 
@@ -97,6 +89,13 @@ public class B2WorldCreator {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
 			
 			new EndPlane(world, map, rect);			
+		}
+		
+		// create ice cube debuff bodies/fixtures
+		for (MapObject object : map.getLayers().get(8).getObjects().getByType(EllipseMapObject.class)) {
+			
+			Ellipse circle = ((EllipseMapObject) object).getEllipse();;
+			new IceCube(world, map, circle);
 		}
 	}
 }
