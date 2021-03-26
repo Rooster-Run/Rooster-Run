@@ -33,6 +33,7 @@ public class MPClient {
 	public MainGame game;
 	private String name;
 	public static boolean errorToken;
+	public static boolean late;
 	private boolean isHost;
 
 	public MPClient(String ip, String name, final MainGame game) {
@@ -80,7 +81,7 @@ public class MPClient {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
 					errorToken = packet.errorToken; //checking for wrong token entry
-					LobbyScreen.joinedLate = packet.joinedLate; //checking for late game session joiners
+					late = packet.joinedLate; //checking for late game session joiners
 				}
 
 				if (object instanceof SessionInfo) {

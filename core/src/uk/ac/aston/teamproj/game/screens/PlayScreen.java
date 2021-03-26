@@ -204,7 +204,6 @@ public class PlayScreen implements Screen {
 
 		// Update our gamecam with correct coordinates after changes
 		gamecam.update();
-		System.out.println(player.getPositionX());
 
 		// tell our renderer to draw only what the camera sees in our game world.
 		float width = gamecam.viewportWidth * gamecam.zoom;

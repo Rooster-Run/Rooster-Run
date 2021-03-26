@@ -89,6 +89,7 @@ public class MPServer {
 						server.sendToTCP(connection.getID(), packet);
 					} else {
 						sessions.get(packet.token).addPlayer(connection.getID(), packet.name);
+						packet.joinedLate = sessions.get(packet.token).getHasStarted();
 						notifyAllPlayers(sessions.get(packet.token));
 
 						server.sendToTCP(connection.getID(), packet);
@@ -167,7 +168,6 @@ public class MPServer {
 		packet.playerNames = session.getPlayerNames();
 		packet.mapPath = session.getMapPath();
 		packet.token = session.getToken();
-		packet.hasStarted = session.getHasStarted(); //update session info
 		for (Integer connectionID : session.getPlayerIDs()) {
 			packet.playerID = connectionID;
 			server.sendToTCP(connectionID, packet);
