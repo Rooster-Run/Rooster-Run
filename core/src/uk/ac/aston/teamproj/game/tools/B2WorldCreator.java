@@ -19,83 +19,83 @@ import uk.ac.aston.teamproj.game.sprites.Lightning;
 import uk.ac.aston.teamproj.game.sprites.Mud;
 
 public class B2WorldCreator {
-	
-	
+
+
 	public B2WorldCreator(World world, TiledMap map) {
-		
+
 		// create ground bodies/fixtures
 		for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
 			new Ground(world, map, rect);
 		}
-		
-		// create brick bodies / fixtures 
+
+		// create brick bodies / fixtures
 		for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
+
 			new Brick(world, map, rect);
 		}
-		
+
 		// create boxes
 		for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
+
 			new Brick(world, map, rect);
 		}
-		
+
 		// create bomb bodies/fixtures
 		for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
-			new Bomb(world, map, rect);			
+
+			new Bomb(world, map, rect);
 		}
-		
+
 		// create lightning power ups bodies/fixtures
 		for (MapObject object : map.getLayers().get(8).getObjects().getByType(EllipseMapObject.class)) {
-			//Rectangle rect = ((RectangleMapObject) object).getRectangle();			
-			//new Lightning(world, map, rect);		
-			
+			//Rectangle rect = ((RectangleMapObject) object).getRectangle();
+			//new Lightning(world, map, rect);
+
 			Ellipse circle = ((EllipseMapObject) object).getEllipse();;
 			new Lightning(world, map, circle);
 		}
-		
+
 		//create mud power downs bodies/fixtures
 		for (MapObject object : map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
-			new Mud(world, map, rect);			
+
+			new Mud(world, map, rect);
 		}
-		
+
 		//define boundary
 		for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
-			new Boundary(world, map, rect);			
+
+			new Boundary(world, map, rect);
 		}
-		
+
 		//create Coin bodies
 		for (MapObject object : map.getLayers().get(6).getObjects().getByType(EllipseMapObject.class)) {
 			//Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
-			//new Coin(world, map, rect);	
-			
+
+			//new Coin(world, map, rect);
+
 			Ellipse circle = ((EllipseMapObject) object).getEllipse();;
-			
+
 			new Coin(world, map, circle);
 		}
-		
+
 		//create Plane bodies/fixtures
 		for (MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rect = ((RectangleMapObject) object).getRectangle();
-			
-			new EndPlane(world, map, rect);			
+
+			new EndPlane(world, map, rect);
 		}
-		
+
 		// create ice cube debuff bodies/fixtures
 		// TODO
 		if (map.getLayers().getCount() >= 13) {
 			for (MapObject object : map.getLayers().get(12).getObjects().getByType(EllipseMapObject.class)) {
-				
+
 				Ellipse circle = ((EllipseMapObject) object).getEllipse();;
 				new IceCube(world, map, circle);
 			}

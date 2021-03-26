@@ -18,6 +18,7 @@ import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
+import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
@@ -31,9 +32,8 @@ public class MPClient {
 
 	public MainGame game;
 	private String name;
-	private String mapPath;
-
 	public static boolean errorToken;
+	public static boolean late;
 	private boolean isHost;
 
 	public MPClient(String ip, String name, final MainGame game) {
@@ -54,6 +54,7 @@ public class MPClient {
 				isHost = true;
 
 			game.setScreen(new LobbyScreen(game, isHost));
+
 		} catch (Exception e) {
 			game.setScreen(new ServerErrorScreen(game));
 		}
@@ -74,12 +75,14 @@ public class MPClient {
 				if (object instanceof CreateGameSession) {
 					CreateGameSession packet = (CreateGameSession) object;
 					// token = packet.token;
+					late = packet.joinedLate; //setting
 				}
 
 				if (object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
-					errorToken = packet.errorToken;
+					errorToken = packet.errorToken; //checking for wrong token entry
+					late = packet.joinedLate; //checking for late game session joiners
 				}
 
 				if (object instanceof SessionInfo) {
@@ -116,10 +119,10 @@ public class MPClient {
 					LobbyScreen.isGameAboutToStart = true;
 				}
 
-				if (object instanceof ErrorPacket) {
-					ErrorPacket packet = (ErrorPacket) object;
-					// Other errors included here
-				}
+//				if (object instanceof ErrorPacket) {
+//					ErrorPacket packet = (ErrorPacket) object;
+//					// Other errors included here
+//				}
 
 				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
@@ -131,23 +134,18 @@ public class MPClient {
 						}
 					}
 				}
-				
+
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
 					PlayScreen.winner = packet.winnerName;
 				}
-				
+
 				if (object instanceof IceEffect) {
 					PlayScreen.player.setIceEffect();
 				}
 			}
 		}));
 
-	}
-
-	// TODO
-	public void tokenError() {
-		game.setScreen(new TokenErrorScreen(game));
 	}
 
 	public void requestLogin() {

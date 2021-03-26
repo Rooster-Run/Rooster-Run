@@ -1,6 +1,5 @@
 package uk.ac.aston.teamproj.game.screens;
 
-import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -72,22 +71,6 @@ public class JoinScreen implements Screen {
 	}
 	
 	
-	private void promptConfirm() {
-		@SuppressWarnings("resource")
-		Scanner in = new Scanner(System.in);
-		System.out.println("token:");
-		String response = getToken();
-		System.out.println("name:");
-		String response2 = getName();
-
-		new MPClient(MainGame.IP, response2, game);
-		JoinGameSession packet = new JoinGameSession();
-		packet.token = response;
-		MPClient.client.sendTCP(packet);
-
-	}
-
-
 	private void initializeButtons() {		
 		ImageButtonStyle style;
 		
