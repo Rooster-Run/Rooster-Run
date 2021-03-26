@@ -47,13 +47,14 @@ public class Rooster extends Sprite {
 	public State currentState;
 	public State previousState;
 	private float stateTimer; //keeps track of the amount of time we stay in a state.
-							 //Decides what frame gets pulled from an animation
+							  //Decides what frame gets pulled from an animation
 
 	public World world; // The world chicken is going to live in.
 	public Body b2body; // box2d body
 
 	private TextureRegion roosterStand; //region containing the "idle" rooster
 	private TextureRegion roosterDead;
+	private TextureRegion roosterFrozen;
 	private Animation roosterRun;
 	private Animation roosterJump;
 	private Animation roosterRevive;
@@ -73,8 +74,7 @@ public class Rooster extends Sprite {
 	private FixtureDef fdef;
 	
 	//Ice feature
-	private boolean freezeHit = false;
-	private boolean opponentIceEffect = false;
+	private boolean isFrozen = false;
 
 	@SuppressWarnings("unchecked")
 	public Rooster(World world, PlayScreen screen) {
@@ -89,6 +89,7 @@ public class Rooster extends Sprite {
 
 		//set texture associated with dead state
 		roosterDead = new TextureRegion(getTexture(), 7*96, 0, 96, 96);
+		roosterFrozen = new TextureRegion(getTexture(), 8*96, 0, 96, 96);
 
 		//initialize state
 		currentState = State.STANDING;
@@ -132,7 +133,20 @@ public class Rooster extends Sprite {
 
 		setRegion(getFrame(dt));
 
-		if (!isDead && !isReviving) {
+		if (isReviving) {
+			b2body.setLinearVelocity(0, 0.5f);
+			if (currentState == State.REVIVING && stateTimer >= 6.5) {
+				isReviving = false;
+				setMaskBits(true);
+			}
+			
+		} else if (isFrozen) {
+			if (currentState == State.FROZEN && stateTimer >= DEFAULT_POWERUP_DURATION) {
+				isFrozen = false;
+				setMaskBits(true);
+			}
+			
+		} else if (!isDead) {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -10/MainGame.PPM) {
 				if (coins >= DEFAULT_COINS_TO_REVIVE) {
@@ -151,12 +165,6 @@ public class Rooster extends Sprite {
 				runFaster(false);
 			} else if (currentState == State.RUNNING_SLOW && stateTimer >= DEFAULT_POWERUP_DURATION) {
 				runSlower(false);
-			}
-		} else if (isReviving) {
-			b2body.setLinearVelocity(0, 0.5f);
-			if (currentState == State.REVIVING && stateTimer >= 6.5) {
-				isReviving = false;
-				setMaskBits(true);
 			}
 		}
 	}
@@ -181,6 +189,9 @@ public class Rooster extends Sprite {
 				break;
 			case DEAD:
 				region = roosterDead;
+				break;
+			case FROZEN:
+				region = roosterFrozen;
 				break;
 			case FALLING:
 			case STANDING:
@@ -210,7 +221,7 @@ public class Rooster extends Sprite {
 			return State.DEAD;
 		else if (hasWon)
 			return State.WON;
-		else if (opponentIceEffect)
+		else if (isFrozen)
 			return State.FROZEN;
 		else if (isRunningFast)
 			return State.RUNNING_FAST;
@@ -235,7 +246,7 @@ public class Rooster extends Sprite {
 
 	private void defineRooster() {
 		bdef = new BodyDef();
-		bdef.position.set(700 / MainGame.PPM, 300 / MainGame.PPM);
+		bdef.position.set(24000 / MainGame.PPM, 300 / MainGame.PPM);
 		bdef.type = BodyDef.BodyType.DynamicBody;
 		b2body = world.createBody(bdef);
 
@@ -362,12 +373,8 @@ public class Rooster extends Sprite {
 	
 
 	//Freeze effect
-	public boolean getOpponentIceEffect() {
-		return opponentIceEffect;
-	}
-	
-	public void setOpponentIceEffect(boolean opponentIceEffect) {
-		this.opponentIceEffect = opponentIceEffect;
+	public void setIceEffect() {
+		this.isFrozen = true;
 	}
 	
 	private void setMaskBits(boolean enableCollision) {

@@ -10,6 +10,7 @@ import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
+import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
@@ -130,9 +131,14 @@ public class MPClient {
 						}
 					}
 				}
+				
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
 					PlayScreen.winner = packet.winnerName;
+				}
+				
+				if (object instanceof IceEffect) {
+					PlayScreen.player.setIceEffect();
 				}
 			}
 		}));

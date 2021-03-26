@@ -92,10 +92,13 @@ public class B2WorldCreator {
 		}
 		
 		// create ice cube debuff bodies/fixtures
-		for (MapObject object : map.getLayers().get(8).getObjects().getByType(EllipseMapObject.class)) {
-			
-			Ellipse circle = ((EllipseMapObject) object).getEllipse();;
-			new IceCube(world, map, circle);
+		// TODO
+		if (map.getLayers().getCount() >= 13) {
+			for (MapObject object : map.getLayers().get(12).getObjects().getByType(EllipseMapObject.class)) {
+				
+				Ellipse circle = ((EllipseMapObject) object).getEllipse();;
+				new IceCube(world, map, circle);
+			}
 		}
 	}
 }
