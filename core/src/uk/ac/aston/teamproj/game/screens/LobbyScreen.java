@@ -178,8 +178,7 @@ public class LobbyScreen implements Screen {
 		backBtn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 
 					LobbyScreen.this.dispose();
 					game.setScreen(new MultiplayerMenuScreen(game));
@@ -197,8 +196,7 @@ public class LobbyScreen implements Screen {
 		playBtn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 
 					StartGame packet = new StartGame();
 					packet.token = PlayScreen.sessionID;

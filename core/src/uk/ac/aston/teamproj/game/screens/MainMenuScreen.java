@@ -70,8 +70,7 @@ public class MainMenuScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	                //do something
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("SINGLE");
 	            	MainMenuScreen.this.dispose();
 	            	game.setScreen(new SingleCreateScreen(game));
@@ -91,8 +90,7 @@ public class MainMenuScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	//do something
 	            	//plays button sounds
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("MULTI");
 	            	MainMenuScreen.this.dispose();
 	            	game.setScreen(new MultiplayerMenuScreen(game));
@@ -112,8 +110,7 @@ public class MainMenuScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	                //do something
 	            	//plays button sounds
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("TUTORIAL");
 	            	Gdx.net.openURI("https://www.youtube.com/watch?v=wHyzCWOFR3A&ab_channel=RoosterRun");
 	            	return true;
@@ -134,8 +131,7 @@ public class MainMenuScreen implements Screen {
 
 	            	//plays button sounds
 
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 
 	            	System.out.println("OPTIONS");
 	            	MainMenuScreen.this.dispose();
@@ -155,8 +151,7 @@ public class MainMenuScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	                //do something
 	            	//plays button sounds
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("QUIT");
 	            	Gdx.app.exit();
 	            	return true;

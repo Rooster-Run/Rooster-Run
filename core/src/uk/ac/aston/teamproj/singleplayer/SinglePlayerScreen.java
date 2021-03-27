@@ -152,8 +152,7 @@ public class SinglePlayerScreen implements Screen {
 		if (player.currentState != SingleRooster.State.DEAD && player.currentState != SingleRooster.State.REVIVING) {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
-            	SoundManager.playSound(sound);
+            	SoundManager.playSound(SoundManager.SWOOSH);
                 player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
 				jumpCount++;
 			}

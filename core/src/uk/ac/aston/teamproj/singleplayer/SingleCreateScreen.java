@@ -112,8 +112,7 @@ public class SingleCreateScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 
 	    			txt_name.setTextFieldListener(new TextField.TextFieldListener() {
 
@@ -144,8 +143,7 @@ public class SingleCreateScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("Back");
 	            	SingleCreateScreen.this.dispose();
 	            	game.setScreen(new MainMenuScreen(game));
@@ -165,8 +163,7 @@ public class SingleCreateScreen implements Screen {
 		leftBtn.addListener(new InputListener() {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
@@ -185,8 +182,7 @@ public class SingleCreateScreen implements Screen {
 		rightBtn.addListener(new InputListener() {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	mapIdx = (mapIdx + 1) % NUM_MAPS;
 	            	return true;
 	            }

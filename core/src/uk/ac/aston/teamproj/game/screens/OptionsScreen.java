@@ -94,8 +94,7 @@ public class OptionsScreen implements Screen {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				SoundManager.SoundsOn();
 
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				SoundManager.playSound(sound);
+            	SoundManager.playSound(SoundManager.POP);
 
 				System.out.println("Sound");
 				return true;
@@ -113,8 +112,7 @@ public class OptionsScreen implements Screen {
 			@Override
 
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				SoundManager.playSound(sound);
+            	SoundManager.playSound(SoundManager.POP);
 				SoundManager.SoundsOff();
 
 				System.out.println("Sound");
@@ -134,8 +132,7 @@ public class OptionsScreen implements Screen {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				SoundManager.playSound(sound);
+            	SoundManager.playSound(SoundManager.POP);
 				System.out.println("Back");
 				OptionsScreen.this.dispose();
 				game.setScreen(new MainMenuScreen(game));
