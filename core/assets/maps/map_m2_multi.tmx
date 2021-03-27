@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="380" height="13" tilewidth="96" tileheight="96" infinite="0" nextlayerid="17" nextobjectid="1071">
+ <tileset firstgid="1" name="ground" tilewidth="96" tileheight="96" tilecount="15" columns="3">
+  <image source="new_graphics/webp_nn.png" trans="a1bed9" width="288" height="480"/>
+ </tileset>
+ <tileset firstgid="16" name="ground_back" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/ground_backjpg.jpg" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="17" name="Webp.net-resizeimage" tilewidth="96" tileheight="96" tilecount="16" columns="4">
+  <image source="new_graphics/Webp.net-resizeimage.jpg" width="384" height="384"/>
+ </tileset>
+ <tileset firstgid="33" name="tree" tilewidth="96" tileheight="96" tilecount="16" columns="4">
+  <image source="new_graphics/tree.png" width="384" height="405"/>
+ </tileset>
+ <tileset firstgid="49" name="sun" tilewidth="96" tileheight="96" tilecount="9" columns="3">
+  <image source="new_graphics/sun.png" width="288" height="288"/>
+ </tileset>
+ <tileset firstgid="58" name="ground_grey" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/ground_grey.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="59" name="cloud_2" tilewidth="96" tileheight="96" tilecount="2" columns="2">
+  <image source="new_graphics/cloud_2.png" trans="a1bed9" width="192" height="96"/>
+ </tileset>
+ <tileset firstgid="61" name="scare_crow" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/scare_crow.png" trans="a1bed9" width="96" height="119"/>
+ </tileset>
+ <tileset firstgid="62" name="roses" tilewidth="96" tileheight="96" tilecount="2" columns="1">
+  <image source="new_graphics/roses.png" trans="a1bed9" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="64" name="tree2" tilewidth="96" tileheight="96" tilecount="16" columns="4">
+  <image source="new_graphics/tree2.png" trans="a1bed9" width="384" height="405"/>
+ </tileset>
+ <tileset firstgid="80" name="lightning3" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/lightning.png" trans="a1bed9" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="81" name="bomb" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/tnt.png" trans="a1bed9" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="82" name="coin" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/coin.png" trans="a1bed9" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="83" name="mud" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/mud1.png" trans="a1bed9" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="84" name="flower1" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/flower.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="85" name="flower2" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/flower_2.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="86" name="flower3" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/flower_3.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="87" name="mud2" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/mud2.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="88" name="mud3" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/mud3.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="89" name="mud4" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/mud4.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="90" source="new_graphics/barn.tsx"/>
+ <tileset firstgid="154" name="plane1" tilewidth="96" tileheight="96" spacing="5" margin="2" tilecount="2" columns="2">
+  <image source="new_graphics/plane.png" width="200" height="100"/>
+ </tileset>
+ <tileset firstgid="156" name="plane2" tilewidth="96" tileheight="96" spacing="5" tilecount="2" columns="2">
+  <image source="new_graphics/plane2.png" width="200" height="100"/>
+ </tileset>
+ <tileset firstgid="158" name="tractor" tilewidth="100" tileheight="100" tilecount="8" columns="4">
+  <image source="new_graphics/tractor.png" width="400" height="200"/>
+ </tileset>
+ <tileset firstgid="166" name="fork" tilewidth="96" tileheight="96" tilecount="4" columns="2">
+  <image source="new_graphics/fork.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="170" name="bird1" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/bird1.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="171" name="bird2" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/bird2.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="172" name="rsz_biplane-304935_1280" tilewidth="96" tileheight="96" margin="50" tilecount="2" columns="2">
+  <image source="new_graphics/rsz_biplane-304935_1280.png" trans="a1bed9" width="320" height="160"/>
+ </tileset>
+ <tileset firstgid="174" name="rsz_biplane-304935_1280" tilewidth="319" tileheight="159" spacing="2" margin="1" tilecount="1" columns="1">
+  <image source="new_graphics/rsz_biplane-304935_1280.png" trans="ff00ff" width="320" height="160"/>
+ </tileset>
+ <tileset firstgid="175" name="dayToNight" tilewidth="96" tileheight="96" tilecount="924" columns="84">
+  <image source="new_graphics/daytonight.jpg" width="8064" height="1142"/>
+ </tileset>
+ <tileset firstgid="1099" name="night" tilewidth="96" tileheight="96" tilecount="9" columns="3">
+  <image source="new_graphics/night.png" width="288" height="288"/>
+ </tileset>
+ <tileset firstgid="1108" name="star" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/star.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="1109" name="moon" tilewidth="96" tileheight="96" tilecount="4" columns="2">
+  <image source="new_graphics/moon.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="1113" name="city1" tilewidth="96" tileheight="96" tilecount="378" columns="27">
+  <image source="new_graphics/city1.png" width="2592" height="1344"/>
+ </tileset>
+ <tileset firstgid="1491" name="city2" tilewidth="96" tileheight="96" tilecount="378" columns="27">
+  <image source="new_graphics/city2.png" width="2592" height="1385"/>
+ </tileset>
+ <tileset firstgid="1869" name="light" tilewidth="96" tileheight="96" tilecount="30" columns="6">
+  <image source="new_graphics/light.png" width="576" height="480"/>
+ </tileset>
+ <tileset firstgid="1899" name="bin" tilewidth="96" tileheight="96" tilecount="1" columns="1">
+  <image source="new_graphics/bin.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="1900" name="factory1" tilewidth="96" tileheight="96" tilecount="200" columns="20">
+  <image source="new_graphics/factory1.png" width="1920" height="960"/>
+ </tileset>
+ <tileset firstgid="2100" name="factory2" tilewidth="96" tileheight="96" tilecount="200" columns="20">
+  <image source="new_graphics/factory2.png" width="1920" height="960"/>
+ </tileset>
+ <tileset firstgid="2300" name="truck1" tilewidth="96" tileheight="96" tilecount="12" columns="4">
+  <image source="new_graphics/truck1.png" width="384" height="288"/>
+ </tileset>
+ <tileset firstgid="2312" name="truck2" tilewidth="96" tileheight="96" tilecount="12" columns="4">
+  <image source="new_graphics/truck2.png" width="384" height="288"/>
+ </tileset>
+ <tileset firstgid="2324" name="truck3" tilewidth="96" tileheight="96" tilecount="6" columns="3">
+  <image source="new_graphics/truck3.png" width="288" height="192"/>
+ </tileset>
+ <tileset firstgid="2330" name="tree_new1" tilewidth="96" tileheight="96" tilecount="15" columns="3">
+  <image source="new_graphics/new_tree(1).png" width="288" height="480"/>
+ </tileset>
+ <tileset firstgid="2345" name="tree_new2" tilewidth="96" tileheight="96" tilecount="15" columns="3">
+  <image source="new_graphics/new_tree(2).png" width="288" height="480"/>
+ </tileset>
+ <tileset firstgid="2360" name="iceCube" tilewidth="95" tileheight="95" spacing="2" margin="1" tilecount="1" columns="1">
+  <image source="new_graphics/IceCube.png" trans="ff00ff" width="96" height="96"/>
+ </tileset>
+ <layer id="1" name="0_background" width="380" height="13">
+  <data encoding="base64" compression="zlib">
+   eJzt2sdu2zAAh3HGTu+++E1y0iv0Cdrei/TW9L3adLc5dKV775nuNB3p3nt8ASRAcCWHlGnSlv5AfhBs0xo2+UEw0jXGdEUaZBbbsQM7sQu7sadg7Lq2MeuxAQd4fBCHcBhHMI+jOIbjOIGTOIXTOIOzOIfzuICLuITLuIKruIbruIGbuIXbuIMF3MU93McDPMQjPMYinmAJT/EMz/ECy3iJV3iNN3iLd3iPD/iIT/iML/iKb/iOH/iJX/iNP/gLM8EfWlg7KeMi9toTCU29V++bKvbaEwlNvVfvmyr22hMJrV/v9/aMVe/V+zqJvfZEQgvR+8So9zJ6Yq89kdBser8/3dr2PkmV3d9nr6v3ot5L03Qcn/fJtvdzRr/nqPf1EnNtj6MkJ/a5jKNOz9b1dR983N9nc6Bq7/PzSL2XOvQ+xNoNLTFqvo+5YNv7Ycyd1Xq/z7j/nuPae93fS116H2LNxjJKve+UiP0Z2cwF1977vC71Xr1vqphre9z0tj5G88saX7X5/cZX3Vdorp+h795vbBkzndrU+r/3m3luBlta9et9le8rdvOazFeDbLaj1kSXdpS1PlTvh9HCfuNs9hGr74M2f5D/x7Q9n6z3tuPLer8yv1x6vzJ+ql3c+37Hd+39IN/Vak3yvT/fx6tyXN/zPfS1hlTUmGF3x7b1Rb0f9Hg+r20YvY89H1zmia3e3q9Jt1tp5zbMtsNcQ7732fzKel/2nsV03FLuPVnvq5xDUe99XmPWnsT46VGs5uX3mX3uIdta5Vj/AJz+Wb4=
+  </data>
+ </layer>
+ <layer id="3" name="1_middleground" width="380" height="13">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <layer id="2" name="2_foreground" width="380" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztnIlu2zAMhgWsbepkTXYfwB6kL9GtSdem2X1fD7dnHA1EGMeRFGXL8zF+wI/ElqKr4k+5VwiOhdleB+j9rNcROY7jOF0xIzrodziO4zh/cAmmdOXGVAzq+Y7jOENhC15/7X5fHPd7R2PT9wAcx3EGyBS8kc7hqJdROI7jDA/J48fq/UdB9/hU+Zg5gwfdp6BnoHPQGrTxh9//lrHGMMd53wOYCKvM+0Oj7Z6eUkxcgLc/B12CrkBb0HULv5fyxxnTZom8kspXJfJZkzbGmkfHEsMW8M9qpxSz/4oVec0tHwptz+tPbkznzL+DYHgBegl6BXqNPOm4CqECzUGLytaelD8uGK9L5RVLjKbyVYl81qSN0nm0a8YSu1ZOK//9nKbQvYD3xGllqzcWNsL7qfIWAuEd6D3oA+gjCoyb8LU9AS1BK6Pfc/njTcNgqz+2zuyP5qgS48lpg/ZfYh26hIvZ1JqPgXoO1O/7nNch6HivQ6QhEL/vJfl3fF0jWeo7zbkH3nEf9MDou1Y+QyB8AX0FfQN9R550C/q6DboDumvsl8sfn2bN5mA5l9H+aI7SxmMlpw3af5t+u0SLVRzTY4V6fR9nfOztC6L5/lXyfHrWXIffOYOrW9/fGceF28K5h17TMpqvtPpSnaGgneVxWU4clHw+eAje8Qj0GHllm59H1WPbBjkuqOLfpqfg8sePmTwHCWuM0v5ojtLGYyWnDdp/m367IHUmw35fwvO5PRrjIvqO5B0pP5HQ9nEJtLiu5xTHTT1+ydxboPoY7jrWp2hluA5eU21MS+b+nKnH6YR8hn6uqefnet0myPmK5q241+mek/KhRO7+kp4567HT/wXS9DkVP+dqbUpleExa25bcIa2PNUa1/rS5cW3S+eBra0609m05B/xk7lnPUDnnL+nsxpVb2seswt/P9rvAn3utfkLPxvS8m/raSGtqmR++5s7S0pziK/ZCzmsx3LXk6VoZl3u4tc7xc60unSNXl+6TOEbr84YFy5xpuXVduHHQ/SXNJ6B69DNNPIWjrT9x7XP9Se1p7VvGqpWnxm5ZJ0s/XHs560brW/qi+gUkcm3s
+  </data>
+ </layer>
+ <objectgroup id="4" name="3_ground">
+  <object id="954" x="0" y="1152" width="1632" height="96"/>
+  <object id="955" x="1632" y="1152" width="2304" height="96"/>
+  <object id="956" x="4800" y="1152" width="288" height="96"/>
+  <object id="957" x="5088" y="1056" width="1440" height="192"/>
+  <object id="958" x="6528" y="1152" width="192" height="96"/>
+  <object id="959" x="8160" y="1152" width="1344" height="96"/>
+  <object id="960" x="9984" y="1152" width="192" height="96"/>
+  <object id="961" x="10176" y="1056" width="192" height="192"/>
+  <object id="962" x="10368" y="960" width="288" height="288"/>
+  <object id="963" x="10656" y="864" width="576" height="384"/>
+  <object id="964" x="11232" y="960" width="96" height="288"/>
+  <object id="965" x="11328" y="1056" width="192" height="192"/>
+  <object id="966" x="11808" y="1056" width="96" height="192"/>
+  <object id="967" x="12192" y="1056" width="96" height="192"/>
+  <object id="968" x="12288" y="960" width="192" height="288"/>
+  <object id="969" x="12864" y="1056" width="96" height="192"/>
+  <object id="970" x="12960" y="960" width="96" height="288"/>
+  <object id="971" x="13056" y="1056" width="96" height="192"/>
+  <object id="972" x="13536" y="1152" width="192" height="96"/>
+  <object id="973" x="13728" y="1056" width="384" height="192"/>
+  <object id="974" x="14112" y="960" width="2880" height="288"/>
+  <object id="975" x="16992" y="1056" width="96" height="192"/>
+  <object id="976" x="17088" y="1152" width="96" height="96"/>
+  <object id="977" x="17472" y="1152" width="1152" height="96"/>
+  <object id="978" x="19008" y="1152" width="96" height="96"/>
+  <object id="979" x="19488" y="1152" width="96" height="96"/>
+  <object id="980" x="19584" y="1056" width="960" height="192"/>
+  <object id="981" x="20544" y="1152" width="192" height="96"/>
+  <object id="982" x="20736" y="1056" width="960" height="192"/>
+  <object id="983" x="21696" y="1152" width="192" height="96"/>
+  <object id="984" x="22176" y="1152" width="96" height="96"/>
+  <object id="985" x="22272" y="1056" width="96" height="192"/>
+  <object id="986" x="22560" y="1152" width="576" height="96"/>
+  <object id="987" x="23232" y="1152" width="96" height="96"/>
+  <object id="988" x="23424" y="1056" width="96" height="192"/>
+  <object id="989" x="23520" y="1152" width="96" height="96"/>
+  <object id="990" x="23808" y="1152" width="288" height="96"/>
+  <object id="991" x="24096" y="1056" width="672" height="192"/>
+  <object id="992" x="24768" y="1152" width="288" height="96"/>
+  <object id="993" x="25536" y="1152" width="288" height="96"/>
+  <object id="994" x="25824" y="1152" width="96" height="96"/>
+  <object id="995" x="25920" y="1056" width="192" height="192"/>
+  <object id="996" x="26112" y="1056" width="96" height="192"/>
+  <object id="997" x="26208" y="960" width="1152" height="288"/>
+  <object id="998" x="27552" y="1152" width="192" height="96"/>
+  <object id="999" x="28032" y="1152" width="96" height="96"/>
+  <object id="1000" x="28128" y="1056" width="1152" height="192"/>
+  <object id="1001" x="29664" y="1152" width="96" height="96"/>
+  <object id="1002" x="29760" y="1056" width="96" height="192"/>
+  <object id="1003" x="29856" y="960" width="96" height="288"/>
+  <object id="1004" x="29952" y="768" width="96" height="480"/>
+  <object id="1005" x="30048" y="864" width="96" height="384"/>
+  <object id="1006" x="30432" y="1152" width="384" height="96"/>
+  <object id="1007" x="30816" y="1056" width="1344" height="192"/>
+  <object id="1008" x="32448" y="1152" width="192" height="96"/>
+  <object id="1009" x="32928" y="1152" width="288" height="96"/>
+  <object id="1010" x="33216" y="1056" width="1920" height="192"/>
+  <object id="1011" x="35136" y="1152" width="96" height="96"/>
+  <object id="1012" x="35520" y="1152" width="960" height="96"/>
+ </objectgroup>
+ <objectgroup id="5" name="4_rock">
+  <object id="894" x="7008" y="1152" width="96" height="96"/>
+  <object id="895" x="7104" y="1056" width="96" height="192"/>
+  <object id="898" x="7200" y="960" width="96" height="288"/>
+  <object id="899" x="7296" y="672" width="96" height="576"/>
+  <object id="900" x="7392" y="672" width="96" height="576"/>
+  <object id="901" x="7488" y="672" width="96" height="576"/>
+  <object id="902" x="7584" y="768" width="96" height="480"/>
+  <object id="903" x="7680" y="960" width="96" height="288"/>
+  <object id="906" x="7104" y="0" width="96" height="96"/>
+  <object id="907" x="7200" y="0" width="96" height="192"/>
+  <object id="908" x="7296" y="0" width="96" height="288"/>
+  <object id="909" x="7392" y="0" width="96" height="288"/>
+  <object id="910" x="7488" y="0" width="192" height="384"/>
+  <object id="913" x="7984" y="-392"/>
+  <object id="1050" x="19776" y="672" width="192" height="96"/>
+  <object id="1052" x="20160" y="480" width="192" height="96"/>
+  <object id="1053" x="20544" y="384" width="96" height="96"/>
+  <object id="1054" x="20928" y="480" width="192" height="96"/>
+  <object id="1065" x="21408" y="672" width="192" height="96"/>
+ </objectgroup>
+ <objectgroup id="6" name="5_box">
+  <object id="880" x="1632" y="1056" width="96" height="96"/>
+  <object id="881" x="1824" y="960" width="96" height="192"/>
+  <object id="882" x="2016" y="864" width="96" height="288"/>
+  <object id="883" x="2208" y="768" width="96" height="384"/>
+  <object id="884" x="2400" y="672" width="96" height="480"/>
+  <object id="891" x="4224" y="1152" width="96" height="96"/>
+  <object id="892" x="4320" y="1152" width="96" height="96"/>
+  <object id="918" x="14592" y="864" width="96" height="96"/>
+  <object id="919" x="14784" y="768" width="96" height="192"/>
+  <object id="920" x="14976" y="672" width="96" height="288"/>
+  <object id="921" x="15168" y="576" width="96" height="384"/>
+  <object id="923" x="15744" y="576" width="96" height="384"/>
+  <object id="924" x="15936" y="672" width="96" height="288"/>
+  <object id="925" x="16128" y="768" width="96" height="192"/>
+  <object id="937" x="16320" y="864" width="96" height="96"/>
+ </objectgroup>
+ <objectgroup id="7" name="6_coin">
+  <object id="1015" x="2400" y="576" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1016" x="4800" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1017" x="7584" y="672" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1018" x="9408" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1020" x="11808" y="960" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1021" x="12864" y="960" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1022" x="15168" y="480" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1023" x="15744" y="480" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1025" x="15456" y="384" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1026" x="19488" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1027" x="20256" y="960" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1029" x="20448" y="768" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1030" x="20736" y="768" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1031" x="20928" y="960" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1032" x="22272" y="960" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1036" x="24000" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1037" x="26016" y="960" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1038" x="27552" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1039" x="29952" y="672" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1040" x="32544" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1041" x="32928" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1042" x="35136" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1058" x="20544" y="288" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1059" x="20160" y="384" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1060" x="19776" y="576" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1063" x="21312" y="576" width="96" height="96">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="7_bomb">
+  <object id="885" x="2496" y="960" width="96" height="96"/>
+  <object id="886" x="2496" y="1056" width="96" height="96"/>
+  <object id="887" x="2592" y="1056" width="96" height="96"/>
+  <object id="888" x="2688" y="1056" width="96" height="96"/>
+  <object id="889" x="2592" y="960" width="96" height="96"/>
+  <object id="890" x="2496" y="864" width="96" height="96"/>
+  <object id="893" x="4992" y="1056" width="96" height="96"/>
+  <object id="904" x="7200" y="864" width="96" height="96"/>
+  <object id="905" x="7680" y="864" width="96" height="96"/>
+  <object id="914" x="10080" y="1056" width="96" height="96"/>
+  <object id="915" x="12192" y="960" width="96" height="96"/>
+  <object id="916" x="14016" y="960" width="96" height="96"/>
+  <object id="934" x="15360" y="864" width="96" height="96"/>
+  <object id="935" x="15456" y="864" width="96" height="96"/>
+  <object id="936" x="15552" y="864" width="96" height="96"/>
+  <object id="941" x="20544" y="1056" width="96" height="96"/>
+  <object id="942" x="20640" y="1056" width="96" height="96"/>
+  <object id="943" x="24768" y="1056" width="96" height="96"/>
+  <object id="944" x="25824" y="1056" width="96" height="96"/>
+  <object id="945" x="30048" y="768" width="96" height="96"/>
+  <object id="952" x="23520" y="1056" width="96" height="96"/>
+  <object id="1013" x="28032" y="1056" width="96" height="96"/>
+  <object id="1014" x="30720" y="1056" width="96" height="96"/>
+  <object id="1067" x="21216" y="960" width="96" height="96"/>
+ </objectgroup>
+ <objectgroup id="9" name="8_lightning">
+  <object id="950" x="14400" y="864" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1044" x="4320" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1045" x="7296" y="576" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1047" x="18336" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1049" x="24576" y="960" width="96" height="96">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup id="10" name="9_mud">
+  <object id="946" x="4704" y="1152" width="96" height="96"/>
+  <object id="947" x="9504" y="1152" width="96" height="96"/>
+  <object id="948" x="13056" y="960" width="96" height="96"/>
+  <object id="953" x="26112" y="960" width="96" height="96"/>
+ </objectgroup>
+ <objectgroup id="11" name="10_bounday">
+  <object id="39" x="0" y="0" height="1244"/>
+  <object id="40" x="-0.333333" y="-0.333333" width="36500"/>
+  <object id="1068" x="36476" y="4" height="1244"/>
+ </objectgroup>
+ <objectgroup id="12" name="11_escape">
+  <object id="700" x="35996" y="1154" width="484" height="86"/>
+ </objectgroup>
+ <objectgroup id="16" name="12_ice">
+  <object id="1069" x="15454.2" y="767.5" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="1070" x="7199.42" y="768" width="96" height="96">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

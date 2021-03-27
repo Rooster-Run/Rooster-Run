@@ -1,6 +1,10 @@
 package uk.ac.aston.teamproj.game.net;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import uk.ac.aston.teamproj.game.sprites.Bomb;
 
 public class GameSession {
 	
@@ -90,5 +94,13 @@ public class GameSession {
 	
 	public String getWinnerName() {
 		return winner;
+	}
+	
+	public void removePlayerByID(int id) {
+		for (Iterator<Player> iter = players.iterator(); iter.hasNext();) {
+			if(iter.next().getID() == id) {
+				iter.remove();
+			}
+		}
 	}
 }

@@ -33,7 +33,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
-import uk.ac.aston.teamproj.game.tools.MapManager;
+import uk.ac.aston.teamproj.game.tools.MultiMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 public class CreateScreen implements Screen {
@@ -139,7 +139,7 @@ public class CreateScreen implements Screen {
 	    			new MPClient(MainGame.IP, txt_name.getText(), game);
 	    			dispose();
 	    			CreateGameSession packet = new CreateGameSession();
-	    			packet.mapPath = MapManager.getMapByIndex(mapIdx).getPath();
+	    			packet.mapPath = MultiMapManager.getMapByIndex(mapIdx).getPath();
 	    			packet.name = getName();
 	    			MPClient.client.sendTCP(packet);
 	            	return true;
@@ -183,7 +183,7 @@ public class CreateScreen implements Screen {
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
-	            		mapIdx = MapManager.getTotalMaps() - 1;
+	            		mapIdx = MultiMapManager.getTotalMaps() - 1;
 	            	}
 	            	return true;
 	            }					       
@@ -200,7 +200,7 @@ public class CreateScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
 	            	SoundManager.playSound(sound);
-	            	mapIdx = (mapIdx + 1) % MapManager.getTotalMaps();
+	            	mapIdx = (mapIdx + 1) % MultiMapManager.getTotalMaps();
 	            	return true;
 	            }					       
 		});
@@ -276,7 +276,7 @@ public class CreateScreen implements Screen {
 		stage.draw();
 		stage.act(delta);
 		
-		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(MapManager.getMapByIndex(mapIdx).getImage())));
+		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(MultiMapManager.getMapByIndex(mapIdx).getImage())));
 	}
 
 
