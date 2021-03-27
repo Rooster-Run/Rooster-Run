@@ -7,7 +7,7 @@ public class GameSession {
 	private String token;
 	private int hostID;
 	private ArrayList<Player> players;
-	private static boolean hasStarted;
+	private boolean hasStarted;
 	
 	private String mapPath;
 	

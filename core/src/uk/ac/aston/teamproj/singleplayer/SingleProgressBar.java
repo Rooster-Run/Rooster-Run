@@ -41,12 +41,12 @@ public class SingleProgressBar implements Disposable {
 	private final Image[] playerIcons;
 	private int playerIndex;
 	
-	public SingleProgressBar(SpriteBatch sb) {
+	public SingleProgressBar(SpriteBatch sb, int mapLength) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 		
 		//map size
-		setMapSize();
+		map_size = mapLength;
 		System.out.println(SinglePlayerScreen.mapPath);
 		
 		// progress bar
@@ -126,16 +126,5 @@ public class SingleProgressBar implements Disposable {
 		int lives = SinglePlayerScreen.player.getLives();
 		for (int i = lives; i < 3; i++) 
 			hearts[i].setVisible(false);
-	}
-	
-	
-	public void setMapSize() {
-		if (SinglePlayerScreen.mapPath.equals("map_demo")) {
-			map_size = 180;
-			System.out.println("line 134");
-		}
-		else {
-			map_size = 300;
-		}
 	}
 }

@@ -89,8 +89,7 @@ public class SingleGameFinishedScreen implements Screen {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				SoundManager.playSound(sound);
+            	SoundManager.playSound(SoundManager.POP);
 				System.out.println("Back");
 				SingleGameFinishedScreen.this.dispose();
 				game.setScreen(new MainMenuScreen(game));

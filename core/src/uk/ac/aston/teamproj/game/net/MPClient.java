@@ -8,6 +8,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
+import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
@@ -30,6 +33,7 @@ public class MPClient {
 	public MainGame game;
 	private String name;
 	public static boolean errorToken;
+	public static boolean late;
 	private boolean isHost;
 
 	public MPClient(String ip, String name, final MainGame game) {
@@ -48,9 +52,9 @@ public class MPClient {
 			requestLogin();
 			if (game.getScreen() instanceof CreateScreen)
 				isHost = true;
-			
+
 			game.setScreen(new LobbyScreen(game, isHost));
-	
+
 		} catch (Exception e) {
 			game.setScreen(new ServerErrorScreen(game));
 		}
@@ -68,16 +72,17 @@ public class MPClient {
 					clientID = packet.id;
 				}
 
-//				if (object instanceof CreateGameSession) {
-//					CreateGameSession packet = (CreateGameSession) object;
-//					// token = packet.token;
-//				}
+				if (object instanceof CreateGameSession) {
+					CreateGameSession packet = (CreateGameSession) object;
+					// token = packet.token;
+					late = packet.joinedLate; //setting
+				}
 
 				if (object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
 					errorToken = packet.errorToken; //checking for wrong token entry
-					LobbyScreen.joinedLate = packet.joinedLate; //checking for late game session joiners
+					late = packet.joinedLate; //checking for late game session joiners
 				}
 
 				if (object instanceof SessionInfo) {
@@ -129,9 +134,14 @@ public class MPClient {
 						}
 					}
 				}
+
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
 					PlayScreen.winner = packet.winnerName;
+				}
+
+				if (object instanceof IceEffect) {
+					PlayScreen.player.setIceEffect();
 				}
 			}
 		}));

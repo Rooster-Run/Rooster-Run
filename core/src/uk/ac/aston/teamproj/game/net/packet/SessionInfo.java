@@ -9,5 +9,4 @@ public class SessionInfo {
 	public ArrayList<String> playerNames;
 	public String mapPath;
 	public String token;
-	public boolean hasStarted;
 }

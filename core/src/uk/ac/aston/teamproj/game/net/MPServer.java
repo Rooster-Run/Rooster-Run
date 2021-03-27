@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
@@ -55,7 +56,6 @@ public class MPServer {
 					
 					if (isDeleteable(packet)) {
 						sessions.remove(packet.token);
-						sessions.get(packet.token).setHasStarted(false); //resetting for next time
 					}
 
 				}
@@ -66,9 +66,8 @@ public class MPServer {
 					packet.token = token;
 					GameSession session = new GameSession(token, packet.mapPath);
 					session.addPlayer(connection.getID(), packet.name);
-					session.setHost(connection.getID());
+					session.setHost(connection.getID()); 
 					sessions.put(token, session);
-
 					server.sendToTCP(connection.getID(), packet);
 					notifyAllPlayers(session);
 				}
@@ -88,6 +87,7 @@ public class MPServer {
 						server.sendToTCP(connection.getID(), packet);
 					} else {
 						sessions.get(packet.token).addPlayer(connection.getID(), packet.name);
+						packet.joinedLate = sessions.get(packet.token).getHasStarted(); //session hasn't started
 						notifyAllPlayers(sessions.get(packet.token));
 
 						server.sendToTCP(connection.getID(), packet);
@@ -117,9 +117,9 @@ public class MPServer {
 						}
 					}
 				}
+				
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
-					System.out.println(1);
 
 					if (sessions.get(packet.token) != null) {
 						GameSession session = sessions.get(packet.token);
@@ -128,7 +128,6 @@ public class MPServer {
 							if (p.getID()==packet.playerID)
 								winnerName = p.getName();
 						}
-						System.out.println(2 +" " + winnerName);
 
 						
 						if(session.setWinner(winnerName)) {
@@ -136,8 +135,18 @@ public class MPServer {
 							for (Integer connectionID : session.getPlayerIDs()) {
 								server.sendToTCP(connectionID, packet);
 							}
-							System.out.println(3);
 						}						
+					}
+				}
+				
+				if (object instanceof IceEffect) {
+					IceEffect packet = (IceEffect) object;
+					if (sessions.get(packet.token) != null) {
+						GameSession session = sessions.get(packet.token);	 
+						for (Integer connectionID : session.getPlayerIDs()) {
+							if (connectionID != packet.playerID)
+								server.sendToTCP(connectionID, packet);
+						}
 					}
 				}
 			}
@@ -157,7 +166,6 @@ public class MPServer {
 		packet.playerNames = session.getPlayerNames();
 		packet.mapPath = session.getMapPath();
 		packet.token = session.getToken();
-		packet.hasStarted = session.getHasStarted(); //update session info
 		for (Integer connectionID : session.getPlayerIDs()) {
 			packet.playerID = connectionID;
 			server.sendToTCP(connectionID, packet);

@@ -87,8 +87,7 @@ public class JoinScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 					
 					//plays button sounds	         
-					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	                
 					txt_token.setTextFieldListener(new TextField.TextFieldListener() {
 				    	
@@ -142,9 +141,7 @@ public class JoinScreen implements Screen {
 	            	//Sets to playScreen
 
 	            	 //plays button pop sound
-
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("Back");
 	            	JoinScreen.this.dispose();
 	            	game.setScreen(new MainMenuScreen(game));

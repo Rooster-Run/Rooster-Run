@@ -52,9 +52,8 @@ public class LobbyScreen implements Screen {
 	private Skin new_Skin;
 	private ImageButton playBtn, backBtn;
 	
-	//Manage
+	
 	public static boolean isGameAboutToStart = false;
-	public static boolean joinedLate = false;
 
 	public static ArrayList<Player> currentPlayers = new ArrayList<Player>();
 	private boolean isHost;
@@ -182,9 +181,7 @@ public class LobbyScreen implements Screen {
 		backBtn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
-	            	
+	       	SoundManager.playSound(SoundManager.POP);
 					LobbyScreen.this.dispose();
 					game.setScreen(new MultiplayerMenuScreen(game));
 					return true;
@@ -201,8 +198,7 @@ public class LobbyScreen implements Screen {
 		playBtn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 
 					StartGame packet = new StartGame();
 					packet.token = PlayScreen.sessionID;
@@ -282,10 +278,11 @@ public class LobbyScreen implements Screen {
 			stage.draw();
 			stage.act(delta);
 			
+			
 		//Host has started game
 		} else {
 			dispose();
-			isGameAboutToStart = false;	// reset for next time
+			isGameAboutToStart = false;// reset for next time
 			game.setScreen(new LoadingScreen(game));
 		}	
 		
@@ -295,9 +292,7 @@ public class LobbyScreen implements Screen {
 		}
 	
 		//Checking if a user tries to join game after it has started
-		if(joinedLate) {
-			dispose();
-			joinedLate = false; //reset for next time
+		if(MPClient.late) {
 			game.setScreen(new GameInProgressScreen(game)); //Display an game in progress error screen
 		}
 		
