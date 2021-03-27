@@ -79,7 +79,7 @@ public class SingleGameOverScreen implements Screen {
 		stage.addActor(table);
 		
 		
-		Texture background = new Texture("buttons/untitled.png");
+		Texture background = new Texture("buttons/Untitled.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 	}
 	

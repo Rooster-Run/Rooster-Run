@@ -48,7 +48,7 @@ public class MainMenuScreen implements Screen {
 		stage = new Stage(viewport, ((MainGame) game).batch);
 
 		buttonsAtlas = new TextureAtlas("buttons/buttons.pack");
-		buttonsAtlas1 = new TextureAtlas("buttons/Optionsbuttons.pack");
+		buttonsAtlas1 = new TextureAtlas("buttons/OptionsButtons.pack");
 		skin = new Skin(buttonsAtlas);
 		skin1 = new Skin(buttonsAtlas1);
 		buttons = new ImageButton[5];

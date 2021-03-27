@@ -25,7 +25,7 @@ public class MapManager {
 	public static List<Map> initialiseMaps() {
 		List<Map> allMaps = new ArrayList<>();
 		
-		Map beginner1 = new Map(new Texture("maps/previews/beginner1.png"),	"maps/map_beginner_fix_ice", 300);
+		Map beginner1 = new Map(new Texture("maps/previews/beginner1.png"),	"maps/map_beginner_fix", 	 300);
 		Map beginner2 = new Map(new Texture("maps/previews/beginner2.png"), "maps/map_beginner2_fix_new",380);
 		Map medium1 = 	new Map(new Texture("maps/previews/medium1.png"), 	"maps/map_median_fix_new", 	 380);
 		Map medium2 = 	new Map(new Texture("maps/previews/medium2.png"), 	"maps/map_median2_fix_new",  380);
