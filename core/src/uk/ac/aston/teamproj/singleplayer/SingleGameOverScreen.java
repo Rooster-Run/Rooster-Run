@@ -94,7 +94,7 @@ public class SingleGameOverScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		if(Gdx.input.justTouched()) {
-			game.setScreen(new MultiplayerMenuScreen(( MainGame )game));
+			game.setScreen(new SingleCreateScreen(( MainGame )game));
 			dispose();
 		}
 		

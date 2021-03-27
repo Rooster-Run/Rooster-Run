@@ -19,7 +19,6 @@ import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
 public class PlayerProgressBar implements Disposable {
 	
-	private static float map_size;
 	private static final float BAR_WIDTH = 400;
 	private static final float BAR_HEIGHT = 32;
 	private static final float PLAYER_RADIUS = 30;
@@ -43,14 +42,14 @@ public class PlayerProgressBar implements Disposable {
 	private final Image[] playerIcons;
 	private int playerIndex;
 	
-	//private Map map;
+	private float mapSize;
 	
 	public PlayerProgressBar(SpriteBatch sb, int mapLength) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 		
 		//map size
-		map_size = mapLength;
+		mapSize = mapLength;
 		
 		// progress bar
 		bar = new Image(new Texture("progress_bar/grey_bar.png"));		
@@ -122,7 +121,7 @@ public class PlayerProgressBar implements Disposable {
 	public void update() {		
 		for (int i = 0; i < PlayScreen.players.size(); i++) {
 			float actualPosition = (PlayScreen.players.get(i).getPosX()* MainGame.PPM) / 100;
-			float percentage = (actualPosition * 100) / map_size;
+			float percentage = (actualPosition * 100) / mapSize;
 			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 		}

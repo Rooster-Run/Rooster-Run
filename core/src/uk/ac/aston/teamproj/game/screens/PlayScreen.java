@@ -110,7 +110,7 @@ public class PlayScreen implements Screen {
 
 		// Create progress bar and tab
 		progressBar = new PlayerProgressBar(game.batch, levelMap.getLength());
-		tab = new PlayersTab(game.batch);
+		tab = new PlayersTab(game.batch, levelMap.getLength());
 		
 		// Load our map and setup our map renderer
 		mapLoader = new TmxMapLoader();
