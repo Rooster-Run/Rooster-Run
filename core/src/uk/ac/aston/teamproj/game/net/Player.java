@@ -58,8 +58,5 @@ public class Player {
 		return coins;
 	}
 	
-	public State getWonState() {
-		return Rooster.State.WON;
-	}
 	
 }
