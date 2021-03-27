@@ -116,7 +116,7 @@ public class PlayScreen implements Screen {
 		gamePort = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
 
 		// Create progress bar and tab
-		progressBar = new PlayerProgressBar(game.batch, levelMap);
+		progressBar = new PlayerProgressBar(game.batch, levelMap.getLength());
 		tab = new PlayersTab(game.batch);
 		
 		// Load our map and setup our map renderer

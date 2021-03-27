@@ -32,6 +32,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.tools.MapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.game.screens.MultiplayerMenuScreen;
 
@@ -59,8 +60,6 @@ public class SingleCreateScreen implements Screen {
 	private BitmapFont font;
 
 	private final static int NUM_MAPS = 7;
-	private String[] mapsPaths = new String[NUM_MAPS];
-	private Texture[] mapsImages = new Texture[NUM_MAPS];
 	private Image mapPreview = new Image();
 	private int mapIdx = 0;
 
@@ -98,22 +97,6 @@ public class SingleCreateScreen implements Screen {
 
 		initializeButtons();
 		populateTable();
-
-		mapsImages[0] = new Texture("easymap.png");
-		mapsImages[1] = new Texture("b2.png");
-		mapsImages[2] = new Texture("m2.png");
-		mapsImages[3] = new Texture("m2.png");
-		mapsImages[4] = new Texture("hardmap.png");
-		mapsImages[5] = new Texture("h2.png");
-		mapsImages[6] = new Texture("demo.png");
-		
-		mapsPaths[0] = "map_beginner_fix";
-		mapsPaths[1] = "map_beginner2_fix_new";
-		mapsPaths[2] = "map_mediam_fix_new";
-		mapsPaths[3] = "map_mediam2_fix_new";
-		mapsPaths[4] = "map_hard";
-		mapsPaths[5] = "map_hard2_fix_new";
-		mapsPaths[6] = "map_demo";
 	}
 
 	private void initializeButtons() {
@@ -144,7 +127,7 @@ public class SingleCreateScreen implements Screen {
 
 	    			// pass in map data
 
-	    			SinglePlayerScreen.mapPath = mapsPaths[mapIdx];
+	    			SinglePlayerScreen.mapPath = MapManager.getMapByIndex(mapIdx).getPath();
 	    			game.setScreen(new SinglePlayerScreen(game));
 	            	return true;
 
@@ -276,7 +259,7 @@ public class SingleCreateScreen implements Screen {
 		stage.draw();
 		stage.act(delta);
 
-		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(mapsImages[mapIdx])));
+		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(MapManager.getMapByIndex(mapIdx).getImage())));
 	}
 
 

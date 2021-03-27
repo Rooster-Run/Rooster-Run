@@ -34,6 +34,8 @@ import uk.ac.aston.teamproj.game.scenes.PlayersTab;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
+import uk.ac.aston.teamproj.game.tools.Map;
+import uk.ac.aston.teamproj.game.tools.MapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 
@@ -87,13 +89,15 @@ public class SinglePlayerScreen implements Screen {
 	public static String winner;
 	
 	private int camPos;
+	private Map levelMap;
 	
 	public SinglePlayerScreen(MainGame game) {
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
-
+		this.levelMap = MapManager.getMapByPath(mapPath);
+		
 		//camera Position
-		setCam();
+		camPos = levelMap.getCamPosition();
 		
 		//ArrayList
 		players = new ArrayList<Player>();
@@ -107,7 +111,7 @@ public class SinglePlayerScreen implements Screen {
 		gamePort = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
 
 		// Create progress bar and tab
-		progressBar = new SingleProgressBar(game.batch);
+		progressBar = new SingleProgressBar(game.batch, levelMap.getLength());
 //		tab = new PlayersTab(game.batch);
 		
 		// Load our map and setup our map renderer
@@ -370,15 +374,5 @@ public class SinglePlayerScreen implements Screen {
 	
 	public String getMapPath() {
 		return mapPath;
-	}
-	
-	public void setCam() {
-		if (SinglePlayerScreen.mapPath.equals("map_demo")) {
-			camPos = 16000;
-			System.out.println("line 134");
-		}
-		else {
-			camPos = 27600;
-		}
 	}
 }
