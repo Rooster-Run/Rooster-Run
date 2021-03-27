@@ -62,6 +62,7 @@ public class CreateScreen implements Screen {
 
 	private Image mapPreview = new Image();
 	private int mapIdx = 0;
+	private MPClient locClient;
 
 	public CreateScreen(MainGame game) {
 		this.game = game;
@@ -136,8 +137,8 @@ public class CreateScreen implements Screen {
 	    			});
 	    			
 	    			// pass in map data
-	    			new MPClient(MainGame.IP, txt_name.getText(), game);
-	    			dispose();
+	    			locClient = new MPClient(MainGame.IP, txt_name.getText(), game);
+	    			//dispose();
 	    			CreateGameSession packet = new CreateGameSession();
 	    			packet.mapPath = MultiMapManager.getMapByIndex(mapIdx).getPath();
 	    			packet.name = getName();
@@ -156,9 +157,7 @@ public class CreateScreen implements Screen {
 		backBtn.addListener(new InputListener() {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("Back");
 	            	CreateScreen.this.dispose();
 	            	game.setScreen(new MultiplayerMenuScreen(game));
@@ -222,7 +221,7 @@ public class CreateScreen implements Screen {
 		//initialise TextField
 //		txt_ip = new TextField(MainGame.LOCAL_HOST, txt_skin);
 		txt_name = new TextField(name, txt_skin);
-		
+		txt_name.setMaxLength(10);
 		
 		//add contents to table
 //		table.add(lbl_ip).right().expandX();
@@ -270,13 +269,19 @@ public class CreateScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0,  0,  0 , 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		stage.draw();
-		stage.act(delta);
-		
-		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(MultiMapManager.getMapByIndex(mapIdx).getImage())));
+		if (locClient != null && locClient.isReady()) {
+			game.setScreen(new LobbyScreen(game, locClient.isHost()));
+			this.dispose();
+			
+		} else {		
+			Gdx.gl.glClearColor(0,  0,  0 , 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			
+			stage.draw();
+			stage.act(delta);
+			
+			mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(MultiMapManager.getMapByIndex(mapIdx).getImage())));	
+		}		
 	}
 
 
@@ -313,5 +318,9 @@ public class CreateScreen implements Screen {
 	
 	private String getName() {
 		return txt_name.getText();
+	}
+	public void moveToLobby(boolean isHost) {
+		this.dispose();
+		game.setScreen(new LobbyScreen(game, isHost));
 	}
 }

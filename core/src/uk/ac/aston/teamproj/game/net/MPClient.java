@@ -18,6 +18,7 @@ import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
+import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.GameInProgressScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
@@ -32,15 +33,15 @@ public class MPClient {
 
 	public MainGame game;
 	private String name;
-	public static boolean errorToken;
-	public static boolean late;
-	private boolean isHost;
+	private boolean isTokenWrong = false;
+	private boolean isLate = false;
+	private boolean isHost = false;
+	private boolean isReady = false;
+	private boolean isFull = false;
 
 	public MPClient(String ip, String name, final MainGame game) {
 		this.name = name;
 		this.game = game;
-
-		// n = new ArrayList<String>();
 
 		client = new Client();
 		client.start();
@@ -52,15 +53,6 @@ public class MPClient {
 			requestLogin();
 			if (game.getScreen() instanceof CreateScreen)
 				isHost = true;
-			//Checking if wrong token has been entered
-			if(MPClient.errorToken) {
-				game.setScreen(new TokenErrorScreen(game)); //Display an token error screen
-			} 
-			else if (MPClient.late) { //Checking if a user tries to join game after it has started
-				game.setScreen(new GameInProgressScreen(game)); //Display an game in progress error screen
-			} else {
-				game.setScreen(new LobbyScreen(game, isHost));
-			}
 
 		} catch (Exception e) {
 			game.setScreen(new ServerErrorScreen(game));
@@ -79,17 +71,14 @@ public class MPClient {
 					clientID = packet.id;
 				}
 
-				if (object instanceof CreateGameSession) {
-					CreateGameSession packet = (CreateGameSession) object;
-					// token = packet.token;
-					late = packet.joinedLate; //setting
-				}
-
 				if (object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
-					errorToken = packet.errorToken; //checking for wrong token entry
-					late = packet.joinedLate; //checking for late game session joiners
+					isTokenWrong = packet.errorToken; //checking for wrong token entry
+					isLate = packet.joinedLate; //checking for late game session joiners
+					isFull = packet.isFull;
+					//Checking if wrong token has been entered
+					isReady = true;
 				}
 
 				if (object instanceof SessionInfo) {
@@ -112,6 +101,7 @@ public class MPClient {
 					PlayScreen.mapPath = packet.mapPath;
 					PlayScreen.sessionID = packet.token;
 					PlayScreen.myID = packet.playerID;
+					isReady = true;
 				}
 
 				if (object instanceof StartGame) {
@@ -160,5 +150,24 @@ public class MPClient {
 		login.name = name;
 		client.sendTCP(login);
 	}
-
+	
+	public boolean isTokenWrong() {
+		return isTokenWrong;
+	}
+	
+	public boolean isLate() {
+		return isLate;
+	}
+	
+	public boolean isHost() {
+		return isHost;
+	}
+	
+	public boolean isReady() {
+		return isReady;
+	}
+	
+	public boolean isFull() {
+		return isFull;
+	}
 }
