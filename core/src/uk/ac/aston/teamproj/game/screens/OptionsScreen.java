@@ -92,7 +92,7 @@ public class OptionsScreen implements Screen {
 			@Override
 
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				SoundManager.SoundsOn();
+				SoundManager.audioOn();
 
             	SoundManager.playSound(SoundManager.POP);
 
@@ -113,7 +113,7 @@ public class OptionsScreen implements Screen {
 
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             	SoundManager.playSound(SoundManager.POP);
-				SoundManager.SoundsOff();
+				SoundManager.audioOff();
 
 				System.out.println("Sound");
 
