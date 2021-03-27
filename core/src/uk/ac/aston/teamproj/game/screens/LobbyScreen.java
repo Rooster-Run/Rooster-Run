@@ -291,15 +291,15 @@ public class LobbyScreen implements Screen {
 			game.setScreen(new LoadingScreen(game));
 		}	
 		
-		//Checking if wrong token has been entered
-		if(MPClient.errorToken) {
-			game.setScreen(new TokenErrorScreen(game)); //Display an token error screen
-		}
-	
-		//Checking if a user tries to join game after it has started
-		if(MPClient.late) {
-			game.setScreen(new GameInProgressScreen(game)); //Display an game in progress error screen
-		}
+//		//Checking if wrong token has been entered
+//		if(MPClient.errorToken) {
+//			game.setScreen(new TokenErrorScreen(game)); //Display an token error screen
+//		}
+//	
+//		//Checking if a user tries to join game after it has started
+//		if(MPClient.late) {
+//			game.setScreen(new GameInProgressScreen(game)); //Display an game in progress error screen
+//		}
 		
 	}
 
