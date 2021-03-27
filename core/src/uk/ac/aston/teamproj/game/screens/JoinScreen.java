@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.esotericsoftware.kryonet.Client;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
@@ -47,6 +48,8 @@ public class JoinScreen implements Screen {
 	private Skin skin; //skin for buttons
 	private ImageButton[] buttons;
 
+	private MPClient locClient;
+	
 	public JoinScreen(MainGame game) {
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
@@ -93,11 +96,11 @@ public class JoinScreen implements Screen {
 				    	
 	    				@Override
 	    				public void keyTyped(TextField textField, char c) {
-
-	    					 //plays button pop sound
+	    					
+	    					//plays button pop sound
 	    					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
 	    	                sound.play(1F);
-
+	    	                
 	    					token = textField.getText();	    					
 	    				}
 	    			});
@@ -114,14 +117,14 @@ public class JoinScreen implements Screen {
 	    			});
 	    			
 //	    			promptConfirm();
-	    			new MPClient(MainGame.IP, name, game);
+	    			locClient = new MPClient(MainGame.IP, name, game);
 	    			JoinGameSession packet = new JoinGameSession();
 	    			packet.token = getToken();
 	    			packet.name = getName();
 	    			System.out.println(getName());
 	    			MPClient.client.sendTCP(packet);
 	    			
-	    			dispose();
+	    			//dispose();
 	    			// create add chicken command in playscreen
 	            	return true;
 				}
@@ -168,7 +171,10 @@ public class JoinScreen implements Screen {
 		
 		//initialise TextField
 		txt_token = new TextField("", txt_skin);
+		txt_token.setMaxLength(5);
 		txt_name = new TextField(name, txt_skin);
+		txt_name.setMaxLength(10);
+
 		
 		//add contents to table
 		table.add(lbl_name).expandX();
@@ -198,11 +204,30 @@ public class JoinScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0,  0,  0 , 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if (locClient != null && locClient.isReady()) {
+			moveToAppropriateScreen();
+
+		} else {		
+			Gdx.gl.glClearColor(0,  0,  0 , 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		stage.draw();
-		stage.act(delta);	
+			stage.draw();
+			stage.act(delta);	
+		}
+	}
+
+
+	private void moveToAppropriateScreen() {
+		if(locClient.isTokenWrong()) {
+			game.setScreen(new TokenErrorScreen(game)); //Display an token error screen
+		} else if (locClient.isLate()) { //Checking if a user tries to join game after it has started
+			game.setScreen(new GameInProgressScreen(game)); //Display an game in progress error screen
+		} else if (locClient.isFull()) {
+			game.setScreen(new SessionFullScreen(game)); //Display an game in progress error screen
+		} else {
+			game.setScreen(new LobbyScreen(game, locClient.isHost()));
+		}
+		this.dispose();
 	}
 
 

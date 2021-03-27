@@ -8,11 +8,11 @@ import uk.ac.aston.teamproj.game.sprites.Bomb;
 
 public class GameSession {
 	
+	private static final int SESSION_LIMIT = 4;
 	private String token;
 	private int hostID;
 	private ArrayList<Player> players;
 	private boolean hasStarted;
-	
 	private String mapPath;
 	
 	private String winner;
@@ -24,7 +24,14 @@ public class GameSession {
 	}
 	
 	public void addPlayer(int id, String name) {
-		players.add(new Player(id, name));
+			players.add(new Player(id, name));
+	}
+	
+	public boolean isFull() {
+		if(players.size() >= SESSION_LIMIT) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void setHost(int id) {
@@ -97,9 +104,11 @@ public class GameSession {
 	}
 	
 	public void removePlayerByID(int id) {
-		for (Iterator<Player> iter = players.iterator(); iter.hasNext();) {
-			if(iter.next().getID() == id) {
-				iter.remove();
+		if (players != null) {
+			for (Iterator<Player> iter = players.iterator(); iter.hasNext();) {
+				if(iter.next().getID() == id) {
+					iter.remove();
+				}
 			}
 		}
 	}
