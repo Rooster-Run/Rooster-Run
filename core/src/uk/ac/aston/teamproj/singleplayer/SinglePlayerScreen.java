@@ -23,16 +23,16 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
+import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
-import uk.ac.aston.teamproj.game.net.packet.Winner;
-import uk.ac.aston.teamproj.game.scenes.PlayersTab;
+import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
+import uk.ac.aston.teamproj.game.screens.GameFinishedScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
+import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.game.tools.MapManager;
@@ -342,20 +342,6 @@ public class SinglePlayerScreen implements Screen {
 	// TEMP
 	private boolean gameOver() {
 		return player.currentState == SingleRooster.State.DEAD && player.getStateTimer() > 3;
-	}
-	
-	public static void resetSession() {
-//		sessionID = null;	// i.e. token
-//		players = null;
-//		mapPath = null;
-		LobbyScreen.isGameAboutToStart = false;
-	}
-	
-	private void terminateSession() {
-		TerminateSession packet = new TerminateSession();
-		packet.id = MPClient.clientID;
-		packet.token = SinglePlayerScreen.sessionID;
-		MPClient.client.sendTCP(packet);
 	}
 	
 	private boolean gameFinished() {

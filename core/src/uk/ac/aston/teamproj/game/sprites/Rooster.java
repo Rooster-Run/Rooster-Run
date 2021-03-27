@@ -69,14 +69,12 @@ public class Rooster extends Sprite {
 
 	private int lives = 3;
 	private int coins = 0;
-	private PlayScreen screen;
 	private BodyDef bdef;
 	private FixtureDef fdef;
-	
+
 	//Ice feature
 	private boolean isFrozen = false;
 
-	@SuppressWarnings("unchecked")
 	public Rooster(World world, PlayScreen screen) {
 		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
@@ -103,7 +101,7 @@ public class Rooster extends Sprite {
 			TextureRegion tr = new TextureRegion(getTexture(), i*96, 0, 96, 96);
 			frames.add(tr);
 		}
-		roosterRun = new Animation(0.1f, frames); //0.1f = duration of each image frame
+		roosterRun = new Animation<TextureRegion> (0.1f, frames); //0.1f = duration of each image frame
 
 		frames.clear();
 		//initialize jump animation
@@ -112,7 +110,7 @@ public class Rooster extends Sprite {
 			frames.add(new TextureRegion(getTexture(), 3*96, 0, 96, 96));
 			frames.add(new TextureRegion(getTexture(), 4*96, 0, 96, 96));
 		}
-		roosterJump = new Animation(0.1f, frames);
+		roosterJump = new Animation<TextureRegion> (0.1f, frames);
 		frames.clear();
 
 		//initialize revive animation
@@ -121,8 +119,7 @@ public class Rooster extends Sprite {
 			frames.add(new TextureRegion(getTexture(), 5*96, 0, 96, 96));
 			frames.add(new TextureRegion(getTexture(), 6*96, 0, 96, 96));
 		}
-		roosterRevive = new Animation(0.1f, frames);
-		this.screen = screen;
+		roosterRevive = new Animation<TextureRegion> (0.1f, frames);
 	}
 
 	public void update (float dt) { //dt = delta time
@@ -139,13 +136,13 @@ public class Rooster extends Sprite {
 				isReviving = false;
 				setMaskBits(true);
 			}
-			
+
 		} else if (isFrozen) {
 			if (currentState == State.FROZEN && stateTimer >= DEFAULT_POWERUP_DURATION) {
 				isFrozen = false;
 				setMaskBits(true);
 			}
-			
+
 		} else if (!isDead) {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -10/MainGame.PPM) {
@@ -341,7 +338,7 @@ public class Rooster extends Sprite {
 	public int getCoins() {
 		return coins;
 	}
-	
+
 	public boolean hasWon() {
 		return hasWon;
 	}
@@ -365,18 +362,18 @@ public class Rooster extends Sprite {
 //				f.setFilterData(filter);
 //			}
 			setMaskBits(false);
-			
+
 			// make rooster go up
 			b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
 		}
 	}
-	
+
 
 	//Freeze effect
 	public void setIceEffect() {
 		this.isFrozen = true;
 	}
-	
+
 	private void setMaskBits(boolean enableCollision) {
 		if (enableCollision) {
 			for (Fixture fixture : b2body.getFixtureList()) {

@@ -7,6 +7,7 @@ public class GameSession {
 	private String token;
 	private int hostID;
 	private ArrayList<Player> players;
+	private boolean hasStarted;
 	
 	private String mapPath;
 	
@@ -44,6 +45,14 @@ public class GameSession {
 			list.add(p.getName());
 		}
 		return list;
+	}
+	
+	public void setHasStarted(boolean started) {
+		hasStarted = started;
+	}
+	
+	public boolean getHasStarted () {
+		return hasStarted; 
 	}
 	
 	public String getToken() {
