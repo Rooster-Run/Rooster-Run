@@ -4,7 +4,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
-import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
 import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.LeftGameSession;
@@ -31,7 +30,6 @@ public class Network {
 		kryo.register(java.util.ArrayList.class);
 		kryo.register(StartGame.class);
 		kryo.register(PlayerInfo.class);
-		kryo.register(ErrorPacket.class);
 		kryo.register(TerminateSession.class);
 		kryo.register(Winner.class);
 		kryo.register(IceEffect.class);

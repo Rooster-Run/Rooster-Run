@@ -5,4 +5,5 @@ public class JoinGameSession {
 	public String name;
 	public boolean errorToken;
 	public boolean joinedLate;
+	public boolean isFull;
 }
