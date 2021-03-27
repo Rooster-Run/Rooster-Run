@@ -43,15 +43,14 @@ public class PlayerProgressBar implements Disposable {
 	private final Image[] playerIcons;
 	private int playerIndex;
 	
-	private Map map;
+	//private Map map;
 	
-	public PlayerProgressBar(SpriteBatch sb, Map map) {
+	public PlayerProgressBar(SpriteBatch sb, int mapLength) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
 		
 		//map size
-		this.map = map;
-		setMapSize();
+		map_size = mapLength;
 		
 		// progress bar
 		bar = new Image(new Texture("progress_bar/grey_bar.png"));		
@@ -134,9 +133,5 @@ public class PlayerProgressBar implements Disposable {
 		int lives = PlayScreen.player.getLives();
 		for (int i = lives; i < 3; i++) 
 			hearts[i].setVisible(false);
-	}
-	
-	private void setMapSize() {
-		map_size = map.getLength();
 	}
 }

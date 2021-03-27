@@ -40,8 +40,7 @@ public class GameOverScreen implements Screen {
 	
 	public GameOverScreen(MainGame game) {
 		
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
-    	SoundManager.playSound(sound);
+    	SoundManager.playSound(SoundManager.GAMEOVER);
     	
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
@@ -76,7 +75,7 @@ public class GameOverScreen implements Screen {
 		stage.addActor(table);
 		
 		
-		Texture background = new Texture("buttons/untitled.png");
+		Texture background = new Texture("buttons/Untitled.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 		PlayScreen.resetSession();
 	}

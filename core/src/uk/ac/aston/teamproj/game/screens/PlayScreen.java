@@ -109,7 +109,7 @@ public class PlayScreen implements Screen {
 		gamePort = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
 
 		// Create progress bar and tab
-		progressBar = new PlayerProgressBar(game.batch, levelMap);
+		progressBar = new PlayerProgressBar(game.batch, levelMap.getLength());
 		tab = new PlayersTab(game.batch);
 		
 		// Load our map and setup our map renderer
@@ -154,7 +154,7 @@ public class PlayScreen implements Screen {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("electric-transition-super-quick-www.mp3"));
-            	SoundManager.playSound(sound);
+            	SoundManager.playSound(SoundManager.SWOOSH);
                 player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
 				jumpCount++;
 			}
