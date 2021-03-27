@@ -35,7 +35,7 @@ import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
-import uk.ac.aston.teamproj.game.tools.MapManager;
+import uk.ac.aston.teamproj.game.tools.SingleMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 
@@ -94,7 +94,7 @@ public class SinglePlayerScreen implements Screen {
 	public SinglePlayerScreen(MainGame game) {
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
-		this.levelMap = MapManager.getMapByPath(mapPath);
+		this.levelMap = SingleMapManager.getMapByPath(mapPath);
 		
 		//camera Position
 		camPos = levelMap.getCamPosition();

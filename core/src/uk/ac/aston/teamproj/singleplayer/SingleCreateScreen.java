@@ -32,7 +32,7 @@ import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
-import uk.ac.aston.teamproj.game.tools.MapManager;
+import uk.ac.aston.teamproj.game.tools.SingleMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 public class SingleCreateScreen implements Screen {
@@ -125,7 +125,7 @@ public class SingleCreateScreen implements Screen {
 
 	    			// pass in map data
 
-	    			SinglePlayerScreen.mapPath = MapManager.getMapByIndex(mapIdx).getPath();
+	    			SinglePlayerScreen.mapPath = SingleMapManager.getMapByIndex(mapIdx).getPath();
 	    			game.setScreen(new SinglePlayerScreen(game));
 	            	return true;
 
@@ -254,7 +254,7 @@ public class SingleCreateScreen implements Screen {
 		stage.draw();
 		stage.act(delta);
 
-		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(MapManager.getMapByIndex(mapIdx).getImage())));
+		mapPreview.setDrawable(new TextureRegionDrawable(new TextureRegion(SingleMapManager.getMapByIndex(mapIdx).getImage())));
 	}
 
 

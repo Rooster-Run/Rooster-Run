@@ -37,7 +37,7 @@ import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
-import uk.ac.aston.teamproj.game.tools.MapManager;
+import uk.ac.aston.teamproj.game.tools.MultiMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.game.tools.WorldContactListener;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
@@ -97,7 +97,7 @@ public class PlayScreen implements Screen {
 		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
-		this.levelMap = MapManager.getMapByPath(mapPath);
+		this.levelMap = MultiMapManager.getMapByPath(mapPath);
 		
 		//set camera position 
 		camPos = levelMap.getCamPosition();

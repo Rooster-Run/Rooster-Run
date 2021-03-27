@@ -9,20 +9,18 @@ import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
-import uk.ac.aston.teamproj.game.net.packet.ErrorPacket;
 import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
+import uk.ac.aston.teamproj.game.net.packet.LeftGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
-import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
-import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 
 public class MPClient {
 
@@ -83,6 +81,11 @@ public class MPClient {
 					// start the game
 					errorToken = packet.errorToken; //checking for wrong token entry
 					late = packet.joinedLate; //checking for late game session joiners
+				}
+				
+				if (object instanceof LeftGameSession) {
+					LeftGameSession packet = (LeftGameSession) object;
+					
 				}
 
 				if (object instanceof SessionInfo) {

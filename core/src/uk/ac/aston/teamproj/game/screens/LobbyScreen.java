@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -31,7 +30,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.Player;
+import uk.ac.aston.teamproj.game.net.packet.LeftGameSession;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
+import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 
@@ -96,9 +97,7 @@ public class LobbyScreen implements Screen {
 		new_Skin = new Skin(newButtonAtlas);
 		
 		initializeButtons();
-		populateBackgroundTable();
-		isHost();
-		
+		populateBackgroundTable();		
 	}
 
 	
@@ -123,27 +122,24 @@ public class LobbyScreen implements Screen {
 	}
 	
 	private void populateTable() {
-		Table table2 = new Table();
-		
-		table2.bottom();
-		
+		Table table2 = new Table();		
+		table2.bottom();		
 
 		table2.setFillParent(true);
-		
-		
-
-		
-
 		table2.add(playBtn).height(22f).width(120).padLeft(270).padTop(500);
-		
-
+	
 		stage.addActor(table2);
 		Gdx.input.setInputProcessor(stage);
 		
 	}
 	
 	private void isHost() {
-        if(isHost) {
+		boolean firstPlayerInArray = false;
+		if (currentPlayers != null && currentPlayers.size() > 0) {
+			firstPlayerInArray = (PlayScreen.myID == currentPlayers.get(0).getID());
+		}
+		
+        if (isHost || firstPlayerInArray) {
         	populateTable();
             populateBackTable();
         } else {
@@ -181,9 +177,19 @@ public class LobbyScreen implements Screen {
 		backBtn.addListener(new InputListener() {
 				@Override
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-	       	SoundManager.playSound(SoundManager.POP);
+					SoundManager.playSound(SoundManager.POP);
+//					
+//					LeftGameSession packet = new LeftGameSession();
+//					packet.token = PlayScreen.sessionID;
+//					packet.playerID = PlayScreen.myID;
+					
+					LeftGameSession packet = new LeftGameSession();
+					packet.token = PlayScreen.sessionID;
+					packet.playerID = PlayScreen.myID;
 					LobbyScreen.this.dispose();
+					PlayScreen.resetSession();
 					game.setScreen(new MultiplayerMenuScreen(game));
+					MPClient.client.sendTCP(packet);
 					return true;
 				}
 		});
@@ -217,8 +223,11 @@ public class LobbyScreen implements Screen {
 
 	}
 
+	Group group = new Group();
+	
 	@Override
 	public void render(float delta) {	
+		isHost();
 		
 		//Displaying content on screen if host hasn't pressed start	
 		if (!isGameAboutToStart) {
@@ -226,7 +235,8 @@ public class LobbyScreen implements Screen {
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	
 						
-			Group group = new Group();	
+			//group = new Group();
+			group.clear();
 			Label.LabelStyle bitmapFont = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 			Label.LabelStyle labelFont = new Label.LabelStyle(font, Color.WHITE);
 			
@@ -244,8 +254,6 @@ public class LobbyScreen implements Screen {
 			totalLabels.setBounds(300, 185, 20, 20);
 			group.addActor(totalLabels);
 			
-			
-		
 			
 			for (int i = 0, j = 100; i < currentPlayers.size(); i++, j -= 25) {
 					String name = currentPlayers.get(i).getName();
@@ -269,9 +277,6 @@ public class LobbyScreen implements Screen {
 //			//BackButton
 //			backBtn.setBounds(30, 10, 100, 20);
 //			group.addActor(backBtn);
-		
-			
-			
 			
 			
 			stage.addActor(group);
