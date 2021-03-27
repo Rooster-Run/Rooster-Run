@@ -45,7 +45,7 @@ public class GameFinishedScreen implements Screen {
 
 	// font
 	private BitmapFont font;
-	
+	private Label winnerLabel;
 
 	public GameFinishedScreen(MainGame game) {
 		
@@ -107,10 +107,11 @@ public class GameFinishedScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		winnerLabel.setText(getWinner());
+		
 		stage.draw();
 		stage.act(delta);	
 	}
@@ -127,7 +128,7 @@ public class GameFinishedScreen implements Screen {
 		
 		//LabelName
         Label.LabelStyle labelName = new Label.LabelStyle(font, Color.WHITE);
-        Label winnerLabel = new Label (getWinner(), labelName);
+        winnerLabel = new Label (getWinner(), labelName);
         winnerNameTable.add(winnerLabel).expandX().padTop(100).padLeft(150);
         
 		//LabelWinner

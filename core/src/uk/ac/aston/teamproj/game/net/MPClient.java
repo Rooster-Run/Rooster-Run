@@ -18,9 +18,11 @@ import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.screens.CreateScreen;
+import uk.ac.aston.teamproj.game.screens.GameInProgressScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
+import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 
 public class MPClient {
 
@@ -50,8 +52,15 @@ public class MPClient {
 			requestLogin();
 			if (game.getScreen() instanceof CreateScreen)
 				isHost = true;
-
-			game.setScreen(new LobbyScreen(game, isHost));
+			//Checking if wrong token has been entered
+			if(MPClient.errorToken) {
+				game.setScreen(new TokenErrorScreen(game)); //Display an token error screen
+			} 
+			else if (MPClient.late) { //Checking if a user tries to join game after it has started
+				game.setScreen(new GameInProgressScreen(game)); //Display an game in progress error screen
+			} else {
+				game.setScreen(new LobbyScreen(game, isHost));
+			}
 
 		} catch (Exception e) {
 			game.setScreen(new ServerErrorScreen(game));
@@ -81,11 +90,6 @@ public class MPClient {
 					// start the game
 					errorToken = packet.errorToken; //checking for wrong token entry
 					late = packet.joinedLate; //checking for late game session joiners
-				}
-				
-				if (object instanceof LeftGameSession) {
-					LeftGameSession packet = (LeftGameSession) object;
-					
 				}
 
 				if (object instanceof SessionInfo) {

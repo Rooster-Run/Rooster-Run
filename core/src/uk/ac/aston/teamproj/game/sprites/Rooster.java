@@ -371,7 +371,9 @@ public class Rooster extends Sprite {
 
 	//Freeze effect
 	public void setIceEffect() {
-		this.isFrozen = true;
+		if (currentState != State.REVIVING) {
+			this.isFrozen = true;
+		}
 	}
 
 	private void setMaskBits(boolean enableCollision) {

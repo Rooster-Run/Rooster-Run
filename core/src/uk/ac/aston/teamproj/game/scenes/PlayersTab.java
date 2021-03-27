@@ -19,7 +19,6 @@ import uk.ac.aston.teamproj.game.screens.PlayScreen;
 
 public class PlayersTab implements Disposable {
 	
-	private static final float MAP_SIZE = 500;
 	private static final float BAR_WIDTH = 400;
 	private static final float BAR_HEIGHT = 32;
 	private static final float PLAYER_RADIUS = 30;
@@ -44,9 +43,12 @@ public class PlayersTab implements Disposable {
 	private final Image[] playerIcons;
 	private final Label[] playerNames;
 	
-	public PlayersTab(SpriteBatch sb) {
+	private float mapSize;
+	
+	public PlayersTab(SpriteBatch sb, int mapLength) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
+		this.mapSize = mapLength;
 		
 		// bar, coins, lives
 		Texture barTexture = new Texture("progress_bar/grey_bar.png");
@@ -145,7 +147,7 @@ public class PlayersTab implements Disposable {
 			Player p = PlayScreen.players.get(i);
 			
 			float actualPosition = (p.getPosX()* MainGame.PPM) / 100;
-			float percentage = (actualPosition * 100) / MAP_SIZE;			
+			float percentage = (actualPosition * 100) / mapSize;			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 	
 			coinsCollected[i] = p.getCoins();

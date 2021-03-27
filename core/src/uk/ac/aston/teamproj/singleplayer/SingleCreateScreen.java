@@ -57,8 +57,6 @@ public class SingleCreateScreen implements Screen {
 
 	//font
 	private BitmapFont font;
-
-	private final static int NUM_MAPS = 7;
 	private Image mapPreview = new Image();
 	private int mapIdx = 0;
 
@@ -166,7 +164,7 @@ public class SingleCreateScreen implements Screen {
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
-	            		mapIdx = NUM_MAPS - 1;
+	            		mapIdx = SingleMapManager.getTotalMaps() - 1;
 	            	}
 	            	return true;
 	            }
@@ -182,7 +180,7 @@ public class SingleCreateScreen implements Screen {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	SoundManager.playSound(SoundManager.POP);
-	            	mapIdx = (mapIdx + 1) % NUM_MAPS;
+	            	mapIdx = (mapIdx + 1) % SingleMapManager.getTotalMaps();
 	            	return true;
 	            }
 		});
