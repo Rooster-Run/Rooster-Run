@@ -332,7 +332,8 @@ public class SingleRooster extends Sprite {
 	public void decreaseLives() {
 		if (lives > 1)
 			lives--;
-		else {
+		else if (lives == 1) {
+			lives --;
 			isDead = true;
 
 			//redefine what Rooster can collide with (i.e. nothing, he's dead)

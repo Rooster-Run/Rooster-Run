@@ -68,28 +68,28 @@ public class MPClient {
 
 				if (object instanceof Login) {
 					Login packet = (Login) object;
-					clientID = packet.id;
+					clientID = packet.getID();
 				}
 
 				if (object instanceof JoinGameSession) {
 					JoinGameSession packet = (JoinGameSession) object;
 					// start the game
-					isTokenWrong = packet.errorToken; //checking for wrong token entry
-					isLate = packet.joinedLate; //checking for late game session joiners
-					isFull = packet.isFull;
+					isTokenWrong = packet.isErrorToken(); //checking for wrong token entry
+					isLate = packet.isJoinedLate(); //checking for late game session joiners
+					isFull = packet.isFull();
 					//Checking if wrong token has been entered
 					isReady = true;
 				}
 
 				if (object instanceof SessionInfo) {
 					SessionInfo packet = (SessionInfo) object;
-					System.out.println("Total players: " + packet.playerIDs.size());
+					System.out.println("Total players: " + packet.getPlayerIDs().size());
 					// totalPlayers = packet.playerIDs.size();
 					System.out.print("Players: ");
 					LobbyScreen.currentPlayers = new ArrayList<>();
-					for (int i = 0; i < packet.playerIDs.size(); i++) {
-						Integer id = packet.playerIDs.get(i);
-						String name = packet.playerNames.get(i);
+					for (int i = 0; i < packet.getPlayerIDs().size(); i++) {
+						Integer id = packet.getPlayerIDs().get(i);
+						String name = packet.getPlayerNames().get(i);
 						System.out.print("[" + id + " - " + name + "] ");
 						// playerName = packet.playerNames.get(i);
 						// playerID = packet.playerNames.get(i);
@@ -97,18 +97,18 @@ public class MPClient {
 						LobbyScreen.currentPlayers.add(new Player(id, name));
 					}
 					System.out.println();
-					System.out.println("Map: " + packet.mapPath);
-					PlayScreen.mapPath = packet.mapPath;
-					PlayScreen.sessionID = packet.token;
-					PlayScreen.myID = packet.playerID;
+					System.out.println("Map: " + packet.getMapPath());
+					PlayScreen.mapPath = packet.getMapPath();
+					PlayScreen.sessionID = packet.getToken();
+					PlayScreen.myID = packet.getPlayerID();
 					isReady = true;
 				}
 
 				if (object instanceof StartGame) {
 					StartGame packet = (StartGame) object;
 					PlayScreen.players = new ArrayList<Player>();
-					for (int i = 0; i < packet.playerIDs.size() && i < packet.playerNames.size(); i++) {
-						Player p = new Player(packet.playerIDs.get(i), packet.playerNames.get(i));
+					for (int i = 0; i < packet.getPlayerIDs().size() && i < packet.getPlayerNames().size(); i++) {
+						Player p = new Player(packet.getPlayerIDs().get(i), packet.getPlayerNames().get(i));
 						PlayScreen.players.add(p);
 
 					}
@@ -124,17 +124,17 @@ public class MPClient {
 				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
 					for (Player p : PlayScreen.players) {
-						if (p.getID() == packet.playerID) {
-							p.setPosX(packet.posX);
-							p.setLives(packet.lives);
-							p.setCoins(packet.coins);
+						if (p.getID() == packet.getPlayerID()) {
+							p.setPosX(packet.getPosX());
+							p.setLives(packet.getLives());
+							p.setCoins(packet.getCoins());
 						}
 					}
 				}
 
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
-					PlayScreen.winner = packet.winnerName;
+					PlayScreen.winner = packet.getWinnerName();
 				}
 
 				if (object instanceof IceEffect) {
@@ -147,7 +147,7 @@ public class MPClient {
 
 	public void requestLogin() {
 		Login login = new Login();
-		login.name = name;
+		login.setName(name);
 		client.sendTCP(login);
 	}
 	
