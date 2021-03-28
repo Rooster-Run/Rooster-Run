@@ -154,6 +154,7 @@ public class Rooster extends Sprite {
 				} else {
 					lives = 0;
 					isDead = true;
+					b2body.setLinearVelocity(0, 0);
 				}
 			}
 

@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -61,7 +62,8 @@ public class LobbyScreen implements Screen {
 	private Texture[] textures;
 	private Image background;
 	//font
-	private BitmapFont font;
+	private BitmapFont retroFont;
+	private BitmapFont texGyreFont;
 	
 	public LobbyScreen(MainGame game, boolean isHost) {
 		this.game = game;
@@ -71,17 +73,30 @@ public class LobbyScreen implements Screen {
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
 		
-		//font
+		//retro-gaming font 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 20;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
 		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: 
 		// These characters should not repeat! 
-
-		font = generator.generateFont(parameter);
-		font.setColor(Color.WHITE);
+		retroFont = generator.generateFont(parameter);
+		retroFont.setColor(Color.WHITE);
 		generator.dispose();
+		
+		
+		//open-sans font
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("font/texGyre.otf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 20;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: 
+		// These characters should not repeat! 
+
+		texGyreFont = generator.generateFont(parameter);
+		texGyreFont.setColor(Color.WHITE);
+		generator.dispose();
+
 		
 		//backrgound
 		background = new Image(new Texture("buttons/lobbyBck.png"));
@@ -104,7 +119,7 @@ public class LobbyScreen implements Screen {
 	private void initTextures() {
 		textures = new Texture[4];
 		for(int i = 0; i < textures.length; i++) {
-			textures[i] = (new Texture("progress_bar/player" + i + ".png"));
+			textures[i] = (new Texture("progress_bar/player" + (i+1) + ".png"));
 		}
 	}
 	
@@ -155,7 +170,7 @@ public class LobbyScreen implements Screen {
 		table2.background(new TextureRegionDrawable(new TextureRegion(background)));
 		stage.addActor(table2);
 		Gdx.input.setInputProcessor(stage);
-		}
+	}
 	
 	private void populateBackTable() {
 		Table table = new Table();
@@ -237,22 +252,22 @@ public class LobbyScreen implements Screen {
 						
 			//group = new Group();
 			group.clear();
-			Label.LabelStyle bitmapFont = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-			Label.LabelStyle labelFont = new Label.LabelStyle(font, Color.WHITE);
+			Label.LabelStyle tokenFont = new Label.LabelStyle(texGyreFont, Color.WHITE);
+			Label.LabelStyle labelFont = new Label.LabelStyle(retroFont, Color.WHITE);
 			
 			//Token label
-			Label tokenLabels = new Label(getToken(), bitmapFont);
-			tokenLabels.setColor(1f, 1f, 1f, 1f);
-			tokenLabels.setFontScale(1.2f);
-			tokenLabels.setBounds(210, 147, 20, 20);
-			group.addActor(tokenLabels);
+			Label tokenLabel = new Label(getToken(), tokenFont);
+			tokenLabel.setColor(1f, 1f, 1f, 1f);
+			tokenLabel.setFontScale(0.95f);
+			tokenLabel.setBounds(208, 147, 20, 20);
+			group.addActor(tokenLabel);
 			
 			//TotalPlayers label 
-			Label totalLabels = new Label("" + getTotal(), labelFont);
-			totalLabels.setColor(1f, 1f, 1f, 1f);
-			totalLabels.setFontScale(1.0f);
-			totalLabels.setBounds(300, 185, 20, 20);
-			group.addActor(totalLabels);
+			Label isFullLabel = new Label("" + getTotal(), labelFont);
+			isFullLabel.setColor(1f, 0f, 0f, 1f);
+			isFullLabel.setFontScale(0.55f);
+			isFullLabel.setBounds(300, 185, 20, 20);
+			group.addActor(isFullLabel);
 			
 			
 			for (int i = 0, j = 100; i < currentPlayers.size(); i++, j -= 25) {
@@ -264,8 +279,8 @@ public class LobbyScreen implements Screen {
 
 					nameLabels[i] = new Label (name, labelFont);
 					nameLabels[i].setX(70);
-					nameLabels[i].setY(j + 20);
-					nameLabels[i].setFontScale(1.3f);
+					nameLabels[i].setY(j + 17);
+					nameLabels[i].setFontScale(1.1f);
 					nameLabels[i].setColor(1, 1, 1, 1);
 					group.addActor(nameLabels[i]);
 			}
