@@ -28,9 +28,9 @@
 
 # <h3 align="center">Rooster Run</h3>
   <p align="center"> Compete against family and friends to escape the barn. Only one Rooster can escape, the others will become a sunday roast. <br />
-    <a href="mailto:https://rooster-run.github.io/Rooster-run-website/index.html"><strong>Website</strong></a>
+    <a href="https://rooster-run.github.io/Rooster-run-website/index.html"><strong></strong></a>
     <a href=VideoHere"><strong>| How To Play Rooster Run</strong></a>
-    <a href=RoosterRunContact@gmail.com"><strong>| Contact The Team</strong></a>
+    <a href="mailto:RoosterRunContact@gmail.com"><strong>| Contact The Team</strong></a>
     <br />
     <br />
   </p>
