@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="380" height="13" tilewidth="96" tileheight="96" infinite="0" nextlayerid="16" nextobjectid="881">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="380" height="13" tilewidth="96" tileheight="96" infinite="0" nextlayerid="16" nextobjectid="882">
  <tileset firstgid="1" name="ground" tilewidth="96" tileheight="96" tilecount="15" columns="3">
   <image source="new_graphics/webp_nn.png" trans="a1bed9" width="288" height="480"/>
  </tileset>
@@ -353,8 +353,9 @@
  <objectgroup id="11" name="10_bounday">
   <object id="39" x="0" y="0" height="1244"/>
   <object id="40" x="-0.333333" y="-0.333333" width="36500"/>
+  <object id="881" x="36480" y="2" height="1244"/>
  </objectgroup>
  <objectgroup id="12" name="11_escape">
-  <object id="700" x="35808" y="960" width="384" height="192"/>
+  <object id="700" x="35812" y="1158" width="384" height="90"/>
  </objectgroup>
 </map>
