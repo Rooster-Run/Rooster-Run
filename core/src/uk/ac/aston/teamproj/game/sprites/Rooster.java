@@ -145,7 +145,7 @@ public class Rooster extends Sprite {
 
 		} else if (!isDead) {
 			//check if rooster has fallen
-			if (b2body.getPosition().y < -10/MainGame.PPM) {
+			if (b2body.getPosition().y < -20/MainGame.PPM) {
 				if (coins >= DEFAULT_COINS_TO_REVIVE) {
 					isReviving = true;
 					coins -= DEFAULT_COINS_TO_REVIVE;
