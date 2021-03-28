@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import uk.ac.aston.teamproj.game.MainGame;
 
-public class Ground extends InteractiveTileObject {
+public class Ground extends RectangularObject {
 
 	
 	public Ground(World world, TiledMap map, Rectangle bounds) {

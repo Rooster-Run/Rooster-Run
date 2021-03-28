@@ -12,7 +12,7 @@ import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
-public class Lightning extends InteractiveTileObjectCircular {
+public class Lightning extends CircularObject {
 
 	public Lightning(World world, TiledMap map, Ellipse bounds) {
 		super(world, map, bounds);

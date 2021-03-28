@@ -119,8 +119,8 @@ public class JoinScreen implements Screen {
 //	    			promptConfirm();
 	    			locClient = new MPClient(MainGame.IP, name, game);
 	    			JoinGameSession packet = new JoinGameSession();
-	    			packet.token = getToken();
-	    			packet.name = getName();
+	    			packet.setToken(getToken());
+	    			packet.setName(getName());
 	    			System.out.println(getName());
 	    			MPClient.client.sendTCP(packet);
 	    			

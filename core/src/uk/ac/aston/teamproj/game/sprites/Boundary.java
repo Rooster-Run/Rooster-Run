@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import uk.ac.aston.teamproj.game.MainGame;
 
-public class Boundary extends InteractiveTileObject {
+public class Boundary extends RectangularObject {
 
 	public Boundary(World world, TiledMap map, Rectangle bounds) {
 		super(world, map, bounds);

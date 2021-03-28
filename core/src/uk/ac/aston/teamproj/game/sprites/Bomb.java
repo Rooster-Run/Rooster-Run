@@ -20,7 +20,7 @@ import uk.ac.aston.teamproj.game.net.MPClient;
  */
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class Bomb extends InteractiveTileObject {
+public class Bomb extends RectangularObject {
 
 	private static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("explosion_texture/explosion.atlas"));
 	private static Animation bombExplosion = setupAnimation();

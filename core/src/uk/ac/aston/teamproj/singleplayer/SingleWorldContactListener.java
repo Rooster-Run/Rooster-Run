@@ -12,7 +12,7 @@ import uk.ac.aston.teamproj.game.sprites.Brick;
 import uk.ac.aston.teamproj.game.sprites.Coin;
 import uk.ac.aston.teamproj.game.sprites.EndPlane;
 import uk.ac.aston.teamproj.game.sprites.IceCube;
-import uk.ac.aston.teamproj.game.sprites.InteractiveTileObject;
+import uk.ac.aston.teamproj.game.sprites.RectangularObject;
 import uk.ac.aston.teamproj.game.sprites.Lightning;
 import uk.ac.aston.teamproj.game.sprites.Mud;
 
@@ -38,7 +38,7 @@ public class SingleWorldContactListener implements ContactListener {
 			Fixture object = (beak == fixA)? fixB : fixA; //the other object
 			
 			//check if other object is an interactive one
-			if (object.getUserData() != null && InteractiveTileObject.class.isAssignableFrom(object.getUserData().getClass())) {
+			if (object.getUserData() != null && RectangularObject.class.isAssignableFrom(object.getUserData().getClass())) {
 				playScreen.resetJumpCount1();
 			}
 		}

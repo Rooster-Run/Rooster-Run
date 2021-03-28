@@ -11,7 +11,7 @@ import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
-public class Mud extends InteractiveTileObject {
+public class Mud extends RectangularObject {
 
 	public Mud(World world, TiledMap map, Rectangle bounds) {
 		super(world, map, bounds);

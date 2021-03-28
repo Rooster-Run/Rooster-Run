@@ -27,15 +27,10 @@
   </a>
 
 # <h3 align="center">Rooster Run</h3>
-  <p align="center"> Rooster Run is a new, fast paced and immersive online multiplayer game <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+  <p align="center"> Compete against family and friends to escape the barn. Only one Rooster can escape, the others will become a sunday roast. <br />
+    <a href="https://rooster-run.github.io/Rooster-run-website/index.html"><strong>Website</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
   </p>
 </p>
 
@@ -45,9 +40,13 @@
 
 ![image](https://user-images.githubusercontent.com/62774004/112734958-dfc76e00-8f40-11eb-84c5-11c3a2810631.png)
 
-Held captive under a ruthless farmer, you the rooster must escape the farm to achieve freedom, however dangerous obstacles and traps have been laid out by the farmer to keep you trapped! Race your friends and family to get onto the plane before they do! Can you make it out alive? 
+Rooster Run has been developed and maintained by 9 Computer Science undergraduate students at Aston University. Rooster Run offers a fun and interactive multiplayer which is aimed at audiences aged 7-15 years. The game offers bright colours and blocky text to entice its audiences, with the built-in multiplayer player mode offering you the ability to play with your family and friends.
 
-Create a lobby and invite your friends and family to play an immersive and competitive game, going head to head to reach freedom! Simply share your game code and start playing or join a lobby with someone else's game code!
+The Rooster Run storyline comes from the idea of Roosters planning their escape from a Barn or a Slaughterhouse, the Roosters must compete against each other to escape, the Airplane at the end of the map only offers one seat so the first rooster to get there wins freedom and the others will be Sunday roast.
+
+Rooster Run offers powerups such as lighting to increase speed and power-downs such as mud to slow the player down. The game also allows the collection of coins that can save your life as you run across the map. Rooster run will be available to our players on the 1st April 2021 with the ability to create lobbies and share them with your friends to join and compete against each other.
+
+Rooster Run makes use of the java language with libraries such as LibGDX and Kryonet being used in the development of the game and networking. GitHub has also been used extensively during the development process to offer a workspace that allows developers to collaborate on coding projects in addition to maintaining versioning control.
 
 <!-- BUILT WITH -->
 
@@ -55,17 +54,25 @@ Create a lobby and invite your friends and family to play an immersive and compe
 
 Rooster Run was created using Eclipse IDE and the libraries used were LibGDX & KryoNet. 
 
-* Eclipse: https://www.eclipse.org/
+### Eclipse: https://www.eclipse.org/
 
-![image](https://www.eclipse.org/artwork/images/v2/logo-800x188.png)
+Eclipse is an integrated development environment (IDE) used in computer programming. It contains a base workspace and an extensible plug-in system for customizing the environment. Eclipse is written mostly in Java and its primary use is for developing Java applications.
 
-* LibGDX: https://libgdx.com/
+### LibGDX: https://libgdx.com/
 
-![image](https://images.pcgamingwiki.com/6/61/LibGDX_logo.png)
+libGDX is a cross-platform Java game development framework based on OpenGL (ES) that works on Windows, Linux, macOS, Android, your browser and iOS. libGDX provides a well-tried and robust environment for rapid prototyping and fast iterations. libGDX does not force a specific design or coding style on you; it rather gives you the freedom to create a game the way you prefer.
 
-* Kryonet: https://github.com/EsotericSoftware/kryonet
+### Kryonet: https://github.com/EsotericSoftware/kryonet
 
-![image](https://camo.githubusercontent.com/69f7fd4a766f9759f149ec1c3722c0a156932a76a95233da625be9e159c43adc/68747470733a2f2f7261772e6769746875622e636f6d2f77696b692f45736f7465726963536f6674776172652f6b72796f6e65742f696d616765732f6c6f676f2e6a7067)
+KryoNet is a Java library that provides a clean and simple API for efficient TCP and UDP client/server network communication using NIO. KryoNet uses the Kryo serialization library to transfer object graphs automatically and efficiently across the network. KryoNet runs on both the desktop and on Android.
+
+### Google Cloud: https://cloud.google.com/
+
+Google Cloud Platform is a provider of computing resources for deploying and operating applications on the web. Its specialty is providing a place for individuals and enterprises to build and run software, and it uses the web to connect to the users of that software.
+
+### GitHub: https://github.com/
+
+GitHub, Inc. is a provider of Internet hosting for software development and version control using Git. It offers the distributed version control and source code management functionality of Git, plus its own features.
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -76,20 +83,19 @@ To get a local copy up and running follow these simple steps.
 2. Extract the zipped folder into your desired location
 3. Start RoosterRun.exe
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
 <!-- GALLERY -->
 ## Gallery
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
+### Maps
 
+Rooster Run has numerous maps ranging from different skill levels: 
+
+![B1](https://media.discordapp.net/attachments/781914847738200076/825093308266577960/easymap_text.png?width=1175&height=559)
+![B2](https://media.discordapp.net/attachments/781914847738200076/825087960110071859/b2_text.png?width=1175&height=559)
+![M1](https://media.discordapp.net/attachments/781914847738200076/825097233698652261/medium1_text.png?width=1181&height=559)
+![M2](https://media.discordapp.net/attachments/781914847738200076/825097607314407424/medium2_text.png?width=1183&height=559)
+![H1](https://media.discordapp.net/attachments/781914847738200076/825095420844703804/hardmap_text.png?width=1196&height=559)
+![H2](https://media.discordapp.net/attachments/781914847738200076/825096102679937074/h2_text.png?width=1191&height=559)
 
 <!-- LICENSE -->
 ## License

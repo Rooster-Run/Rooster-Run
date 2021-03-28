@@ -12,7 +12,7 @@ import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.screens.PlayScreen;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
 
-public class IceCube extends InteractiveTileObjectCircular {
+public class IceCube extends CircularObject {
 
 	public IceCube(World world, TiledMap map, Ellipse bounds) {
 		super(world, map, bounds);

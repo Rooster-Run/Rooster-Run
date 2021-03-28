@@ -8,7 +8,6 @@ import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.LeftGameSession;
 import uk.ac.aston.teamproj.game.net.packet.Login;
-import uk.ac.aston.teamproj.game.net.packet.Movement;
 import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
@@ -25,7 +24,6 @@ public class Network {
 		kryo.register(Login.class);
 		kryo.register(CreateGameSession.class);
 		kryo.register(JoinGameSession.class);
-		kryo.register(Movement.class);
 		kryo.register(SessionInfo.class);
 		kryo.register(java.util.ArrayList.class);
 		kryo.register(StartGame.class);
