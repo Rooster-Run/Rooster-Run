@@ -21,7 +21,7 @@ import uk.ac.aston.teamproj.game.screens.MultiCreateScreen;
 import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.GameInProgressScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
 import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 
@@ -98,18 +98,18 @@ public class MPClient {
 					}
 					System.out.println();
 					System.out.println("Map: " + packet.getMapPath());
-					PlayScreen.mapPath = packet.getMapPath();
-					PlayScreen.sessionID = packet.getToken();
-					PlayScreen.myID = packet.getPlayerID();
+					MultiPlayScreen.mapPath = packet.getMapPath();
+					MultiPlayScreen.sessionID = packet.getToken();
+					MultiPlayScreen.myID = packet.getPlayerID();
 					isReady = true;
 				}
 
 				if (object instanceof StartGame) {
 					StartGame packet = (StartGame) object;
-					PlayScreen.players = new ArrayList<Player>();
+					MultiPlayScreen.players = new ArrayList<Player>();
 					for (int i = 0; i < packet.getPlayerIDs().size() && i < packet.getPlayerNames().size(); i++) {
 						Player p = new Player(packet.getPlayerIDs().get(i), packet.getPlayerNames().get(i));
-						PlayScreen.players.add(p);
+						MultiPlayScreen.players.add(p);
 
 					}
 
@@ -123,7 +123,7 @@ public class MPClient {
 
 				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
-					for (Player p : PlayScreen.players) {
+					for (Player p : MultiPlayScreen.players) {
 						if (p.getID() == packet.getPlayerID()) {
 							p.setPosX(packet.getPosX());
 							p.setLives(packet.getLives());
@@ -134,11 +134,11 @@ public class MPClient {
 
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
-					PlayScreen.winner = packet.getWinnerName();
+					MultiPlayScreen.winner = packet.getWinnerName();
 				}
 
 				if (object instanceof IceEffect) {
-					PlayScreen.player.setIceEffect();
+					MultiPlayScreen.player.setIceEffect();
 				}
 			}
 		}));

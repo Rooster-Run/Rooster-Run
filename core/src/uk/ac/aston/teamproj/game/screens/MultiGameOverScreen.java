@@ -18,12 +18,12 @@ public class MultiGameOverScreen extends GameOverScreen {
 	}
 	
 	public String showCoins() {
-		return "Coins Collected: " + PlayScreen.player.getCoins();
+		return "Coins Collected: " + MultiPlayScreen.player.getCoins();
 	}
 
 	@Override
 	public void resetSession() {
-		PlayScreen.resetSession();
+		MultiPlayScreen.resetSession();
 		
 	}
 

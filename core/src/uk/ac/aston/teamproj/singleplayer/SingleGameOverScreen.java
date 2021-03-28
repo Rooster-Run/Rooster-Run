@@ -10,7 +10,7 @@ public class SingleGameOverScreen extends GameOverScreen {
 	}
 	
 	public String showCoins() {
-		return "Coins Collected: " + SinglePlayerScreen.player.getCoins();
+		return "Coins Collected: " + SinglePlayScreen.player.getCoins();
 	}
 
 	@Override

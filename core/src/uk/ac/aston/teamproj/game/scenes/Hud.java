@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
 
 /**
  * 
@@ -130,16 +130,16 @@ public class Hud implements Disposable {
 	}
 
 	public void updateCoins(int value) {
-		PlayScreen.player.updateCoins(value);
-		coins = PlayScreen.player.getCoins();
+		MultiPlayScreen.player.updateCoins(value);
+		coins = MultiPlayScreen.player.getCoins();
 		coinsLabel.setText(String.format("%06d", coins));
 	}
 
 	public void updateLives() {
-		if (PlayScreen.player.isDead()) {
+		if (MultiPlayScreen.player.isDead()) {
 			lives = 0;
 		} else {
-			lives = PlayScreen.player.getLives();
+			lives = MultiPlayScreen.player.getLives();
 		}
 			livesLabel.setText(String.format("%01d", lives));
 //			checkHearts();

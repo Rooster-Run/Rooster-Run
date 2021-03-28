@@ -123,8 +123,8 @@ public class SingleCreateScreen implements Screen {
 	    			//diff
 	    			// pass in map data
 
-	    			SinglePlayerScreen.mapPath = SingleMapManager.getMapByIndex(mapIdx).getPath();
-	    			game.setScreen(new SinglePlayerScreen(game));
+	    			SinglePlayScreen.mapPath = SingleMapManager.getMapByIndex(mapIdx).getPath();
+	    			game.setScreen(new SinglePlayScreen(game));
 	            	return true;
 
 		}});

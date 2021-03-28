@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 /**
  * @author Junaid, Marcus, Suleman
@@ -80,7 +80,7 @@ public class SessionFullScreen implements Screen {
 				SoundManager.playSound(SoundManager.POP);
 				System.out.println("SinglePlayer");
 				SessionFullScreen.this.dispose();
-				game.setScreen(new SinglePlayerScreen(game));
+				game.setScreen(new SinglePlayScreen(game));
 				return true;
 			}
 		});

@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 /**
  * @author Junaid, Marcus, Suleman
@@ -80,7 +80,7 @@ public class ServerErrorScreen implements Screen {
 				SoundManager.playSound(sound);
 				System.out.println("SinglePlayer");
 				ServerErrorScreen.this.dispose();
-				game.setScreen(new SinglePlayerScreen(game));
+				game.setScreen(new SinglePlayScreen(game));
 				return true;
 			}
 		});
