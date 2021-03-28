@@ -40,8 +40,7 @@ public class SingleCreateScreen implements Screen {
 	private Label lbl_name;
 	private LabelStyle lbl_style;
 	private TextField txt_name;
-	public static String ip = MainGame.IP, name = "Player 1"; // change with user input
-//	public static String ip = MainGame.IP, name = "Player 1"; //UNCOMMENT WHEN SERVER IS LIVE
+	private String name = "Player 1"; // change with user input
 	private Skin txt_skin;
 	private TextButtonStyle btn_style;
 	private MainGame game;
@@ -120,7 +119,8 @@ public class SingleCreateScreen implements Screen {
 	    					name = textField.getText();
 	    				}
 	    			});
-
+	    			
+	    			//diff
 	    			// pass in map data
 
 	    			SinglePlayerScreen.mapPath = SingleMapManager.getMapByIndex(mapIdx).getPath();
@@ -142,8 +142,10 @@ public class SingleCreateScreen implements Screen {
 
 	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("Back");
-	            	SingleCreateScreen.this.dispose();
+	            	dispose();
+	            	//diff
 	            	game.setScreen(new MainMenuScreen(game));
+	            	
 	            	return true;
 	            }
 		});
@@ -164,6 +166,7 @@ public class SingleCreateScreen implements Screen {
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
+	            		//diff
 	            		mapIdx = SingleMapManager.getTotalMaps() - 1;
 	            	}
 	            	return true;

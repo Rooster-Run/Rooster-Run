@@ -69,7 +69,7 @@ public class MultiplayerMenuScreen implements Screen {
             	SoundManager.playSound(SoundManager.POP);
             	System.out.println("Create");
             	MultiplayerMenuScreen.this.dispose();
-            	game.setScreen(new CreateScreen(game));
+            	game.setScreen(new MultiCreateScreen(game));
             	return true;
             }
 		});

@@ -17,7 +17,7 @@ import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
-import uk.ac.aston.teamproj.game.screens.CreateScreen;
+import uk.ac.aston.teamproj.game.screens.MultiCreateScreen;
 import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.GameInProgressScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
@@ -51,7 +51,7 @@ public class MPClient {
 		try {
 			client.connect(60000, ip, Network.TCP_PORT, Network.UDP_PORT);
 			requestLogin();
-			if (game.getScreen() instanceof CreateScreen)
+			if (game.getScreen() instanceof MultiCreateScreen)
 				isHost = true;
 
 		} catch (Exception e) {
