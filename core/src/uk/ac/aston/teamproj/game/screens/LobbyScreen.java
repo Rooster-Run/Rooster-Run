@@ -199,8 +199,8 @@ public class LobbyScreen implements Screen {
 //					packet.playerID = PlayScreen.myID;
 					
 					LeftGameSession packet = new LeftGameSession();
-					packet.token = PlayScreen.sessionID;
-					packet.playerID = PlayScreen.myID;
+					packet.setToken(PlayScreen.sessionID);
+					packet.setPlayerID(PlayScreen.myID);
 					LobbyScreen.this.dispose();
 					PlayScreen.resetSession();
 					game.setScreen(new MultiplayerMenuScreen(game));
@@ -222,7 +222,7 @@ public class LobbyScreen implements Screen {
 	            	SoundManager.playSound(SoundManager.POP);
 
 					StartGame packet = new StartGame();
-					packet.token = PlayScreen.sessionID;
+					packet.setToken(PlayScreen.sessionID);
 					LobbyScreen.this.dispose();
 					game.setScreen(new LoadingScreen(game));
 					MPClient.client.sendTCP(packet);

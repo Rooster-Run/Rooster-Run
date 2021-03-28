@@ -140,8 +140,8 @@ public class CreateScreen implements Screen {
 	    			locClient = new MPClient(MainGame.IP, txt_name.getText(), game);
 	    			//dispose();
 	    			CreateGameSession packet = new CreateGameSession();
-	    			packet.mapPath = MultiMapManager.getMapByIndex(mapIdx).getPath();
-	    			packet.name = getName();
+	    			packet.setMapPath(MultiMapManager.getMapByIndex(mapIdx).getPath());
+	    			packet.setName(getName());
 	    			MPClient.client.sendTCP(packet);
 	            	return true;
 		

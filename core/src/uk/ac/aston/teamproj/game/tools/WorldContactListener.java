@@ -91,8 +91,8 @@ public class WorldContactListener implements ContactListener {
 				Fixture iceCubeFixture = (fixA.getFilterData().categoryBits == MainGame.ICE_BIT) ? fixA : fixB;
 				((IceCube) iceCubeFixture.getUserData()).onHit();
 				IceEffect packet = new IceEffect();
-				packet.token = PlayScreen.sessionID;
-				packet.playerID = PlayScreen.myID;
+				packet.setToken(PlayScreen.sessionID);
+				packet.setPlayerID(PlayScreen.myID);
 				MPClient.client.sendTCP(packet);
 				break;
 
