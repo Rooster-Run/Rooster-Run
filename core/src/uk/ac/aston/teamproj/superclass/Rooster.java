@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.sprites;
+package uk.ac.aston.teamproj.superclass;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -75,7 +75,7 @@ public class Rooster extends Sprite {
 	//Ice feature
 	private boolean isFrozen = false;
 
-	public Rooster(World world, MultiPlayScreen screen) {
+	public Rooster(World world, PlayScreen screen) {
 		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
 		defineRooster();
