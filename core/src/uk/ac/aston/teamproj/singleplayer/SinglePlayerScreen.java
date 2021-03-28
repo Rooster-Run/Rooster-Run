@@ -222,11 +222,11 @@ public class SinglePlayerScreen implements Screen {
 		if (currentTime-prevUpdateTime >= 100) {
 			prevUpdateTime = currentTime;
 			PlayerInfo packet = new PlayerInfo();
-			packet.playerID = myID;
-			packet.token = sessionID;
-			packet.posX = player.getPositionX();
-			packet.lives = player.getLives();
-			packet.coins = player.getCoins();
+			packet.setPlayerID(myID);
+			packet.setToken(sessionID);
+			packet.setPosX(player.getPositionX());
+			packet.setLives(player.getLives());
+			packet.setCoins(player.getCoins());
 //			MPClient.client.sendTCP(packet);
 		}
 		

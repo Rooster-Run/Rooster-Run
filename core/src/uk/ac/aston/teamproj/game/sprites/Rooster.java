@@ -152,9 +152,9 @@ public class Rooster extends Sprite {
 					setMaskBits(false);
 
 				} else {
+					b2body.setLinearVelocity(0, 0);
 					lives = 0;
 					isDead = true;
-					b2body.setLinearVelocity(0, 0);
 				}
 			}
 
@@ -351,7 +351,8 @@ public class Rooster extends Sprite {
 	public void decreaseLives() {
 		if (lives > 1)
 			lives--;
-		else {
+		else if (lives == 1) {
+			lives --;
 			isDead = true;
 
 			//redefine what Rooster can collide with (i.e. nothing, he's dead)

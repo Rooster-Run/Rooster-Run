@@ -1,56 +1,56 @@
-package uk.ac.aston.teamproj.game.sprites;
+package uk.ac.aston.teamproj.superclass;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import uk.ac.aston.teamproj.game.MainGame;
-
-public abstract class InteractiveTileObjectCircular {
+public abstract class InteractiveTileObject {
 	protected World world;
 	protected TiledMap map;
 	protected TiledMapTile tile;
-	protected Ellipse bounds;
+	protected Shape2D bounds;
 	protected Body body;
-	
 	protected Fixture fixture;
-	
-	public InteractiveTileObjectCircular(World world, TiledMap map, Ellipse bounds) {
+	protected BodyDef bdef;
+	protected FixtureDef fdef;
+	protected Shape shape;
+
+	public InteractiveTileObject(World world, TiledMap map, Shape2D bounds) {
 		this.world = world;
 		this.map = map;
 		this.bounds = bounds;
 		
-		BodyDef bdef = new BodyDef();
-		FixtureDef fdef = new FixtureDef();
-		CircleShape shape = new CircleShape();
-		
+		bdef = new BodyDef();
 		bdef.type = BodyDef.BodyType.StaticBody;
-		bdef.position.set((bounds.x + bounds.width/2)/MainGame.PPM, (bounds.y + bounds.height/2) / MainGame.PPM);
+		fdef = new FixtureDef();
 		
+		initBodyDef();
 		body = world.createBody(bdef);
+		initShape();
 		
-		// Circle starts at the center
-		shape.setRadius(bounds.width/2/MainGame.PPM);
 		fdef.shape = shape;
 		fixture = body.createFixture(fdef);
 	}
 	
-	public abstract void onHit();	
-	
 	public void setCategoryFilter(short filterBit) {
-		Filter filter = new Filter();
-		
+		Filter filter = new Filter();		
 		filter.categoryBits = filterBit;
 		fixture.setFilterData(filter);
 	}
 	
-	public abstract TiledMapTileLayer.Cell getCell();
+	protected abstract void onHit();	
+	
+	protected abstract TiledMapTileLayer.Cell getCell();
+	
+	protected abstract void initBodyDef();
+	
+	protected abstract void initShape();
 }

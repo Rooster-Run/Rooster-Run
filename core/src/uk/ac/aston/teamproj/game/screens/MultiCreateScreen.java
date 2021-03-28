@@ -36,13 +36,12 @@ import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.tools.MultiMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
-public class CreateScreen implements Screen {
+public class MultiCreateScreen implements Screen {
 		
 	private Label lbl_name;
 	private LabelStyle lbl_style;
 	private TextField txt_name;
-	public static String ip = MainGame.IP, name = "Player 1"; // change with user input
-//	public static String ip = MainGame.IP, name = "Player 1"; //UNCOMMENT WHEN SERVER IS LIVE
+	private String name = "Player 1"; // change with user input
 	private Skin txt_skin;
 	private TextButtonStyle btn_style;
 	private MainGame game;
@@ -62,9 +61,10 @@ public class CreateScreen implements Screen {
 
 	private Image mapPreview = new Image();
 	private int mapIdx = 0;
+	//diff
 	private MPClient locClient;
 
-	public CreateScreen(MainGame game) {
+	public MultiCreateScreen(MainGame game) {
 		this.game = game;
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
@@ -117,15 +117,6 @@ public class CreateScreen implements Screen {
 
 	            	SoundManager.playSound(SoundManager.POP); 
 	            	
-//	    			txt_ip.setTextFieldListener(new TextField.TextFieldListener() {
-//	    	
-//	    				@Override
-//	    				public void keyTyped(TextField textField, char c) {
-//	    					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-//	    	                sound.play(1F);				
-//	    					ip = textField.getText();
-//	    				}
-//	    			});
 	    			txt_name.setTextFieldListener(new TextField.TextFieldListener() {
 	    				
 	    				@Override
@@ -136,12 +127,13 @@ public class CreateScreen implements Screen {
 	    				}
 	    			});
 	    			
+	    			//diff
 	    			// pass in map data
 	    			locClient = new MPClient(MainGame.IP, txt_name.getText(), game);
 	    			//dispose();
 	    			CreateGameSession packet = new CreateGameSession();
-	    			packet.mapPath = MultiMapManager.getMapByIndex(mapIdx).getPath();
-	    			packet.name = getName();
+	    			packet.setMapPath(MultiMapManager.getMapByIndex(mapIdx).getPath());
+	    			packet.setName(getName());
 	    			MPClient.client.sendTCP(packet);
 	            	return true;
 		
@@ -159,8 +151,10 @@ public class CreateScreen implements Screen {
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("Back");
-	            	CreateScreen.this.dispose();
+	            	dispose();
+	            	//diff
 	            	game.setScreen(new MultiplayerMenuScreen(game));
+	            	
 	            	return true;
 	            }	       
 		});
@@ -177,11 +171,11 @@ public class CreateScreen implements Screen {
 		leftBtn.addListener(new InputListener() {
 	            @Override
 	            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-	            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	            	SoundManager.playSound(sound);
+	            	SoundManager.playSound(SoundManager.POP);
 	            	if (mapIdx > 0) {
 	            		mapIdx --;
 	            	} else {
+	            		//diff
 	            		mapIdx = MultiMapManager.getTotalMaps() - 1;
 	            	}
 	            	return true;

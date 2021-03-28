@@ -15,7 +15,7 @@ import uk.ac.aston.teamproj.game.MainGame;
  *
  */
 
-public class EndPlane extends InteractiveTileObject {
+public class EndPlane extends RectangularObject {
 	
 	public EndPlane(World world, TiledMap map, Rectangle bounds) {
 		super(world, map, bounds);

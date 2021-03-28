@@ -221,11 +221,11 @@ public class PlayScreen implements Screen {
 		if (currentTime-prevUpdateTime >= 100) {
 			prevUpdateTime = currentTime;
 			PlayerInfo packet = new PlayerInfo();
-			packet.playerID = myID;
-			packet.token = sessionID;
-			packet.posX = player.getPositionX();
-			packet.lives = player.getLives();
-			packet.coins = player.getCoins();
+			packet.setPlayerID(myID);
+			packet.setToken(sessionID);
+			packet.setPosX(player.getPositionX());
+			packet.setLives(player.getLives());
+			packet.setCoins(player.getCoins());
 			MPClient.client.sendTCP(packet);
 		}
 		
@@ -289,13 +289,13 @@ public class PlayScreen implements Screen {
 			tab.draw();
 		
 		if (gameOver()) {
-			game.setScreen(new GameOverScreen(game));
+			game.setScreen(new MultiGameOverScreen(game));
 			terminateSession();
 			dispose();
 		} else if (gameFinished()) {
 			Winner packet = new Winner();
-			packet.token = sessionID;
-			packet.playerID = myID;
+			packet.setToken(sessionID);
+			packet.setPlayerID(myID);
 			MPClient.client.sendTCP(packet);
 			game.setScreen(new GameFinishedScreen(game));
 			terminateSession();
@@ -355,8 +355,8 @@ public class PlayScreen implements Screen {
 	
 	private void terminateSession() {
 		TerminateSession packet = new TerminateSession();
-		packet.id = MPClient.clientID;
-		packet.token = PlayScreen.sessionID;
+		packet.setId(MPClient.clientID);
+		packet.setToken(PlayScreen.sessionID);
 		MPClient.client.sendTCP(packet);
 	}
 	

@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 
-public class Brick extends InteractiveTileObject {
+public class Brick extends RectangularObject {
 
 	public Brick(World world, TiledMap map, Rectangle bounds) {
 		super(world, map, bounds);
