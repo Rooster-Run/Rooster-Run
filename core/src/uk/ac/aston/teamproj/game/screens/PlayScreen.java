@@ -289,7 +289,7 @@ public class PlayScreen implements Screen {
 			tab.draw();
 		
 		if (gameOver()) {
-			game.setScreen(new GameOverScreen(game));
+			game.setScreen(new MultiGameOverScreen(game));
 			terminateSession();
 			dispose();
 		} else if (gameFinished()) {
