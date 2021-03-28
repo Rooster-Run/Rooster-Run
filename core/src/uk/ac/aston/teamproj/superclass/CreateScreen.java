@@ -197,7 +197,7 @@ public abstract class CreateScreen implements Screen{
 		table.setFillParent(true);
 
 		//draw the background
-		Texture background = new Texture("buttons/multiplayer_menu_bg.jpg");
+		Texture background = new Texture("background_screens/multiplayer_menu_bg.jpg");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 
 		//initialise Label

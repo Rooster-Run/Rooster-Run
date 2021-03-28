@@ -26,7 +26,6 @@ public abstract class GameOverScreen implements Screen {
 	protected Viewport viewport;
 	protected Stage stage;
 	
-	@SuppressWarnings("unused")
 	protected MainGame game;
 	
 	//font
@@ -70,7 +69,7 @@ public GameOverScreen(MainGame game) {
 		stage.addActor(table);
 		
 		
-		Texture background = new Texture("buttons/Untitled.png");
+		Texture background = new Texture("background_screens/Untitled.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 		
 		resetSession();
