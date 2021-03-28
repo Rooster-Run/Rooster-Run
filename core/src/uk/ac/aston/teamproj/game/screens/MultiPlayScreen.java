@@ -32,7 +32,7 @@ import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
 //import uk.ac.aston.teamproj.game.scenes.Revive;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
-import uk.ac.aston.teamproj.game.sprites.Rooster;
+import uk.ac.aston.teamproj.game.sprites.MultiRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.game.tools.MultiMapManager;
@@ -44,7 +44,7 @@ import uk.ac.aston.teamproj.superclass.PlayScreen;
 public class MultiPlayScreen extends PlayScreen {
 
 	// Sprites
-	public static Rooster player;
+	public static MultiRooster player;
 	private PlayerProgressBar progressBar;
 	private PlayersTab tab;
 	private boolean isTabOn = false; 
@@ -56,9 +56,9 @@ public class MultiPlayScreen extends PlayScreen {
 
 	public void handleInput(float dt) {
 		// If our user is holding down mouse over camera throughout the game world.
-		if (player.currentState != Rooster.State.DEAD 
-				&& player.currentState != Rooster.State.FROZEN
-				&& player.currentState != Rooster.State.REVIVING) {			
+		if (player.currentState != MultiRooster.State.DEAD 
+				&& player.currentState != MultiRooster.State.FROZEN
+				&& player.currentState != MultiRooster.State.REVIVING) {			
 			
 			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
 				 //plays button swoosh sound
@@ -114,7 +114,7 @@ public class MultiPlayScreen extends PlayScreen {
 
 	// TEMP
 	protected boolean gameOver() {
-		return player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3;
+		return player.currentState == MultiRooster.State.DEAD && player.getStateTimer() > 3;
 	}
 	
 	public static void resetSession() {
@@ -132,7 +132,7 @@ public class MultiPlayScreen extends PlayScreen {
 	}
 	
 	protected boolean gameFinished() {
-		return (player.currentState == Rooster.State.WON);
+		return (player.currentState == MultiRooster.State.WON);
 	}
 
 	@Override
@@ -199,7 +199,7 @@ public class MultiPlayScreen extends PlayScreen {
 	@Override
 	public void trackPlayerCam() {
 		// Everytime chicken moves we want to track him with our game cam
-		if (player.currentState != Rooster.State.DEAD) {
+		if (player.currentState != MultiRooster.State.DEAD) {
 			if (player.getPositionX() < 1200 / MainGame.PPM) {
 				gamecam.position.x = 1200 / MainGame.PPM;
 			} else if (player.getPositionX() > camPos / MainGame.PPM) {
@@ -231,7 +231,7 @@ public class MultiPlayScreen extends PlayScreen {
 	@Override
 	public void initialiseRooster() {
 		// Create rooster in the world
-		player = new Rooster(world, this);
+		player = new MultiRooster(world, this);
 		
 	}
 

@@ -32,7 +32,6 @@ import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
 import uk.ac.aston.teamproj.game.screens.MultiGameFinishedScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
-import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 import uk.ac.aston.teamproj.superclass.PlayScreen;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
