@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.superclass.InteractiveTileObject;
 
 public abstract class CircularObject extends InteractiveTileObject {		
 	

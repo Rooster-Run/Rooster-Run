@@ -1,8 +1,7 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.superclass;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,15 +19,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
+import uk.ac.aston.teamproj.singleplayer.SingleCreateScreen;
 
-/**
- * 
- * Created by Parmo on 8/11/2020
- *
- */
-
-public class GameOverScreen implements Screen {
-
+public abstract class GameOverScreen implements Screen {
+	
 	private Viewport viewport;
 	private Stage stage;
 	
@@ -38,7 +32,8 @@ public class GameOverScreen implements Screen {
 	//font
 	private BitmapFont font;
 	
-	public GameOverScreen(MainGame game) {
+	
+public GameOverScreen(MainGame game) {
 		
     	SoundManager.playSound(SoundManager.GAMEOVER);
     	
@@ -77,23 +72,23 @@ public class GameOverScreen implements Screen {
 		
 		Texture background = new Texture("buttons/Untitled.png");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
-		PlayScreen.resetSession();
-	}
-	
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
 		
-	}
+		resetSession();
+}
+
+
 	
-	public String showCoins() {
-		return "Coins Collected: " + PlayScreen.player.getCoins();
-	}
+
+	public abstract String showCoins();
+
+	public abstract void resetSession();
+
+
 
 	@Override
 	public void render(float delta) {
 		if(Gdx.input.justTouched()) {
-			game.setScreen(new MultiplayerMenuScreen(( MainGame )game));
+			game.setScreen(new SingleCreateScreen(( MainGame )game));
 			dispose();
 		}
 		
@@ -103,10 +98,26 @@ public class GameOverScreen implements Screen {
 		stage.draw();
 	}
 
+
+	@Override
+	public void dispose() {
+		stage.dispose();
+	}
+
+
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	@Override
 	public void resize(int width, int height) {
-			
+		// TODO Auto-generated method stub
+		
 	}
+
 
 	@Override
 	public void pause() {
@@ -114,21 +125,18 @@ public class GameOverScreen implements Screen {
 		
 	}
 
+
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
 		
 	}
 
+
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void dispose() {
-		stage.dispose();
 	}
 
 }
