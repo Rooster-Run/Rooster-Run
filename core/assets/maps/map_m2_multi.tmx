@@ -378,8 +378,8 @@
  </objectgroup>
  <objectgroup id="11" name="10_bounday">
   <object id="39" x="0" y="0" height="1244"/>
-  <object id="40" x="-0.333333" y="-0.333333" width="36500"/>
-  <object id="1068" x="36476" y="4" height="1244"/>
+  <object id="40" x="-0.333333" y="-0.333333" width="36480.4"/>
+  <object id="1068" x="36476" y="-0.375" height="1248.38"/>
  </objectgroup>
  <objectgroup id="12" name="11_escape">
   <object id="700" x="35996" y="1154" width="484" height="86"/>
