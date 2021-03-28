@@ -23,14 +23,14 @@ import uk.ac.aston.teamproj.singleplayer.SingleCreateScreen;
 
 public abstract class GameOverScreen implements Screen {
 	
-	private Viewport viewport;
-	private Stage stage;
+	protected Viewport viewport;
+	protected Stage stage;
 	
 	@SuppressWarnings("unused")
-	private MainGame game;
+	protected MainGame game;
 	
 	//font
-	private BitmapFont font;
+	protected BitmapFont font;
 	
 	
 public GameOverScreen(MainGame game) {
