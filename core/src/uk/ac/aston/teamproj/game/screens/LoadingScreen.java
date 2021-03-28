@@ -34,7 +34,7 @@ public class LoadingScreen implements Screen {
         mShapeRenderer = new ShapeRenderer();
         
         viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
-        background = new Texture("buttons/multiplayer_menu_bg.jpg");   
+        background = new Texture("background_screens/multiplayer_menu_bg.jpg");   
         
         startTime = System.currentTimeMillis();
     }

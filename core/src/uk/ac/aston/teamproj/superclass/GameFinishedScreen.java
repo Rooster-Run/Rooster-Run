@@ -78,7 +78,7 @@ public abstract class GameFinishedScreen implements Screen {
 		
 		
 		// Set background textures
-		Texture background = new Texture("buttons/Sky.png");
+		Texture background = new Texture("background_screens/Sky.png");
 		winnerLabelTable.background(new TextureRegionDrawable(new TextureRegion(background)));
 		winnerLabelTable.row();
 		

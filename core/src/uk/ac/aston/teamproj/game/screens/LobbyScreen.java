@@ -99,7 +99,7 @@ public class LobbyScreen implements Screen {
 
 		
 		//backrgound
-		background = new Image(new Texture("buttons/lobbyBck.png"));
+		background = new Image(new Texture("background_screens/lobbyBck.png"));
 		background.setBounds(0, 0, MainGame.V_WIDTH / 6, MainGame.V_HEIGHT / 6);
 		
 		//icon textures

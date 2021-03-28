@@ -170,7 +170,7 @@ public class MainMenuScreen implements Screen {
 		table.setFillParent(true);
 
 		//draw the background
-		Texture background = new Texture("buttons/main_menu_bg.jpg");
+		Texture background = new Texture("background_screens/main_menu_bg.jpg");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 
 		//draw all buttons
