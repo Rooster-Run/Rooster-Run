@@ -33,7 +33,7 @@ import uk.ac.aston.teamproj.game.tools.SoundManager;
  * @date 15/03/2021
  */
 
-public class GameFinishedScreen implements Screen {
+public class MultiGameFinishedScreen implements Screen {
 
 	private Viewport viewport;
 	private Stage stage;
@@ -47,7 +47,7 @@ public class GameFinishedScreen implements Screen {
 	private BitmapFont font;
 	private Label winnerLabel;
 
-	public GameFinishedScreen(MainGame game) {
+	public MultiGameFinishedScreen(MainGame game) {
 		
 		// font
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
@@ -95,7 +95,7 @@ public class GameFinishedScreen implements Screen {
 
 				SoundManager.playSound(SoundManager.POP);
 				System.out.println("Back");
-				GameFinishedScreen.this.dispose();
+				MultiGameFinishedScreen.this.dispose();
 				game.setScreen(new MainMenuScreen(game));
 				return true;
 			}
