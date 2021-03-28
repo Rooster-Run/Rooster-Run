@@ -297,7 +297,7 @@ public class PlayScreen implements Screen {
 			packet.setToken(sessionID);
 			packet.setPlayerID(myID);
 			MPClient.client.sendTCP(packet);
-			game.setScreen(new GameFinishedScreen(game));
+			game.setScreen(new MultiGameFinishedScreen(game));
 			terminateSession();
 			dispose();
 		}

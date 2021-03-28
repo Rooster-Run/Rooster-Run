@@ -22,7 +22,7 @@ public class SingleMapManager {
 		return maps.get(index);
 	}
 	
-	public static List<Map> initialiseMaps() {
+	private static List<Map> initialiseMaps() {
 		List<Map> allMaps = new ArrayList<>();
 		
 		Map beginner1 = new Map(new Texture("maps/previews/beginner1.png"),	"maps/map_b1_single",  300);
