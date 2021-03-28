@@ -73,7 +73,7 @@ public class GameFinishedScreen implements Screen {
 		populateTable();
 		getWinner();
 		System.out.println(getWinner());
-		PlayScreen.resetSession();
+		MultiPlayScreen.resetSession();
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class GameFinishedScreen implements Screen {
 	}
 	
 	public String getWinner() {
-		return PlayScreen.winner;
+		return MultiPlayScreen.winner;
 	}
 	
 //	public String getWinner() {

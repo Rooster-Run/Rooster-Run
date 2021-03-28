@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 /**
  * @author Marcus, Junaid, Suleman  
@@ -82,7 +82,7 @@ public class GameInProgressScreen implements Screen{
 				SoundManager.playSound(sound);
 				System.out.println("SinglePlayer");
 				GameInProgressScreen.this.dispose();
-				game.setScreen(new SinglePlayerScreen(game));
+				game.setScreen(new SinglePlayScreen(game));
 				return true;
 			}
 		});

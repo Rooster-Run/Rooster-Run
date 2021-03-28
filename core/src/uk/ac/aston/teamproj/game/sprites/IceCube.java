@@ -9,8 +9,8 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 public class IceCube extends CircularObject {
 
@@ -30,11 +30,11 @@ public class IceCube extends CircularObject {
 		setCategoryFilter(MainGame.DESTROYED_BIT);
 		getCell().setTile(null);
 		
-		PlayScreen.startTimer = true;
-		PlayScreen.buffDuration = PlayScreen.prevUpdateTime + 3000;
+		MultiPlayScreen.startTimer = true;
+		MultiPlayScreen.buffDuration = MultiPlayScreen.prevUpdateTime + 3000;
 		
-		SinglePlayerScreen.startTimer = true;
-		SinglePlayerScreen.buffDuration = SinglePlayerScreen.prevUpdateTime + 3000;
+		SinglePlayScreen.startTimer = true;
+		SinglePlayScreen.buffDuration = SinglePlayScreen.prevUpdateTime + 3000;
 	
 	} 	
 

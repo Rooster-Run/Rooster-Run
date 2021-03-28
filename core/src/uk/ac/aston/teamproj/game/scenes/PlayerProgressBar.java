@@ -13,9 +13,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
 import uk.ac.aston.teamproj.game.tools.Map;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 public class PlayerProgressBar implements Disposable {
 	
@@ -78,11 +78,11 @@ public class PlayerProgressBar implements Disposable {
 		}
 		
 		// players
-		this.relativePositions = new float[PlayScreen.players.size()];
-		this.playerIcons = new Image[PlayScreen.players.size()];
-		for (int i = 0; i < PlayScreen.players.size(); i++) {
+		this.relativePositions = new float[MultiPlayScreen.players.size()];
+		this.playerIcons = new Image[MultiPlayScreen.players.size()];
+		for (int i = 0; i < MultiPlayScreen.players.size(); i++) {
 			playerIcons[i] = new Image(new Texture("progress_bar/player" + (i+1) + ".png"));
-			if (PlayScreen.players.get(i).getID() == PlayScreen.myID) {
+			if (MultiPlayScreen.players.get(i).getID() == MultiPlayScreen.myID) {
 				playerIcons[i].setColor(1f, 1f, 1f, 1f);
 				playerIndex = i;
 			} else {
@@ -96,7 +96,7 @@ public class PlayerProgressBar implements Disposable {
 		
 		Group group = new Group();
 		group.addActor(bar);
-		for (int i = 0; i < PlayScreen.players.size(); i ++) {
+		for (int i = 0; i < MultiPlayScreen.players.size(); i ++) {
 			playerIcons[i].setBounds(12 + relativePositions[i], 372f, PLAYER_RADIUS, PLAYER_RADIUS + 3);
 			if (i != playerIndex)
 				group.addActor(playerIcons[i]);
@@ -119,17 +119,17 @@ public class PlayerProgressBar implements Disposable {
 	}
 	
 	public void update() {		
-		for (int i = 0; i < PlayScreen.players.size(); i++) {
-			float actualPosition = (PlayScreen.players.get(i).getPosX()* MainGame.PPM) / 100;
+		for (int i = 0; i < MultiPlayScreen.players.size(); i++) {
+			float actualPosition = (MultiPlayScreen.players.get(i).getPosX()* MainGame.PPM) / 100;
 			float percentage = (actualPosition * 100) / mapSize;
 			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 		}
 		
-		coinsCollected = PlayScreen.player.getCoins();
+		coinsCollected = MultiPlayScreen.player.getCoins();
 		coinsLabel.setText(String.format("%02d", coinsCollected));
 		
-		int lives = PlayScreen.player.getLives();
+		int lives = MultiPlayScreen.player.getLives();
 		for (int i = lives; i < 3; i++) 
 			hearts[i].setVisible(false);
 	}

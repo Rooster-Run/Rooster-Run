@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.Player;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
 
 public class PlayersTab implements Disposable {
 	
@@ -52,33 +52,33 @@ public class PlayersTab implements Disposable {
 		
 		// bar, coins, lives
 		Texture barTexture = new Texture("progress_bar/grey_bar.png");
-		bars = new Image[PlayScreen.players.size()];
+		bars = new Image[MultiPlayScreen.players.size()];
 		
 		Texture coinTexture = new Texture("progress_bar/coin.png");
-		coins = new Image[PlayScreen.players.size()];
-		coinsLabels = new Label[PlayScreen.players.size()];
-		coinsCollected = new int[PlayScreen.players.size()];
+		coins = new Image[MultiPlayScreen.players.size()];
+		coinsLabels = new Label[MultiPlayScreen.players.size()];
+		coinsCollected = new int[MultiPlayScreen.players.size()];
 		
 		Texture heartTexture = new Texture("progress_bar/heart.png");
-		hearts = new Image[PlayScreen.players.size()][3];
+		hearts = new Image[MultiPlayScreen.players.size()][3];
 
 		
 		// players
-		this.totalPlayers = PlayScreen.players.size();
-		this.relativePositions = new float[PlayScreen.players.size()];
-		this.playerIcons = new Image[PlayScreen.players.size()];
-		this.playerNames = new Label[PlayScreen.players.size()];
+		this.totalPlayers = MultiPlayScreen.players.size();
+		this.relativePositions = new float[MultiPlayScreen.players.size()];
+		this.playerIcons = new Image[MultiPlayScreen.players.size()];
+		this.playerNames = new Label[MultiPlayScreen.players.size()];
 		
-		for (int i = 0; i < PlayScreen.players.size(); i++) {
+		for (int i = 0; i < MultiPlayScreen.players.size(); i++) {
 			playerIcons[i] = new Image(new Texture("progress_bar/player" + (i+1) + ".png"));
-			if (PlayScreen.players.get(i).getID() == PlayScreen.myID) {
+			if (MultiPlayScreen.players.get(i).getID() == MultiPlayScreen.myID) {
 				playerIcons[i].setColor(1f, 1f, 1f, 1f);
 			} else {
 				playerIcons[i].setColor(1f, 1f, 1f, 0.6f);
 			}
 		}
 		
-		for (int i = 0, posY = 370; i < PlayScreen.players.size(); i++, posY -= BAR_HEIGHT + 10 ) {
+		for (int i = 0, posY = 370; i < MultiPlayScreen.players.size(); i++, posY -= BAR_HEIGHT + 10 ) {
 			// bars			
 			bars[i] = new Image(barTexture);
 			bars[i].setColor(1f, 1f, 1f, 0.5f);
@@ -96,7 +96,7 @@ public class PlayersTab implements Disposable {
 			coinsLabels[i].setY(posY + 6);
 			coinsLabels[i].setFontScale(1.8f);
 			
-			playerNames[i] = new Label(PlayScreen.players.get(i).getName(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+			playerNames[i] = new Label(MultiPlayScreen.players.get(i).getName(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 			playerNames[i].setX(20);
 			playerNames[i].setY(posY + 6);
 			playerNames[i].setFontScale(1.4f);
@@ -143,8 +143,8 @@ public class PlayersTab implements Disposable {
 
 	
 	public void update() {		
-		for (int i = 0; i < PlayScreen.players.size(); i++) {
-			Player p = PlayScreen.players.get(i);
+		for (int i = 0; i < MultiPlayScreen.players.size(); i++) {
+			Player p = MultiPlayScreen.players.get(i);
 			
 			float actualPosition = (p.getPosX()* MainGame.PPM) / 100;
 			float percentage = (actualPosition * 100) / mapSize;			

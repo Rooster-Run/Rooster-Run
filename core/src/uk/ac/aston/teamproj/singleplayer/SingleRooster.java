@@ -71,7 +71,7 @@ public class SingleRooster extends Sprite {
 	private FixtureDef fdef;
 
 
-	public SingleRooster(World world, SinglePlayerScreen screen) {
+	public SingleRooster(World world, SinglePlayScreen screen) {
 		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
 		defineRooster();

@@ -6,8 +6,6 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,11 +36,11 @@ import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.game.tools.MultiMapManager;
+import uk.ac.aston.teamproj.game.tools.MultiWorldContactListener;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.game.tools.WorldContactListener;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.superclass.PlayScreen;
 
-public class PlayScreen implements Screen {
+public class MultiPlayScreen extends PlayScreen {
 
 	private static final String DEFAULT_MAP_PATH = "maps/map_beginner_fix";
 
@@ -93,7 +91,7 @@ public class PlayScreen implements Screen {
 	private int camPos;
 	private Map levelMap;
 	
-	public PlayScreen(MainGame game) {
+	public MultiPlayScreen(MainGame game) {
 		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
@@ -134,7 +132,7 @@ public class PlayScreen implements Screen {
 
 		// make the world react of object collision
 
-		world.setContactListener(new WorldContactListener(this));
+		world.setContactListener(new MultiWorldContactListener(this));
 
 		prevUpdateTime = System.currentTimeMillis();	
 	}
@@ -356,7 +354,7 @@ public class PlayScreen implements Screen {
 	private void terminateSession() {
 		TerminateSession packet = new TerminateSession();
 		packet.setId(MPClient.clientID);
-		packet.setToken(PlayScreen.sessionID);
+		packet.setToken(MultiPlayScreen.sessionID);
 		MPClient.client.sendTCP(packet);
 	}
 	

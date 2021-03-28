@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
 
 
 public class Rooster extends Sprite {
@@ -75,7 +75,7 @@ public class Rooster extends Sprite {
 	//Ice feature
 	private boolean isFrozen = false;
 
-	public Rooster(World world, PlayScreen screen) {
+	public Rooster(World world, MultiPlayScreen screen) {
 		super(screen.getAtlas().findRegion("new_rooster")); //pass the required texture region to the superclass
 		this.world = world;
 		defineRooster();

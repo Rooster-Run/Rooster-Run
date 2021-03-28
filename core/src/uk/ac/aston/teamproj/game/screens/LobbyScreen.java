@@ -133,7 +133,7 @@ public class LobbyScreen implements Screen {
 	}
 	
 	private String getToken() {
-		return PlayScreen.sessionID;
+		return MultiPlayScreen.sessionID;
 	}
 	
 	private void populateTable() {
@@ -151,7 +151,7 @@ public class LobbyScreen implements Screen {
 	private void isHost() {
 		boolean firstPlayerInArray = false;
 		if (currentPlayers != null && currentPlayers.size() > 0) {
-			firstPlayerInArray = (PlayScreen.myID == currentPlayers.get(0).getID());
+			firstPlayerInArray = (MultiPlayScreen.myID == currentPlayers.get(0).getID());
 		}
 		
         if (isHost || firstPlayerInArray) {
@@ -199,10 +199,10 @@ public class LobbyScreen implements Screen {
 //					packet.playerID = PlayScreen.myID;
 					
 					LeftGameSession packet = new LeftGameSession();
-					packet.setToken(PlayScreen.sessionID);
-					packet.setPlayerID(PlayScreen.myID);
+					packet.setToken(MultiPlayScreen.sessionID);
+					packet.setPlayerID(MultiPlayScreen.myID);
 					LobbyScreen.this.dispose();
-					PlayScreen.resetSession();
+					MultiPlayScreen.resetSession();
 					game.setScreen(new MultiplayerMenuScreen(game));
 					MPClient.client.sendTCP(packet);
 					return true;
@@ -222,7 +222,7 @@ public class LobbyScreen implements Screen {
 	            	SoundManager.playSound(SoundManager.POP);
 
 					StartGame packet = new StartGame();
-					packet.setToken(PlayScreen.sessionID);
+					packet.setToken(MultiPlayScreen.sessionID);
 					LobbyScreen.this.dispose();
 					game.setScreen(new LoadingScreen(game));
 					MPClient.client.sendTCP(packet);

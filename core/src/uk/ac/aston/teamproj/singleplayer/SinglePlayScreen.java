@@ -32,14 +32,16 @@ import uk.ac.aston.teamproj.singleplayer.SingleProgressBar;
 import uk.ac.aston.teamproj.game.screens.GameFinishedScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
+import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.singleplayer.SingleRooster;
+import uk.ac.aston.teamproj.superclass.PlayScreen;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.game.tools.SingleMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 
-public class SinglePlayerScreen implements Screen {
+public class SinglePlayScreen extends PlayScreen {
 
 	private static final String DEFAULT_MAP_PATH = "map_beginner_fix";
 
@@ -91,7 +93,7 @@ public class SinglePlayerScreen implements Screen {
 	private int camPos;
 	private Map levelMap;
 	
-	public SinglePlayerScreen(MainGame game) {
+	public SinglePlayScreen(MainGame game) {
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
 		this.levelMap = SingleMapManager.getMapByPath(mapPath);
@@ -360,4 +362,5 @@ public class SinglePlayerScreen implements Screen {
 	public String getMapPath() {
 		return mapPath;
 	}
+
 }

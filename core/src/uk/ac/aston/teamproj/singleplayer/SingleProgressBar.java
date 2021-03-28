@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 public class SingleProgressBar implements Disposable {
 	
@@ -47,7 +47,7 @@ public class SingleProgressBar implements Disposable {
 		
 		//map size
 		map_size = mapLength;
-		System.out.println(SinglePlayerScreen.mapPath);
+		System.out.println(SinglePlayScreen.mapPath);
 		
 		// progress bar
 		bar = new Image(new Texture("progress_bar/grey_bar.png"));		
@@ -90,7 +90,7 @@ public class SingleProgressBar implements Disposable {
 		
 		Group group = new Group();
 		group.addActor(bar);
-		for (int i = 0; i < SinglePlayerScreen.players.size(); i ++) {
+		for (int i = 0; i < SinglePlayScreen.players.size(); i ++) {
 			playerIcons[i].setBounds(12 + relativePositions[i], 372f, PLAYER_RADIUS, PLAYER_RADIUS + 3);
 			if (i != playerIndex)
 				group.addActor(playerIcons[i]);
@@ -113,17 +113,17 @@ public class SingleProgressBar implements Disposable {
 	}
 	
 	public void update() {		
-		for (int i = 0; i < SinglePlayerScreen.players.size(); i++) {
-			float actualPosition = (SinglePlayerScreen.player.getPositionX()* MainGame.PPM) / 100;
+		for (int i = 0; i < SinglePlayScreen.players.size(); i++) {
+			float actualPosition = (SinglePlayScreen.player.getPositionX()* MainGame.PPM) / 100;
 			float percentage = (actualPosition * 100) / map_size;
 			
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 		}
 		
-		coinsCollected = SinglePlayerScreen.player.getCoins();
+		coinsCollected = SinglePlayScreen.player.getCoins();
 		coinsLabel.setText(String.format("%02d", coinsCollected));
 		
-		int lives = SinglePlayerScreen.player.getLives();
+		int lives = SinglePlayScreen.player.getLives();
 		for (int i = lives; i < 3; i++) 
 			hearts[i].setVisible(false);
 	}
