@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.superclass.GameFinishedScreen;
+import uk.ac.aston.teamproj.superclass.PlayScreen;
 
 /**
  * @author Suleman, Junaid and Marcus
@@ -40,7 +41,7 @@ public class MultiGameFinishedScreen extends GameFinishedScreen {
 
 	public MultiGameFinishedScreen(MainGame game) {
 		super(game);
-		PlayScreen.resetSession();
+		MultiPlayScreen.resetSession();
 	}
 
 	@Override

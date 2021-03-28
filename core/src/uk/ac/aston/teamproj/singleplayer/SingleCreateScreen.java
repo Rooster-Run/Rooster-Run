@@ -13,8 +13,8 @@ public class SingleCreateScreen extends CreateScreen {
 
 	protected void createSession() {
 		// pass in map data
-		SinglePlayerScreen.mapPath = SingleMapManager.getMapByIndex(mapIdx).getPath();
-		game.setScreen(new SinglePlayerScreen(game));
+		SinglePlayScreen.mapPath = SingleMapManager.getMapByIndex(mapIdx).getPath();
+		game.setScreen(new SinglePlayScreen(game));
 	}
 	
 	protected void backToMenu() {
