@@ -29,16 +29,18 @@
 # <h3 align="center">Rooster Run</h3>
   <p align="center"> Compete against family and friends to escape the barn. Only one Rooster can escape, the others will become a sunday roast. <br />
     <a href="https://rooster-run.github.io/Rooster-run-website/index.html"><strong>Website</strong></a>
+    <a href=VideoHere"><strong>| How To Play Rooster Run</strong></a>
+    <a href=RoosterRunContact@gmail.com"><strong>| Contact The Team</strong></a>
     <br />
     <br />
   </p>
 </p>
 
+![image](https://user-images.githubusercontent.com/62774004/112734958-dfc76e00-8f40-11eb-84c5-11c3a2810631.png)
+
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-
-![image](https://user-images.githubusercontent.com/62774004/112734958-dfc76e00-8f40-11eb-84c5-11c3a2810631.png)
 
 Rooster Run has been developed and maintained by 9 Computer Science undergraduate students at Aston University. Rooster Run offers a fun and interactive multiplayer which is aimed at audiences aged 7-15 years. The game offers bright colours and blocky text to entice its audiences, with the built-in multiplayer player mode offering you the ability to play with your family and friends.
 
@@ -48,11 +50,24 @@ Rooster Run offers powerups such as lighting to increase speed and power-downs s
 
 Rooster Run makes use of the java language with libraries such as LibGDX and Kryonet being used in the development of the game and networking. GitHub has also been used extensively during the development process to offer a workspace that allows developers to collaborate on coding projects in addition to maintaining versioning control.
 
+<!-- GETTING STARTED -->
+## Getting Started
+
+To get a local copy up and running follow these simple steps.
+
+### Executable version:
+
+1. Visit our website and go to the download tab, from there you can download Rooster Run. 
+2. Extract the zipped folder into your desired location
+3. Start RoosterRun.exe
+
+### Project version:
+
+1. To be completed
+
 <!-- BUILT WITH -->
 
 ## Built With
-
-Rooster Run was created using Eclipse IDE and the libraries used were LibGDX & KryoNet. 
 
 ### Eclipse: https://www.eclipse.org/
 
@@ -73,15 +88,6 @@ Google Cloud Platform is a provider of computing resources for deploying and ope
 ### GitHub: https://github.com/
 
 GitHub, Inc. is a provider of Internet hosting for software development and version control using Git. It offers the distributed version control and source code management functionality of Git, plus its own features.
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-To get a local copy up and running follow these simple steps.
-
-1. Visit our website and go to the download tab, from there you can download Rooster Run. 
-2. Extract the zipped folder into your desired location
-3. Start RoosterRun.exe
 
 <!-- GALLERY -->
 ## Gallery
