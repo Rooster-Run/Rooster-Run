@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.singleplayer;
+package uk.ac.aston.teamproj.game.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,8 +15,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.superclass.PlayScreen;
-import uk.ac.aston.teamproj.superclass.Rooster;
+import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.single.SinglePlayScreen;
 
 
 public class SingleRooster extends Rooster {

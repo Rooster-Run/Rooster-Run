@@ -14,11 +14,22 @@ import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 
+/**
+ * The Class Network.
+ */
 public class Network {
 
+	/** The Constant TCP_PORT. */
 	public static final int TCP_PORT = 54555;
+	
+	/** The Constant UDP_PORT. */
 	public static final int UDP_PORT = 54556;
 	
+	/**
+	 * Register.
+	 *
+	 * @param endPoint the end point
+	 */
 	public static void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
 		kryo.register(Login.class);

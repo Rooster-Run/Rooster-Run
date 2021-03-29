@@ -20,8 +20,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.screens.multi.MultiplayerMenuScreen;
+import uk.ac.aston.teamproj.game.screens.single.SingleCreateScreen;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.singleplayer.SingleCreateScreen;
 
 /**
  * @author Parmo

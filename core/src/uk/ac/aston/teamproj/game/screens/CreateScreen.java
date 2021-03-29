@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.superclass;
+package uk.ac.aston.teamproj.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

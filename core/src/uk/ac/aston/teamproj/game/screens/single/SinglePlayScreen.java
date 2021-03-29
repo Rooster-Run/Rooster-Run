@@ -1,11 +1,12 @@
-package uk.ac.aston.teamproj.singleplayer;
+package uk.ac.aston.teamproj.game.screens.single;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.MPClient;
-import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
-import uk.ac.aston.teamproj.superclass.PlayScreen;
+import uk.ac.aston.teamproj.game.scenes.SingleProgressBar;
+import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.sprites.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.game.tools.SingleMapManager;
+import uk.ac.aston.teamproj.game.tools.SingleWorldContactListener;
 
 
 public class SinglePlayScreen extends PlayScreen {

@@ -15,9 +15,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
-import uk.ac.aston.teamproj.superclass.PlayScreen;
-import uk.ac.aston.teamproj.superclass.Rooster;
+import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiPlayScreen;
 
 
 public class MultiRooster extends Rooster {

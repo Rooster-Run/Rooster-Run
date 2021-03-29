@@ -9,9 +9,9 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
-import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiPlayScreen;
+import uk.ac.aston.teamproj.game.screens.single.SinglePlayScreen;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 public class Lightning extends CircularObject {
 

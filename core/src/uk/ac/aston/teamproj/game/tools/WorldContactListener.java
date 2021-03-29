@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.superclass;
+package uk.ac.aston.teamproj.game.tools;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -7,7 +7,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
+import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiPlayScreen;
+import uk.ac.aston.teamproj.game.screens.single.SinglePlayScreen;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.Brick;
 import uk.ac.aston.teamproj.game.sprites.Coin;
@@ -16,9 +18,6 @@ import uk.ac.aston.teamproj.game.sprites.IceCube;
 import uk.ac.aston.teamproj.game.sprites.Lightning;
 import uk.ac.aston.teamproj.game.sprites.Mud;
 import uk.ac.aston.teamproj.game.sprites.RectangularObject;
-import uk.ac.aston.teamproj.game.tools.MultiWorldContactListener;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
-import uk.ac.aston.teamproj.singleplayer.SingleWorldContactListener;
 
 public abstract class WorldContactListener implements ContactListener {
 	

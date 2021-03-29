@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.superclass;
+package uk.ac.aston.teamproj.game.screens;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,10 +23,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
+import uk.ac.aston.teamproj.game.sprites.Rooster;
+import uk.ac.aston.teamproj.game.sprites.SingleRooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 
 public abstract class PlayScreen implements Screen {
 	

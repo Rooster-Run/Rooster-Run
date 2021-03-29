@@ -1,8 +1,7 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.game.screens.multi;
 
 import com.badlogic.gdx.graphics.Texture;
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.superclass.ErrorScreen;
 
 /**
  * @author Junaid, Marcus, Suleman

@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.superclass;
+package uk.ac.aston.teamproj.game.screens.multi;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -21,9 +21,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
+import uk.ac.aston.teamproj.game.screens.single.SingleCreateScreen;
+import uk.ac.aston.teamproj.game.screens.single.SinglePlayScreen;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.singleplayer.SingleCreateScreen;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 public abstract class ErrorScreen implements Screen{
 

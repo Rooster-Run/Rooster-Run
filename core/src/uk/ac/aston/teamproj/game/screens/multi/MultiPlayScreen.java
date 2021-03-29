@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.game.screens.multi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,17 +30,17 @@ import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
 import uk.ac.aston.teamproj.game.scenes.PlayersTab;
+import uk.ac.aston.teamproj.game.screens.PlayScreen;
 //import uk.ac.aston.teamproj.game.scenes.Revive;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
 import uk.ac.aston.teamproj.game.sprites.MultiRooster;
+import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
 import uk.ac.aston.teamproj.game.tools.MultiMapManager;
 import uk.ac.aston.teamproj.game.tools.MultiWorldContactListener;
 import uk.ac.aston.teamproj.game.tools.SingleMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.superclass.PlayScreen;
-import uk.ac.aston.teamproj.superclass.Rooster;
 
 public class MultiPlayScreen extends PlayScreen {
 

@@ -1,9 +1,8 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.game.screens.multi;
 
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -28,11 +27,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.esotericsoftware.kryonet.Client;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
+import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 public class JoinScreen implements Screen {

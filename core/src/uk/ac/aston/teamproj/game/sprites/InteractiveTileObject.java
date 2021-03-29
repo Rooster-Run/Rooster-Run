@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.superclass;
+package uk.ac.aston.teamproj.game.sprites;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;

@@ -15,36 +15,69 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.Player;
-import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiPlayScreen;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PlayersTab.
+ */
 public class PlayersTab implements Disposable {
 	
+	/** The Constant BAR_WIDTH. */
 	private static final float BAR_WIDTH = 400;
+	
+	/** The Constant BAR_HEIGHT. */
 	private static final float BAR_HEIGHT = 32;
+	
+	/** The Constant PLAYER_RADIUS. */
 	private static final float PLAYER_RADIUS = 30;
 	
+	/** The stage. */
 	private Stage stage;
+	
+	/** The viewport. */
 	private Viewport viewport;
 	
+	/** The bars. */
 	// progress bar
 	private Image[] bars;
 			
+	/** The coins. */
 	// coins
 	private Image[] coins;
+	
+	/** The coins labels. */
 	private Label[] coinsLabels;
+	
+	/** The coins collected. */
 	private int[] coinsCollected;
 	
+	/** The hearts. */
 	// lives
 	private Image[][] hearts;
 	
+	/** The total players. */
 	// players
 	private final int totalPlayers;
+	
+	/** The relative positions. */
 	private final float[] relativePositions;
+	
+	/** The player icons. */
 	private final Image[] playerIcons;
+	
+	/** The player names. */
 	private final Label[] playerNames;
 	
+	/** The map size. */
 	private float mapSize;
 	
+	/**
+	 * Instantiates a new players tab.
+	 *
+	 * @param sb the sb
+	 * @param mapLength the map length
+	 */
 	public PlayersTab(SpriteBatch sb, int mapLength) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
@@ -115,6 +148,9 @@ public class PlayersTab implements Disposable {
 
 	}
 
+	/**
+	 * Draw.
+	 */
 	public void draw() {				
 		Group group = new Group();
 		for (int i = 0, posY = 370; i < totalPlayers; i++, posY -= BAR_HEIGHT + 10 ) {
@@ -136,12 +172,18 @@ public class PlayersTab implements Disposable {
 		stage.act();
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
 	}
 
 	
+	/**
+	 * Update.
+	 */
 	public void update() {		
 		for (int i = 0; i < MultiPlayScreen.players.size(); i++) {
 			Player p = MultiPlayScreen.players.get(i);
