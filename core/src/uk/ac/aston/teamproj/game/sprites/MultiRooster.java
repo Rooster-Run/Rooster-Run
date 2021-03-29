@@ -25,6 +25,5 @@ public class MultiRooster extends Rooster {
 	public MultiRooster(World world, MultiPlayScreen screen) {
 		super(world, screen);
 	}
-
 	
 }

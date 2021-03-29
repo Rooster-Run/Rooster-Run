@@ -19,9 +19,7 @@ public class Brick extends RectangularObject {
 	}
 
 	@Override
-	public void onHit() {
-		Gdx.app.log(String.valueOf(MPClient.clientID), "Brick Collision edit ");	
-	} 
+	public void onHit() {} 
 	
 	
 	@Override

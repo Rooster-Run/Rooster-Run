@@ -25,6 +25,6 @@ public class Login {
 	 * @param id the id to set
 	 */
 	public void setID(int id) {
-		this.ID = ID;
+		this.ID = id;
 	}
 }

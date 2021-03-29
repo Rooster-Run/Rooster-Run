@@ -23,10 +23,6 @@ public class IceCube extends CircularObject {
 	
 	@Override
 	public void onHit() {
-		Gdx.app.log(String.valueOf(MPClient.clientID), "Ice Collision");	
-//	   	Sound sound = Gdx.audio.newSound(Gdx.files.internal("lightening.mp3"));
-//        sound.play(1F);
-		//set category to destroyed bit
 		setCategoryFilter(MainGame.DESTROYED_BIT);
 		getCell().setTile(null);
 		

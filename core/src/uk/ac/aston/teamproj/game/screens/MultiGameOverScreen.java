@@ -18,7 +18,7 @@ public class MultiGameOverScreen extends GameOverScreen {
 	}
 	
 	public String showCoins() {
-		return "Coins Collected: " + MultiPlayScreen.player.getCoins();
+		return "Coins Collected: " + MultiPlayScreen.getPlayer().getCoins();
 	}
 
 	@Override

@@ -63,9 +63,9 @@ public abstract class WorldContactListener implements ContactListener {
 				bomb.onHit();
 				playScreen.makeBombExplode(bomb);
 				if (WorldContactListener.this instanceof SingleWorldContactListener)
-					SinglePlayScreen.player.decreaseLives();
+					SinglePlayScreen.getPlayer().decreaseLives();
 				else if (WorldContactListener.this instanceof MultiWorldContactListener)
-					MultiPlayScreen.player.decreaseLives();
+					MultiPlayScreen.getPlayer().decreaseLives();
 				break;
 
 			case (MainGame.ROOSTER_BIT | MainGame.BRICK_BIT):
@@ -76,9 +76,9 @@ public abstract class WorldContactListener implements ContactListener {
 			case (MainGame.ROOSTER_BIT | MainGame.COIN_BIT):
 				
 				if (WorldContactListener.this instanceof SingleWorldContactListener)
-					SinglePlayScreen.player.updateCoins(1);
+					SinglePlayScreen.getPlayer().updateCoins(1);
 				else if (WorldContactListener.this instanceof MultiWorldContactListener)
-					MultiPlayScreen.player.updateCoins(1);
+					MultiPlayScreen.getPlayer().updateCoins(1);
 
 				Fixture coinFixture = (fixA.getFilterData().categoryBits == MainGame.COIN_BIT) ? fixA : fixB;
 				((Coin) coinFixture.getUserData()).onHit();
@@ -92,9 +92,9 @@ public abstract class WorldContactListener implements ContactListener {
 				
 			case (MainGame.ROOSTER_BIT | MainGame.PLANE_BIT):
 				if (WorldContactListener.this instanceof SingleWorldContactListener)
-					SinglePlayScreen.player.onFinish();
+					SinglePlayScreen.getPlayer().onFinish();
 				else if (WorldContactListener.this instanceof MultiWorldContactListener)
-					MultiPlayScreen.player.onFinish();
+					MultiPlayScreen.getPlayer().onFinish();
 				
 				Fixture PlaneFixture = (fixA.getFilterData().categoryBits == MainGame.PLANE_BIT)? fixA : fixB;
 				((EndPlane) PlaneFixture.getUserData()).onHit();

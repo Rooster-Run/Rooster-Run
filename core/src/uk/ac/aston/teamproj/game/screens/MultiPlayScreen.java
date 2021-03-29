@@ -40,116 +40,54 @@ import uk.ac.aston.teamproj.game.tools.MultiWorldContactListener;
 import uk.ac.aston.teamproj.game.tools.SingleMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.superclass.PlayScreen;
+import uk.ac.aston.teamproj.superclass.Rooster;
 
 public class MultiPlayScreen extends PlayScreen {
 
 	// Sprites
-	public static MultiRooster player;
 	private PlayerProgressBar progressBar;
 	private PlayersTab tab;
 	private boolean isTabOn = false; 
 	
+	public static int myID;
+	public static String sessionID; // i.e. token
+	public static ArrayList<Player> players;
+	
 	public MultiPlayScreen(MainGame game) {
-		super(game);
-		
+		super(game);		
 	}
 
-	public void handleInput(float dt) {
-		// If our user is holding down mouse over camera throughout the game world.
-		if (player.currentState != MultiRooster.State.DEAD 
-				&& player.currentState != MultiRooster.State.FROZEN
-				&& player.currentState != MultiRooster.State.REVIVING) {			
-			
-			if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCount < MAX_JUMPS) {
-				 //plays button swoosh sound
-            	SoundManager.playSound(SoundManager.SWOOSH);
-                player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
-				jumpCount++;
-			}
-
-			
-			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player.b2body.setLinearVelocity(currentSpeed, player.b2body.getLinearVelocity().y);
-			}
-
-			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                player.b2body.setLinearVelocity(-currentSpeed, player.b2body.getLinearVelocity().y);
-			}
-			
+	protected void handleInput(float dt) {
+		super.handleInput(dt);	
+		if (player.currentState != Rooster.State.DEAD 
+				&& player.currentState != Rooster.State.FROZEN
+				&& player.currentState != Rooster.State.REVIVING) {			
 			if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-	        	isTabOn = !isTabOn;
-	        }
+				isTabOn = !isTabOn;
+			}
 		}
-
-	}
-
-
-	@Override
-	public void pause() {
-		
-	}
-
-	@Override
-	public void resume() {
-		
-	}
-
-	@Override
-	public void hide() {
-		
-	}
-
-//	@Override
-//	public void dispose() {
-//		map.dispose();
-//		renderer.dispose();
-//		world.dispose();
-//		b2dr.dispose();
-
-//	}
-
-	public TextureAtlas getAtlas() {
-		return atlas;
-	}
-
-	// TEMP
-	protected boolean gameOver() {
-		return player.currentState == MultiRooster.State.DEAD && player.getStateTimer() > 3;
 	}
 	
-	public static void resetSession() {
-//		sessionID = null;	// i.e. token
-//		players = null;
-//		mapPath = null;
+	protected static void resetSession() {
 		LobbyScreen.isGameAboutToStart = false;
 	}
 	
 	private void terminateSession() {
 		TerminateSession packet = new TerminateSession();
-		packet.setId(MPClient.clientID);
+		packet.setId(myID);
 		packet.setToken(MultiPlayScreen.sessionID);
 		MPClient.client.sendTCP(packet);
 	}
 	
-	protected boolean gameFinished() {
-		return (player.currentState == MultiRooster.State.WON);
-	}
-
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void disposeHUD() {
 		progressBar.dispose();
-		tab.dispose();
-		
+		tab.dispose();		
 	}
 
 	@Override
-	public void setScreenConditions() {
+	protected void setScreenConditions() {
 		if (gameOver()) {
 			game.setScreen(new MultiGameOverScreen(game));
 			terminateSession();
@@ -162,29 +100,54 @@ public class MultiPlayScreen extends PlayScreen {
 			game.setScreen(new MultiGameFinishedScreen(game));
 			terminateSession();
 			dispose();
-		}
-		
+		}		
 	}
 
 	@Override
-	public void drawProgressbar() {
+	protected void drawProgressbar() {
 		if (!isTabOn)
 			progressBar.draw();
 		else
 			tab.draw();
 	}
 
+
+
 	@Override
-	public void drawPlayer() {
-		player.draw(game.batch); // draw
+	protected void updateHUD(float dt) {
+		progressBar.update();
+		tab.update();		
+	}
+
+	@Override
+	protected void initialiseContactListener() {
+		// make the world react of object collision
+		getWorld().setContactListener(new MultiWorldContactListener(this));
+
 		
 	}
 
 	@Override
-	public void sendLocationToServer() {
-		long currentTime = System.currentTimeMillis();
-		if (currentTime-prevUpdateTime >= 100) {
-			prevUpdateTime = currentTime;
+	protected void initialiseRooster() {
+		// Create rooster in the world
+		player = new MultiRooster(getWorld(), this);
+		
+	}
+
+	@Override
+	protected void initialiseHUD(int mapLength) {
+		// Create progress bar and tab
+		progressBar = new PlayerProgressBar(game.batch, mapLength);
+		tab = new PlayersTab(game.batch, mapLength);		
+	}
+
+	@Override
+	protected Map getMap() {
+		 return MultiMapManager.getMapByPath(mapPath);		
+	}
+	
+	@Override
+	protected void sendLocationToServer() {
 			PlayerInfo packet = new PlayerInfo();
 			packet.setPlayerID(myID);
 			packet.setToken(sessionID);
@@ -192,68 +155,6 @@ public class MultiPlayScreen extends PlayScreen {
 			packet.setLives(player.getLives());
 			packet.setCoins(player.getCoins());
 			MPClient.client.sendTCP(packet);
-		}
-		
 	}
-
-	@Override
-	public void trackPlayerCam() {
-		// Everytime chicken moves we want to track him with our game cam
-		if (player.currentState != MultiRooster.State.DEAD) {
-			if (player.getPositionX() < 1200 / MainGame.PPM) {
-				gamecam.position.x = 1200 / MainGame.PPM;
-			} else if (player.getPositionX() > camPos / MainGame.PPM) {
-				gamecam.position.x = camPos / MainGame.PPM;
-			} else {
-				gamecam.position.x = player.getPositionX();
-			}
-		}
-
-		
-	}
-
-	@Override
-	public void updatePlayerPosition(float dt) {
-		player.update(dt);
-		progressBar.update();
-		tab.update();
-		
-	}
-
-	@Override
-	public void initialiseCollisions() {
-		// make the world react of object collision
-		world.setContactListener(new MultiWorldContactListener(this));
-
-		
-	}
-
-	@Override
-	public void initialiseRooster() {
-		// Create rooster in the world
-		player = new MultiRooster(world, this);
-		
-	}
-
-	@Override
-	public void initialiseHUD() {
-		// Create progress bar and tab
-		progressBar = new PlayerProgressBar(game.batch, levelMap.getLength());
-		tab = new PlayersTab(game.batch, levelMap.getLength());
-		
-	}
-
-	@Override
-	public void initialisePlayer() {
-		//do nothing
-		
-	}
-
-	@Override
-	public void getMap() {
-		 this.levelMap = MultiMapManager.getMapByPath(mapPath);
-		
-	}
-
 
 }

@@ -126,10 +126,10 @@ public class PlayerProgressBar implements Disposable {
 			relativePositions[i] = (percentage * (BAR_WIDTH - PLAYER_RADIUS/2)) / 100;
 		}
 		
-		coinsCollected = MultiPlayScreen.player.getCoins();
+		coinsCollected = MultiPlayScreen.getPlayer().getCoins();
 		coinsLabel.setText(String.format("%02d", coinsCollected));
 		
-		int lives = MultiPlayScreen.player.getLives();
+		int lives = MultiPlayScreen.getPlayer().getLives();
 		for (int i = lives; i < 3; i++) 
 			hearts[i].setVisible(false);
 	}
