@@ -111,7 +111,7 @@ public class MainMenuScreen implements Screen {
 	            	//plays button sounds
 	            	SoundManager.playSound(SoundManager.POP);
 	            	System.out.println("TUTORIAL");
-	            	Gdx.net.openURI("https://www.youtube.com/watch?v=wHyzCWOFR3A&ab_channel=RoosterRun");
+	            	Gdx.net.openURI("https://www.youtube.com/watch?v=twQFWCYipMs&ab_channel=RoosterRun");
 	            	return true;
 	            }
 
