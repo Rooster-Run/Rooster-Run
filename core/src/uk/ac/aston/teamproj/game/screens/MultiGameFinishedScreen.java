@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.singleplayer;
+package uk.ac.aston.teamproj.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -25,29 +25,44 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.superclass.GameFinishedScreen;
+import uk.ac.aston.teamproj.superclass.PlayScreen;
 
 /**
- * @author Suleman
+ * @author Suleman, Junaid and Marcus
  * @since 15.03.2021
  * @date 15/03/2021
  */
 
-public class SingleGameFinishedScreen extends GameFinishedScreen {
+public class MultiGameFinishedScreen extends GameFinishedScreen {
 	
-	public SingleGameFinishedScreen(MainGame game) {
+	private Label winnerLabel;
+
+	public MultiGameFinishedScreen(MainGame game) {
 		super(game);
+		MultiPlayScreen.resetSession();
 	}
-	
+
+	@Override
+	public void render(float delta) {
+		super.render(delta);
+		winnerLabel.setText(PlayScreen.winner);	
+	}
+
+
 	@Override
 	protected void addLabelWinnerIs() {
-		Label.LabelStyle label = new Label.LabelStyle(font, Color.WHITE);
-        Label gameOverLabel = new Label ("You Won", label);
+		//LabelWinner
+        Label.LabelStyle label = new Label.LabelStyle(font, Color.WHITE);
+        Label gameOverLabel = new Label ("Winner:   ", label);
         winnerLabelTable.add(gameOverLabel).expandX().padLeft(180).padTop(50);
 	}
 	
 	@Override
-	protected void addLabelName() {}
+	protected void addLabelName() {
+		Label.LabelStyle labelName = new Label.LabelStyle(font, Color.WHITE);
+        winnerLabel = new Label (PlayScreen.winner, labelName);
+        winnerNameTable.add(winnerLabel).expandX().padTop(100).padLeft(150);
+	}
 }

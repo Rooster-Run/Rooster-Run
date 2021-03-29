@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 /**
  * created by Parmo on 5.11.20 
@@ -20,7 +21,7 @@ import uk.ac.aston.teamproj.game.net.MPClient;
  */
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class Bomb extends InteractiveTileObject {
+public class Bomb extends RectangularObject {
 
 	private static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("explosion_texture/explosion.atlas"));
 	private static Animation bombExplosion = setupAnimation();
@@ -51,11 +52,8 @@ public class Bomb extends InteractiveTileObject {
 
 	@Override
 	public void onHit() {
-		//for now, just log the event to the console
-	   	Sound sound = Gdx.audio.newSound(Gdx.files.internal("bomb.wav"));
-        sound.play(1F);
-		Gdx.app.log(String.valueOf(MPClient.clientID), "Bomb Collision");
-	
+        SoundManager.playSound(SoundManager.BOMB);
+        
 		//set category to destroyed bit
 		setCategoryFilter(MainGame.DESTROYED_BIT);
 		getCell().setTile(null);

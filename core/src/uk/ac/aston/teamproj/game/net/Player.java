@@ -1,8 +1,5 @@
 package uk.ac.aston.teamproj.game.net;
 
-import uk.ac.aston.teamproj.game.sprites.Rooster;
-import uk.ac.aston.teamproj.game.sprites.Rooster.State;
-
 public class Player {
 
 	private final static int DEFAULT_LIVES = 3;

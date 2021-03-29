@@ -69,7 +69,7 @@ public class MultiplayerMenuScreen implements Screen {
             	SoundManager.playSound(SoundManager.POP);
             	System.out.println("Create");
             	MultiplayerMenuScreen.this.dispose();
-            	game.setScreen(new CreateScreen(game));
+            	game.setScreen(new MultiCreateScreen(game));
             	return true;
             }
 		});
@@ -123,7 +123,7 @@ public class MultiplayerMenuScreen implements Screen {
 		table.setFillParent(true);
 
 		//draw the background
-		Texture background = new Texture("buttons/main_menu_bg.jpg");
+		Texture background = new Texture("background_screens/main_menu_bg.jpg");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 
 

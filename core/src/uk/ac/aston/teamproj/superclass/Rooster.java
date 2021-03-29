@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.sprites;
+package uk.ac.aston.teamproj.superclass;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
 
 
 public class Rooster extends Sprite {
@@ -142,8 +142,9 @@ public class Rooster extends Sprite {
 				isFrozen = false;
 				setMaskBits(true);
 			}
-
-		} else if (!isDead) {
+		} else if (isDead && b2body.getPosition().y < -20/MainGame.PPM) {
+			b2body.setLinearVelocity(0, 0);
+		} else {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -20/MainGame.PPM) {
 				if (coins >= DEFAULT_COINS_TO_REVIVE) {

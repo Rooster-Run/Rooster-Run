@@ -22,8 +22,8 @@ import uk.ac.aston.teamproj.game.net.packet.Winner;
 public class MPServer {
 
 	private final static int TOKEN_LENGTH = 5;
-	public Server server;
-	public HashMap<String, GameSession> sessions;
+	private final Server server;
+	private final HashMap<String, GameSession> sessions;
 
 	public MPServer() {
 		server = new Server();

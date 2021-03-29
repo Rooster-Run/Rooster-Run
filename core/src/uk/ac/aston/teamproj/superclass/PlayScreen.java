@@ -1,16 +1,13 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.superclass;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,127 +22,87 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.MPClient;
-import uk.ac.aston.teamproj.game.net.Player;
-import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
-import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
-import uk.ac.aston.teamproj.game.net.packet.Winner;
-import uk.ac.aston.teamproj.game.scenes.PlayerProgressBar;
-import uk.ac.aston.teamproj.game.scenes.PlayersTab;
-//import uk.ac.aston.teamproj.game.scenes.Revive;
 import uk.ac.aston.teamproj.game.sprites.Bomb;
-import uk.ac.aston.teamproj.game.sprites.Rooster;
 import uk.ac.aston.teamproj.game.tools.B2WorldCreator;
 import uk.ac.aston.teamproj.game.tools.Map;
-import uk.ac.aston.teamproj.game.tools.MultiMapManager;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
-import uk.ac.aston.teamproj.game.tools.WorldContactListener;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayerScreen;
+import uk.ac.aston.teamproj.singleplayer.SingleRooster;
 
-public class PlayScreen implements Screen {
-
+public abstract class PlayScreen implements Screen {
+	
 	private static final String DEFAULT_MAP_PATH = "maps/map_beginner_fix";
+	private static final int MAX_JUMPS = 2;
 
-	private MainGame game;
-	private TextureAtlas atlas; // sprite sheet that wraps all images
-	Texture texture;
-
-	// Aspect ratio
-	private OrthographicCamera gamecam;
-	private Viewport gamePort;
+	private final TextureAtlas atlas; // sprite sheet that wraps all images
+	private final HashMap<Bomb, Float> toExplode = new HashMap<>();
+	
+	// Camera tools
+	private final OrthographicCamera gamecam; 
+	private final Viewport gamePort;
 
 	// Tiled map variables
-	private TmxMapLoader mapLoader;
-	private TiledMap map;
-	private OrthogonalTiledMapRenderer renderer;
+	private final TmxMapLoader mapLoader;
+	private final TiledMap map;
+	private final OrthogonalTiledMapRenderer renderer;
+	
+	// Box2D variables
+	private final Box2DDebugRenderer b2dr;
+	private final World world;
 
-	// Box2d variables
-	private World world;
-	private Box2DDebugRenderer b2dr;
-
-	// Sprites
-	public static Rooster player;
+	protected final MainGame game;
 
 	// counts the number of consecutive jumps for each rooster
-	private static final int MAX_JUMPS = 2;
 	private int jumpCount = 0;
+	private int camPos;
+	private Map levelMap;
 	
-	// speed 
+	
+	protected static Rooster player;
+
+	public static long prevUpdateTime;	
+	public static String mapPath;
+	public static String winner;
+	// speed
 	public static float currentSpeed = 1.0f;
 	public static boolean startTimer;
 	public static long buffDuration;
 
-	private HashMap<Bomb, Float> toExplode = new HashMap<>();
-		
-	public static int myID;
-	public static String sessionID;	// i.e. token
-	public static ArrayList<Player> players;
-	public static String mapPath;
-	
-	public static long prevUpdateTime;
-	
-	private final PlayerProgressBar progressBar;
-	private final PlayersTab tab;
-	private boolean isTabOn = false; 
-	
-	public static String winner;
-	
-	private int camPos;
-	private Map levelMap;
-	
+
 	public PlayScreen(MainGame game) {
-		System.out.println("Size is: " + players.size() + "!!");
 		this.game = game;
 		this.atlas = new TextureAtlas("new_sprite_sheet/new_chicken3.pack");
-		this.levelMap = MultiMapManager.getMapByPath(mapPath);
+		this.levelMap = getMap();
 		
-		//set camera position 
+		// camera Position
 		camPos = levelMap.getCamPosition();
-		
-		// Create a cam to follow chicken in the game world
 		gamecam = new OrthographicCamera();
 
 		// Create a FitViewport to maintain virtual aspect ratio despite screen size
 		gamePort = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
 
 		// Create progress bar and tab
-		progressBar = new PlayerProgressBar(game.batch, levelMap.getLength());
-		tab = new PlayersTab(game.batch, levelMap.getLength());
-		
+		initialiseHUD(levelMap.getLength());
+
 		// Load our map and setup our map renderer
 		mapLoader = new TmxMapLoader();
-		String correctMapPath = (mapPath != null)? mapPath : DEFAULT_MAP_PATH;
+		String correctMapPath = (mapPath != null) ? mapPath : DEFAULT_MAP_PATH;
 		map = mapLoader.load(correctMapPath + ".tmx");
 		renderer = new OrthogonalTiledMapRenderer(map, 1 / MainGame.PPM);
-
-		// Initially set our game cam to be centered correctly at the start of the map
 		gamecam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-
+		
 		// Vector of gravity no grav rn, sleep objects at rest = true - box2d does not
 		// calculate physics simulations on objects that are in rest.
 		world = new World(new Vector2(0, -10), true);
 		b2dr = new Box2DDebugRenderer();
 		b2dr.setDrawBodies(false);
-
 		new B2WorldCreator(world, map);
+		initialiseRooster();
+		initialiseContactListener();
 
-		// Create rooster in the world
-		player = new Rooster(world, this);
-
-		// make the world react of object collision
-
-		world.setContactListener(new WorldContactListener(this));
-
-		prevUpdateTime = System.currentTimeMillis();	
+		prevUpdateTime = System.currentTimeMillis();
 	}
 
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void handleInput(float dt) {
+	protected void handleInput(float dt) {
 		// If our user is holding down mouse over camera throughout the game world.
 		if (player.currentState != Rooster.State.DEAD 
 				&& player.currentState != Rooster.State.FROZEN
@@ -157,7 +114,6 @@ public class PlayScreen implements Screen {
                 player.b2body.setLinearVelocity(player.b2body.getLinearVelocity().x, 3f);
 				jumpCount++;
 			}
-
 			
 			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 player.b2body.setLinearVelocity(currentSpeed, player.b2body.getLinearVelocity().y);
@@ -166,44 +122,52 @@ public class PlayScreen implements Screen {
 			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 player.b2body.setLinearVelocity(-currentSpeed, player.b2body.getLinearVelocity().y);
 			}
-			
-			if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-	        	isTabOn = !isTabOn;
-	        }
 		}
-
 	}
 
+	
+	@Override
+	public void render(float delta) {
+		update(delta);
+
+		// clear the game screen with Black
+		Gdx.gl.glClearColor(0, 0, 0, 0); // Colour and alpha
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Actually clears the screen
+		
+		// render our game map
+		renderer.render();
+
+		// renderer our Box2DDebugLines
+		b2dr.render(world, gamecam.combined);
+
+		// render rooster image
+		game.batch.setProjectionMatrix(gamecam.combined); // render only what the game camera can see
+		game.batch.begin();
+		player.draw(game.batch); // draw		
+		game.batch.end();
+		drawProgressbar();
+		setScreenConditions();
+		
+	}
+	
 	/*
 	 * This is where we are going to do all the updating in the game world. First
 	 * thing we check if there is any inputs happening
 	 */
 	public void update(float dt) {
+
 		// Handle user input first
 		handleInput(dt);
-
 		world.step(1 / 60f, 6, 2);
-
-		// update player based on delta time
+		
 		player.update(dt);
-		progressBar.update();
-		tab.update();
-
-
-		// Everytime chicken moves we want to track him with our game cam
-		if (player.currentState != Rooster.State.DEAD) {
-			if (player.getPositionX() < 1200 / MainGame.PPM) {
-				gamecam.position.x = 1200 / MainGame.PPM;
-			} else if (player.getPositionX() > camPos / MainGame.PPM) {
-				gamecam.position.x = camPos / MainGame.PPM;
-			} else {
-				gamecam.position.x = player.getPositionX();
-			}
-		}
-
+		updateHUD(dt);
+		
+		trackPlayerCam();
+		
 		// Update our gamecam with correct coordinates after changes
 		gamecam.update();
-
+		
 		// tell our renderer to draw only what the camera sees in our game world.
 		float width = gamecam.viewportWidth * gamecam.zoom;
 		float height = gamecam.viewportHeight * gamecam.zoom;
@@ -212,21 +176,14 @@ public class PlayScreen implements Screen {
 		float x = gamecam.position.x - w / 2;
 		float y = gamecam.position.y - h / 2;
 		renderer.setView(gamecam.combined, x, y, w, h); // Only render what our game can see
-//      renderer.setView(gamecam);
-
+		
+		//Bomb animation
 		updateBombExplosionAnimation(dt);
 		
-		// send position to server
 		long currentTime = System.currentTimeMillis();
 		if (currentTime-prevUpdateTime >= 100) {
 			prevUpdateTime = currentTime;
-			PlayerInfo packet = new PlayerInfo();
-			packet.setPlayerID(myID);
-			packet.setToken(sessionID);
-			packet.setPosX(player.getPositionX());
-			packet.setLives(player.getLives());
-			packet.setCoins(player.getCoins());
-			MPClient.client.sendTCP(packet);
+			sendLocationToServer();
 		}
 		
 		if(startTimer) {
@@ -238,12 +195,11 @@ public class PlayScreen implements Screen {
 		}
 	}
 	
+
 	private void updateBombExplosionAnimation(float delta) {
-		for (Iterator<HashMap.Entry<Bomb, Float>> iter = toExplode.entrySet().iterator();
-				iter.hasNext();) {
+		for (Iterator<HashMap.Entry<Bomb, Float>> iter = toExplode.entrySet().iterator(); iter.hasNext();) {
 			HashMap.Entry<Bomb, Float> entry = iter.next();
 			Bomb bomb = entry.getKey();
-			@SuppressWarnings("rawtypes")
 			Animation a = bomb.getAnimation();
 			float time = entry.getValue();
 
@@ -261,48 +217,9 @@ public class PlayScreen implements Screen {
 			}
 		}
 	}
-
-	@Override
-	public void render(float delta) {
-		// separate our update logic from render
-		update(delta);
-
-		// clear the game screen with Black
-		Gdx.gl.glClearColor(0, 0, 0, 0); // Colour and alpha
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Actually clears the screen
-		
-		// render our game map
-		renderer.render();
-
-		// renderer our Box2DDebugLines
-		b2dr.render(world, gamecam.combined);
-
-		// render rooster image
-		game.batch.setProjectionMatrix(gamecam.combined); // render only what the game camera can see
-		game.batch.begin();
-		player.draw(game.batch); // draw
-		game.batch.end();
-		
-		if (!isTabOn)
-			progressBar.draw();
-		else
-			tab.draw();
-		
-		if (gameOver()) {
-			game.setScreen(new GameOverScreen(game));
-			terminateSession();
-			dispose();
-		} else if (gameFinished()) {
-			Winner packet = new Winner();
-			packet.setToken(sessionID);
-			packet.setPlayerID(myID);
-			MPClient.client.sendTCP(packet);
-			game.setScreen(new GameFinishedScreen(game));
-			terminateSession();
-			dispose();
-		}
-	}
-
+	
+	
+	
 	@Override
 	public void resize(int width, int height) {
 		/*
@@ -311,69 +228,86 @@ public class PlayScreen implements Screen {
 		 */
 		gamePort.update(width, height);
 	}
-
-	@Override
-	public void pause() {
-		
-	}
-
-	@Override
-	public void resume() {
-		
-	}
-
-	@Override
-	public void hide() {
-		
-	}
-
+	
 	@Override
 	public void dispose() {
 		map.dispose();
 		renderer.dispose();
 		world.dispose();
-		b2dr.dispose();
-		progressBar.dispose();
-		tab.dispose();
+		b2dr.dispose();	
+		disposeHUD();
 	}
-
-	public TextureAtlas getAtlas() {
-		return atlas;
-	}
-
-	// TEMP
-	private boolean gameOver() {
-		return player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3;
-	}
+		
 	
-	public static void resetSession() {
-//		sessionID = null;	// i.e. token
-//		players = null;
-//		mapPath = null;
-		LobbyScreen.isGameAboutToStart = false;
-	}
-	
-	private void terminateSession() {
-		TerminateSession packet = new TerminateSession();
-		packet.setId(MPClient.clientID);
-		packet.setToken(PlayScreen.sessionID);
-		MPClient.client.sendTCP(packet);
-	}
-	
-	private boolean gameFinished() {
-		return (player.currentState == Rooster.State.WON);
-	}
-
 	public void makeBombExplode(Bomb bomb) {
 		float startTime = Gdx.graphics.getDeltaTime();
 		toExplode.put(bomb, startTime);
 	}
-
+	
 	public void resetJumpCount1() {
 		jumpCount = 0;
+	}
+		
+
+	protected boolean gameOver() {
+		return player.currentState == Rooster.State.DEAD && player.getStateTimer() > 3;
+	}
+	
+	protected boolean gameFinished() {
+		return (player.currentState == Rooster.State.WON);
+	}
+
+	
+	protected void trackPlayerCam() {
+		// Everytime chicken moves we want to track him with our game cam
+		if (player.currentState != Rooster.State.DEAD) {
+			if (player.getPositionX() < 1200 / MainGame.PPM) {
+				gamecam.position.x = 1200 / MainGame.PPM;
+			} else if (player.getPositionX() > camPos / MainGame.PPM) {
+				gamecam.position.x = camPos / MainGame.PPM;
+			} else {
+				gamecam.position.x = player.getPositionX();
+			}
+		}		
+	}
+	
+	protected World getWorld() {
+		return world;
+	}
+	
+	public static Rooster getPlayer() {
+		return player;
 	}
 	
 	public String getMapPath() {
 		return mapPath;
 	}
+	
+	public TextureAtlas getAtlas() {
+		return atlas;
+	}
+	
+	@Override public void show() {}
+	@Override public void pause() {}
+	@Override public void resume() {}
+	@Override public void hide() {}
+	
+	protected abstract Map getMap();
+	
+	protected abstract void disposeHUD();
+	
+	protected abstract void setScreenConditions();
+	
+	protected abstract void drawProgressbar();
+			
+	protected abstract void updateHUD(float dt);
+
+	protected abstract void initialiseContactListener();
+
+	protected abstract void initialiseRooster();
+
+	protected abstract void initialiseHUD(int mapLength);
+	
+	protected abstract void sendLocationToServer();
+
 }

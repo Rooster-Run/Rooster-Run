@@ -37,14 +37,12 @@ public class OptionsScreen implements Screen {
 
 	private LabelStyle lbl_style;
 
-	public static String ip = "Localhost", name = "Player 1"; // change with user input
+
 	private Skin txt_skin;
 	private TextButtonStyle btn_style;
 	private MainGame game;
 	private Viewport viewport;
 	private Stage stage;
-	private TextureAtlas buttonsAtlas; // the sprite-sheet containing all buttons
-	private Skin skin; // skin for buttons
 	private TextureAtlas buttonsAtlas1; // the sprite-sheet containing all buttons
 	private Skin skin2; // skin for buttons
 	private TextureAtlas buttonsAtlas2; // the sprite-sheet containing all buttons
@@ -65,8 +63,6 @@ public class OptionsScreen implements Screen {
 		btn_style = new TextButton.TextButtonStyle();
 		btn_style.font = new BitmapFont();
 
-		buttonsAtlas = new TextureAtlas("buttons/MyButtons.pack");
-		skin = new Skin(buttonsAtlas);
 		buttonsAtlas2 = new TextureAtlas("buttons/new_buttons.pack");
 		skin2 = new Skin(buttonsAtlas2);
 
@@ -151,7 +147,7 @@ public class OptionsScreen implements Screen {
 		table.setFillParent(true);
 
 		// draw the background
-		Texture background = new Texture("buttons/main_menu_bg.jpg");
+		Texture background = new Texture("background_screens/main_menu_bg.jpg");
 		table.background(new TextureRegionDrawable(new TextureRegion(background)));
 
 		// initialise Label
@@ -210,8 +206,10 @@ public class OptionsScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		buttonsAtlas.dispose();
-		skin.dispose();
+		buttonsAtlas1.dispose();
+		buttonsAtlas2.dispose();
+		skin1.dispose();
+		skin2.dispose();
 		txt_skin.dispose();
 		stage.dispose();
 	}

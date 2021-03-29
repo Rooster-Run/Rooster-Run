@@ -17,22 +17,23 @@ import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
-import uk.ac.aston.teamproj.game.screens.CreateScreen;
+import uk.ac.aston.teamproj.game.screens.MultiCreateScreen;
 import uk.ac.aston.teamproj.game.screens.JoinScreen;
 import uk.ac.aston.teamproj.game.screens.GameInProgressScreen;
 import uk.ac.aston.teamproj.game.screens.LobbyScreen;
-import uk.ac.aston.teamproj.game.screens.PlayScreen;
+import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
 import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
 import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 
 public class MPClient {
 
 	public static Client client;
-	public static int clientID;
-	public int sessionID;
+	private static int clientID;
+	private int sessionID;
 
-	public MainGame game;
+	private MainGame game;
 	private String name;
+	
 	private boolean isTokenWrong = false;
 	private boolean isLate = false;
 	private boolean isHost = false;
@@ -51,7 +52,7 @@ public class MPClient {
 		try {
 			client.connect(60000, ip, Network.TCP_PORT, Network.UDP_PORT);
 			requestLogin();
-			if (game.getScreen() instanceof CreateScreen)
+			if (game.getScreen() instanceof MultiCreateScreen)
 				isHost = true;
 
 		} catch (Exception e) {
@@ -98,32 +99,27 @@ public class MPClient {
 					}
 					System.out.println();
 					System.out.println("Map: " + packet.getMapPath());
-					PlayScreen.mapPath = packet.getMapPath();
-					PlayScreen.sessionID = packet.getToken();
-					PlayScreen.myID = packet.getPlayerID();
+					MultiPlayScreen.mapPath = packet.getMapPath();
+					MultiPlayScreen.sessionID = packet.getToken();
+					MultiPlayScreen.myID = packet.getPlayerID();
 					isReady = true;
 				}
 
 				if (object instanceof StartGame) {
 					StartGame packet = (StartGame) object;
-					PlayScreen.players = new ArrayList<Player>();
+					MultiPlayScreen.players = new ArrayList<Player>();
 					for (int i = 0; i < packet.getPlayerIDs().size() && i < packet.getPlayerNames().size(); i++) {
 						Player p = new Player(packet.getPlayerIDs().get(i), packet.getPlayerNames().get(i));
-						PlayScreen.players.add(p);
+						MultiPlayScreen.players.add(p);
 
 					}
 
 					LobbyScreen.isGameAboutToStart = true;
 				}
 
-//				if (object instanceof ErrorPacket) {
-//					ErrorPacket packet = (ErrorPacket) object;
-//					// Other errors included here
-//				}
-
 				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
-					for (Player p : PlayScreen.players) {
+					for (Player p : MultiPlayScreen.players) {
 						if (p.getID() == packet.getPlayerID()) {
 							p.setPosX(packet.getPosX());
 							p.setLives(packet.getLives());
@@ -134,11 +130,11 @@ public class MPClient {
 
 				if (object instanceof Winner) {
 					Winner packet = (Winner) object;
-					PlayScreen.winner = packet.getWinnerName();
+					MultiPlayScreen.winner = packet.getWinnerName();
 				}
 
 				if (object instanceof IceEffect) {
-					PlayScreen.player.setIceEffect();
+					MultiPlayScreen.getPlayer().setIceEffect();
 				}
 			}
 		}));
