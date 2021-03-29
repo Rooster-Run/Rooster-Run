@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 import uk.ac.aston.teamproj.game.tools.SoundManager;
+import uk.ac.aston.teamproj.singleplayer.SingleCreateScreen;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 public abstract class ErrorScreen implements Screen{
@@ -72,11 +73,10 @@ public abstract class ErrorScreen implements Screen{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				SoundManager.playSound(sound);
+				SoundManager.playSound(SoundManager.POP);
 				System.out.println("SinglePlayer");
 				ErrorScreen.this.dispose();
-				game.setScreen(new SinglePlayScreen(game));
+				game.setScreen(new SingleCreateScreen(game));
 				return true;
 			}
 		});
@@ -90,8 +90,8 @@ public abstract class ErrorScreen implements Screen{
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-				SoundManager.playSound(sound);
+
+				SoundManager.playSound(SoundManager.POP);
 				System.out.println("Back");
 				dispose();
 				game.setScreen(new MainMenuScreen(game));
