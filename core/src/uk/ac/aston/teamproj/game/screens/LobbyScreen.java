@@ -96,11 +96,6 @@ public class LobbyScreen implements Screen {
 		texGyreFont = generator.generateFont(parameter);
 		texGyreFont.setColor(Color.WHITE);
 		generator.dispose();
-
-		
-		//backrgound
-		background = new Image(new Texture("background_screens/lobbyBck.png"));
-		background.setBounds(0, 0, MainGame.V_WIDTH / 6, MainGame.V_HEIGHT / 6);
 		
 		//icon textures
 		initTextures();
@@ -166,7 +161,7 @@ public class LobbyScreen implements Screen {
 		Table table2 = new Table();
 		table2.bottom();
 		table2.setFillParent(true);
-		Texture background = new Texture("buttons/multBackgroundBlur.png");
+		Texture background = new Texture("background_screens/multBackgroundBlur.png");
 		table2.background(new TextureRegionDrawable(new TextureRegion(background)));
 		stage.addActor(table2);
 		Gdx.input.setInputProcessor(stage);
