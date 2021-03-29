@@ -4,12 +4,15 @@ package uk.ac.aston.teamproj.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -48,6 +51,9 @@ public class JoinScreen implements Screen {
 	private Skin skin; //skin for buttons
 	private ImageButton[] buttons;
 
+	//font
+	protected BitmapFont font;
+	
 	private MPClient locClient;
 	
 	public JoinScreen(MainGame game) {
@@ -55,14 +61,30 @@ public class JoinScreen implements Screen {
 		viewport = new FitViewport(MainGame.V_WIDTH/6, MainGame.V_HEIGHT/6, new OrthographicCamera());
 		stage = new Stage(viewport, ((MainGame) game).batch);
 		
+		
+		
+		//font
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/RetroGaming.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 20;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		//e.g. abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:
+		// These characters should not repeat!
+		font = generator.generateFont(parameter);
+		font.setColor(Color.WHITE);
+		generator.dispose();
+		
+		
+		
+		
 		//
 		lbl_style = new Label.LabelStyle();
-		lbl_style.font = new BitmapFont();
+		lbl_style.font = font;
 		
 		txt_skin = new Skin(Gdx.files.internal("uiskin.json"));
 		
 		btn_style = new TextButton.TextButtonStyle();
-		btn_style.font = new BitmapFont();
+		btn_style.font = font;
 		
 		
 		buttonsAtlas = new TextureAtlas("buttons/new_buttons.pack");
@@ -98,8 +120,8 @@ public class JoinScreen implements Screen {
 	    				public void keyTyped(TextField textField, char c) {
 	    					
 	    					//plays button pop sound
-	    					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	    	                sound.play(1F);
+//	    					Sound sound = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+//	    	                sound.play(1F);
 	    	                
 	    					token = textField.getText();	    					
 	    				}
@@ -109,8 +131,8 @@ public class JoinScreen implements Screen {
 	    				@Override
 	    				public void keyTyped(TextField textField, char c) {
 	    					//plays button pop sound
-	    					Sound sound2 = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
-	    	                sound2.play(1F);
+//	    					Sound sound2 = Gdx.audio.newSound(Gdx.files.internal("pop.mp3"));
+//	    	                sound2.play(1F);
 
 	    					name = textField.getText();
 	    				}
