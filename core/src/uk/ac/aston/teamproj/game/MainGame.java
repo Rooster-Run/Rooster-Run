@@ -33,7 +33,7 @@ public class MainGame extends Game {
 	public static final short GROUND_BIT = 2048;
 
 //	public static final String IP = "35.246.103.114";
-	public static final String IP = "localhost";
+	public static final String IP = "35.214.16.148";
 
 	@Override
 	public void create () {
