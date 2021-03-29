@@ -1,7 +1,7 @@
-package uk.ac.aston.teamproj.singleplayer;
+package uk.ac.aston.teamproj.game.screens.single;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.superclass.GameOverScreen;
+import uk.ac.aston.teamproj.game.screens.GameOverScreen;
 
 public class SingleGameOverScreen extends GameOverScreen {
 	

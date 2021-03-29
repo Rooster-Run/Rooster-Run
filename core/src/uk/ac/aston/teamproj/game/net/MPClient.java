@@ -8,7 +8,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
 import uk.ac.aston.teamproj.game.net.packet.IceEffect;
 import uk.ac.aston.teamproj.game.net.packet.JoinGameSession;
 import uk.ac.aston.teamproj.game.net.packet.LeftGameSession;
@@ -17,29 +16,54 @@ import uk.ac.aston.teamproj.game.net.packet.PlayerInfo;
 import uk.ac.aston.teamproj.game.net.packet.SessionInfo;
 import uk.ac.aston.teamproj.game.net.packet.StartGame;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
-import uk.ac.aston.teamproj.game.screens.MultiCreateScreen;
-import uk.ac.aston.teamproj.game.screens.JoinScreen;
-import uk.ac.aston.teamproj.game.screens.GameInProgressScreen;
-import uk.ac.aston.teamproj.game.screens.LobbyScreen;
-import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
-import uk.ac.aston.teamproj.game.screens.ServerErrorScreen;
-import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
+import uk.ac.aston.teamproj.game.screens.multi.LobbyScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiCreateScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiPlayScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiplayerMenuScreen;
+import uk.ac.aston.teamproj.game.screens.multi.ServerErrorScreen;
 
+/**
+ * The Class MPClient.
+ */
 public class MPClient {
 
+	/** The client. */
 	public static Client client;
+	
+	/** The client ID. */
 	private static int clientID;
+	
+	/** The session ID. */
 	private int sessionID;
 
+	/** The game. */
 	private MainGame game;
+	
+	/** The name. */
 	private String name;
 	
+	/** The is token wrong. */
 	private boolean isTokenWrong = false;
+	
+	/** The is late. */
 	private boolean isLate = false;
+	
+	/** The is host. */
 	private boolean isHost = false;
+	
+	/** The is ready. */
 	private boolean isReady = false;
+	
+	/** The is full. */
 	private boolean isFull = false;
 
+	/**
+	 * Instantiates a new MP client.
+	 *
+	 * @param ip the ip
+	 * @param name the name
+	 * @param game the game
+	 */
 	public MPClient(String ip, String name, final MainGame game) {
 		this.name = name;
 		this.game = game;
@@ -61,6 +85,13 @@ public class MPClient {
 
 		client.addListener(new ThreadedListener(new Listener() {
 
+			public void disconnected(Connection connection) {
+				LeftGameSession packet = new LeftGameSession();
+				packet.setToken(MultiPlayScreen.sessionID);
+				packet.setPlayerID(MultiPlayScreen.myID);
+				client.sendTCP(packet);
+			}
+			
 			public void connected(Connection connection) {
 				// get text here
 			}
@@ -84,21 +115,12 @@ public class MPClient {
 
 				if (object instanceof SessionInfo) {
 					SessionInfo packet = (SessionInfo) object;
-					System.out.println("Total players: " + packet.getPlayerIDs().size());
-					// totalPlayers = packet.playerIDs.size();
-					System.out.print("Players: ");
 					LobbyScreen.currentPlayers = new ArrayList<>();
 					for (int i = 0; i < packet.getPlayerIDs().size(); i++) {
 						Integer id = packet.getPlayerIDs().get(i);
 						String name = packet.getPlayerNames().get(i);
-						System.out.print("[" + id + " - " + name + "] ");
-						// playerName = packet.playerNames.get(i);
-						// playerID = packet.playerNames.get(i);
-						// n.add(packet.playerNames.get(i));
 						LobbyScreen.currentPlayers.add(new Player(id, name));
 					}
-					System.out.println();
-					System.out.println("Map: " + packet.getMapPath());
 					MultiPlayScreen.mapPath = packet.getMapPath();
 					MultiPlayScreen.sessionID = packet.getToken();
 					MultiPlayScreen.myID = packet.getPlayerID();
@@ -141,28 +163,56 @@ public class MPClient {
 
 	}
 
+	/**
+	 * Request login.
+	 */
 	public void requestLogin() {
 		Login login = new Login();
 		login.setName(name);
 		client.sendTCP(login);
 	}
 	
+	/**
+	 * Checks if is token wrong.
+	 *
+	 * @return true, if is token wrong
+	 */
 	public boolean isTokenWrong() {
 		return isTokenWrong;
 	}
 	
+	/**
+	 * Checks if is late.
+	 *
+	 * @return true, if is late
+	 */
 	public boolean isLate() {
 		return isLate;
 	}
 	
+	/**
+	 * Checks if is host.
+	 *
+	 * @return true, if is host
+	 */
 	public boolean isHost() {
 		return isHost;
 	}
 	
+	/**
+	 * Checks if is ready.
+	 *
+	 * @return true, if is ready
+	 */
 	public boolean isReady() {
 		return isReady;
 	}
 	
+	/**
+	 * Checks if is full.
+	 *
+	 * @return true, if is full
+	 */
 	public boolean isFull() {
 		return isFull;
 	}

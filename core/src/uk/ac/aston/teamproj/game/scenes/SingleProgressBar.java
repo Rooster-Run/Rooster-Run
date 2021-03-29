@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.singleplayer;
+package uk.ac.aston.teamproj.game.scenes;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,32 +13,63 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.screens.single.SinglePlayScreen;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SingleProgressBar.
+ */
 public class SingleProgressBar implements Disposable {
 	
+	/** The map size. */
 	private static float map_size;
+	
+	/** The Constant BAR_WIDTH. */
 	private static final float BAR_WIDTH = 400;
+	
+	/** The Constant BAR_HEIGHT. */
 	private static final float BAR_HEIGHT = 32;
+	
+	/** The Constant PLAYER_RADIUS. */
 	private static final float PLAYER_RADIUS = 30;
 	
+	/** The stage. */
 	private Stage stage;
+	
+	/** The viewport. */
 	private Viewport viewport;
 	
+	/** The bar. */
 	// progress bar
 	private Image bar;
 		
+	/** The coin. */
 	// coins
 	private Image coin;
+	
+	/** The coins label. */
 	private Label coinsLabel;
+	
+	/** The coins collected. */
 	private int coinsCollected = 0;
 	
+	/** The hearts. */
 	// lives
 	private Image[] hearts = new Image[3];
 	
+	/** The relative position. */
 	// players
 	private float relativePosition;
+	
+	/** The player icon. */
 	private Image playerIcon;
 	
+	/**
+	 * Instantiates a new single progress bar.
+	 *
+	 * @param sb the sb
+	 * @param mapLength the map length
+	 */
 	public SingleProgressBar(SpriteBatch sb, int mapLength) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
@@ -78,6 +109,9 @@ public class SingleProgressBar implements Disposable {
 		
 	}
 
+	/**
+	 * Draw.
+	 */
 	public void draw() {		
 		
 		Group group = new Group();
@@ -95,11 +129,17 @@ public class SingleProgressBar implements Disposable {
 		stage.act();
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
 	}
 	
+	/**
+	 * Update.
+	 */
 	public void update() {		
 		float actualPosition = (SinglePlayScreen.getPlayer().getPositionX()* MainGame.PPM) / 100;
 		float percentage = (actualPosition * 100) / map_size;

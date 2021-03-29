@@ -1,10 +1,10 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.game.screens.multi;
 
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.net.packet.CreateGameSession;
+import uk.ac.aston.teamproj.game.screens.CreateScreen;
 import uk.ac.aston.teamproj.game.tools.MultiMapManager;
-import uk.ac.aston.teamproj.superclass.CreateScreen;
 
 public class MultiCreateScreen extends CreateScreen {
 

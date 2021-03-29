@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
-import uk.ac.aston.teamproj.singleplayer.SingleGameFinishedScreen;
+import uk.ac.aston.teamproj.game.screens.single.SingleGameFinishedScreen;
 
 public class MainGame extends Game {
 	
@@ -33,7 +33,9 @@ public class MainGame extends Game {
 	public static final short GROUND_BIT = 2048;
 
 //	public static final String IP = "35.246.103.114";
-	public static final String IP = "35.214.16.148";
+//	public static final String IP = "35.214.16.148";
+	public static final String IP = "localhost";
+
 
 	@Override
 	public void create () {

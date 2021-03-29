@@ -13,37 +13,66 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import uk.ac.aston.teamproj.game.MainGame;
-import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
-import uk.ac.aston.teamproj.game.tools.Map;
-import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
+import uk.ac.aston.teamproj.game.screens.multi.MultiPlayScreen;
 
+
+/**
+ * The Class PlayerProgressBar.
+ */
 public class PlayerProgressBar implements Disposable {
 	
+	/** The Constant BAR_WIDTH. */
 	private static final float BAR_WIDTH = 400;
+	
+	/** The Constant BAR_HEIGHT. */
 	private static final float BAR_HEIGHT = 32;
+	
+	/** The Constant PLAYER_RADIUS. */
 	private static final float PLAYER_RADIUS = 30;
 	
+	/** The stage. */
 	private Stage stage;
+	
+	/** The viewport. */
 	private Viewport viewport;
 	
+	/** The bar. */
 	// progress bar
 	private Image bar;
 		
+	/** The coin. */
 	// coins
 	private Image coin;
+	
+	/** The coins label. */
 	private Label coinsLabel;
+	
+	/** The coins collected. */
 	private int coinsCollected = 0;
 	
+	/** The hearts. */
 	// lives
 	private Image[] hearts = new Image[3];
 	
+	/** The relative positions. */
 	// players
 	private final float[] relativePositions;
+	
+	/** The player icons. */
 	private final Image[] playerIcons;
+	
+	/** The player index. */
 	private int playerIndex;
 	
+	/** The map size. */
 	private float mapSize;
 	
+	/**
+	 * Instantiates a new player progress bar.
+	 *
+	 * @param sb the sb
+	 * @param mapLength the map length
+	 */
 	public PlayerProgressBar(SpriteBatch sb, int mapLength) {
 		viewport = new FitViewport(MainGame.V_WIDTH / 3, MainGame.V_HEIGHT / 3, new OrthographicCamera());
 		stage = new Stage(viewport, sb);
@@ -92,6 +121,9 @@ public class PlayerProgressBar implements Disposable {
 
 	}
 
+	/**
+	 * Draw.
+	 */
 	public void draw() {		
 		
 		Group group = new Group();
@@ -113,11 +145,17 @@ public class PlayerProgressBar implements Disposable {
 		stage.act();
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
 	}
 	
+	/**
+	 * Update.
+	 */
 	public void update() {		
 		for (int i = 0; i < MultiPlayScreen.players.size(); i++) {
 			float actualPosition = (MultiPlayScreen.players.get(i).getPosX()* MainGame.PPM) / 100;

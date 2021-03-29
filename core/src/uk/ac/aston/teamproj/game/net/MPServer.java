@@ -1,6 +1,8 @@
 package uk.ac.aston.teamproj.game.net;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -19,12 +21,23 @@ import uk.ac.aston.teamproj.game.net.packet.TerminateSession;
 import uk.ac.aston.teamproj.game.net.packet.Winner;
 
 
+/**
+ * The Class MPServer.
+ */
 public class MPServer {
 
+	/** The Constant TOKEN_LENGTH. */
 	private final static int TOKEN_LENGTH = 5;
+	
+	/** The server. */
 	private final Server server;
+	
+	/** The sessions. */
 	private final HashMap<String, GameSession> sessions;
 
+	/**
+	 * Instantiates a new MP server.
+	 */
 	public MPServer() {
 		server = new Server();
 		server.start();
@@ -40,10 +53,28 @@ public class MPServer {
 		}
 
 		server.addListener(new Listener() {
-			public void connected(Connection connection) {
-
+			
+			public void disconnected(Connection connection) {
+				
+				boolean found = false;
+				for (
+						Iterator<Map.Entry<String, GameSession>> iter = sessions.entrySet().iterator();
+						iter.hasNext() || !found;
+				) {
+					Map.Entry<String, GameSession> entry = iter.next();
+					String key = entry.getKey();
+				    GameSession session = entry.getValue();
+				    if (session.removePlayerByID(connection.getID())) {
+				    	if (session.getPlayers().size() <= 0) {
+							sessions.remove(key);
+						} else {						
+							notifyAllPlayers(session);
+						}
+				    	found = true;
+				    }						
+				}				
 			}
-
+			
 			public void received(Connection connection, Object object) {
 
 				if (object instanceof Login) {
@@ -126,7 +157,6 @@ public class MPServer {
 							server.sendToTCP(connectionID, packet);
 						}
 					}
-					System.out.println(sessions.get(packet.getToken()));
 				}
 
 				if (object instanceof PlayerInfo) {
@@ -174,6 +204,12 @@ public class MPServer {
 		});
 	}
 
+	/**
+	 * Checks if is deleteable.
+	 *
+	 * @param packet the packet
+	 * @return true, if is deleteable
+	 */
 	private boolean isDeleteable(TerminateSession packet) {
 		for (Player player : sessions.get(packet.getToken()).getPlayers())
 			if (player.playing)
@@ -181,6 +217,11 @@ public class MPServer {
 		return true;
 	}
 
+	/**
+	 * Notify all players.
+	 *
+	 * @param session the session
+	 */
 	private void notifyAllPlayers(GameSession session) {
 		SessionInfo packet = new SessionInfo();
 		packet.setPlayerIDs(session.getPlayerIDs());
@@ -193,6 +234,11 @@ public class MPServer {
 		}
 	}
 
+	/**
+	 * Generate game token.
+	 *
+	 * @return the string
+	 */
 	private String generateGameToken() {
 		String saltStr;
 		do {
@@ -209,8 +255,12 @@ public class MPServer {
 		return saltStr;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
-		// Log.set(Log.LEVEL_DEBUG);
 		new MPServer();
 	}
 }

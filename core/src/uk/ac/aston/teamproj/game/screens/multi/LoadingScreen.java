@@ -1,4 +1,4 @@
-package uk.ac.aston.teamproj.game.screens;
+package uk.ac.aston.teamproj.game.screens.multi;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

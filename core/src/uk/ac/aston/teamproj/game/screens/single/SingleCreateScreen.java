@@ -1,9 +1,9 @@
-package uk.ac.aston.teamproj.singleplayer;
+package uk.ac.aston.teamproj.game.screens.single;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.screens.CreateScreen;
 import uk.ac.aston.teamproj.game.screens.MainMenuScreen;
 import uk.ac.aston.teamproj.game.tools.SingleMapManager;
-import uk.ac.aston.teamproj.superclass.CreateScreen;
 
 public class SingleCreateScreen extends CreateScreen {
 
