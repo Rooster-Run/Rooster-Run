@@ -22,10 +22,7 @@ public class Mud extends RectangularObject {
 	
 	@Override
 	public void onHit() {
-		Gdx.app.log(String.valueOf(MPClient.clientID), "Mud Collision");
-		//set category to destroyed bit
-		//setCategoryFilter(MainGame.DESTROYED_BIT);
-		//getCell().setTile(null);
+
 		MultiPlayScreen.currentSpeed = 0.5f;
 		MultiPlayScreen.startTimer = true;
 		MultiPlayScreen.buffDuration = MultiPlayScreen.prevUpdateTime + 5000;

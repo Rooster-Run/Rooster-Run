@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 
 import uk.ac.aston.teamproj.game.MainGame;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 
 /**
  * 
@@ -26,14 +27,7 @@ public class EndPlane extends RectangularObject {
 
 	@Override
 	public void onHit() {
-		//for now, just log the event to the console
-		Gdx.app.log("PLANE", "Collision");
-		
-		Sound sound = Gdx.audio.newSound(Gdx.files.internal("firstplace.wav"));
-        sound.play(1F);
-		
-		//set category to destroyed bit
-		//getCell().setTile(null);
+        SoundManager.playSound(SoundManager.FIRSTPLACE);
 	}
 		
 	@Override

@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import uk.ac.aston.teamproj.game.MainGame;
 import uk.ac.aston.teamproj.game.net.MPClient;
 import uk.ac.aston.teamproj.game.screens.MultiPlayScreen;
+import uk.ac.aston.teamproj.game.tools.SoundManager;
 import uk.ac.aston.teamproj.singleplayer.SinglePlayScreen;
 
 public class Lightning extends CircularObject {
@@ -23,9 +24,7 @@ public class Lightning extends CircularObject {
 	
 	@Override
 	public void onHit() {
-		Gdx.app.log(String.valueOf(MPClient.clientID), "Lightning Collision");	
-	   	Sound sound = Gdx.audio.newSound(Gdx.files.internal("lightening.mp3"));
-        sound.play(1F);
+	   	SoundManager.playSound(SoundManager.LIGHTNING); 
 		//set category to destroyed bit
 		setCategoryFilter(MainGame.DESTROYED_BIT);
 		getCell().setTile(null);

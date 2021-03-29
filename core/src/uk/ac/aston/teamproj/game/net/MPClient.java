@@ -28,11 +28,12 @@ import uk.ac.aston.teamproj.game.screens.TokenErrorScreen;
 public class MPClient {
 
 	public static Client client;
-	public static int clientID;
-	public int sessionID;
+	private static int clientID;
+	private int sessionID;
 
-	public MainGame game;
+	private MainGame game;
 	private String name;
+	
 	private boolean isTokenWrong = false;
 	private boolean isLate = false;
 	private boolean isHost = false;
@@ -116,11 +117,6 @@ public class MPClient {
 					LobbyScreen.isGameAboutToStart = true;
 				}
 
-//				if (object instanceof ErrorPacket) {
-//					ErrorPacket packet = (ErrorPacket) object;
-//					// Other errors included here
-//				}
-
 				if (object instanceof PlayerInfo) {
 					PlayerInfo packet = (PlayerInfo) object;
 					for (Player p : MultiPlayScreen.players) {
@@ -138,7 +134,7 @@ public class MPClient {
 				}
 
 				if (object instanceof IceEffect) {
-					MultiPlayScreen.player.setIceEffect();
+					MultiPlayScreen.getPlayer().setIceEffect();
 				}
 			}
 		}));

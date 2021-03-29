@@ -142,8 +142,9 @@ public class Rooster extends Sprite {
 				isFrozen = false;
 				setMaskBits(true);
 			}
-
-		} else if (!isDead) {
+		} else if (isDead && b2body.getPosition().y < -20/MainGame.PPM) {
+			b2body.setLinearVelocity(0, 0);
+		} else {
 			//check if rooster has fallen
 			if (b2body.getPosition().y < -20/MainGame.PPM) {
 				if (coins >= DEFAULT_COINS_TO_REVIVE) {
