@@ -59,10 +59,6 @@ To get a local copy up and running follow these simple steps.
 2. Extract the zipped folder into your desired location
 3. Start RoosterRun.exe
 
-### Project version:
-
-1. To be completed
-
 <!-- BUILT WITH -->
 
 <!-- HOW TO PLAY -->
