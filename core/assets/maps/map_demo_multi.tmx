@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="180" height="13" tilewidth="96" tileheight="96" infinite="0" nextlayerid="17" nextobjectid="709">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="180" height="13" tilewidth="96" tileheight="96" infinite="0" nextlayerid="17" nextobjectid="710">
  <tileset firstgid="1" name="ground" tilewidth="96" tileheight="96" tilecount="15" columns="3">
   <image source="new_graphics/webp_nn.png" trans="a1bed9" width="288" height="480"/>
  </tileset>
@@ -124,7 +124,7 @@
  </layer>
  <layer id="2" name="2_foreground" width="180" height="13">
   <data encoding="base64" compression="zlib">
-   eJztmWluwjAQRv2jBASiPVB7CKDH677vdN/37V79InmkYRgnToqLkvpJT6FxTCbNZ8eAMdWnaZ2ZdiEBaDIj/wPKch3veczz3zAPF6ZdhIXyHOfnSB2o8z2v87VFdGitEXp+HjA5Pbv9TiZ/zpjnSAiawkVlX4g1T8xzpIosYW5fhitwFa7B9STmOFJNNpDdTbgFt+EO3A2wfuG4xlAZ7tHvAT7Cp8B1V51eTnuo5/GctQxyjZ3HHjKwDw/gITyCx4FzMckx9Ix+L/AVvsU8mwZsWRvMFtu6qMNvKSfIwBCewjN4Di+S8TX6JCk7hvjnBXr9jn4f8BN+lchzYq0SWXNdG87CDtuSbatrzqva56W+su8SN/MKXsMbeAvvkvHs+DJwnIfjGkMSOaa0PBcdd9r3REUZ/rK/pMizOO/ZnWaYZ5oynL7uWrU5W9s2PGvS/p95daZteTnJoq/0d2VCy40PrqxJXGOon1FHVoZlW/o+rrVi3nystfP74rrGlhl/zvN8aJmRawLtWPl+so0k+JxM2aa/u2Z0ru6IdurTZW0Er5HIugZZs+tYuQbi55Dn85nPtGN88yPxHQ+u43zq9L0G+d2mMaN1FBmjWbXR/h+XS0Qc
+   eJztmWluwjAQRv2jBARKe6D2EECP133f6b7v2736RfJIwzBOTIqLkvpJT6E4JpPms2OCMdWnaZ2ZdiEBaDIj/wPKch2veczz3zAPF6ZdhIXyHOfnSB2o8zWv87lFdGitEXp+7jM5Xbv9TiZ/zJjnSAiawkXlvRBrnpjnSBVZwty+DFfgKlyD60nMcaSabCC7m3ALbsMduBtg/cJxjaEy3KPfA3yET4HrrjrdgvZQ9+M5axnkGruIPWRgHx7AQ3gEjwPnYpJj6Bn9XuArfIt5Ng3YsjaYLbZ1UYffUk6QgQE8hWfwHF4ko2v0SVJ2DPHvC/T6Hf0+4Cf8KpHnxFol8ua6NpyFHbYl21bXnFe170s95b1LXMwreA1v4C28S0az40vfcRyOawxJ5JjS8jzuuNOeE43L4Jf9Ja58as+tiu7dWYZ5pinD2evUqs3Z2rbhWb/2/yyqM2srykkePaW/KxNabnxwZU3iGkO9nDryMizbss9xrRWL5mOtnV8X1zm2zOh9nudDy4xcE2j7ys+TbSTB52TKNv2dmuG5uiPaqU/K2gheI5F3DrJm175yDcSPIY/nM59p+/jmR+I7Hlz7+dTpew7y2aYxw3WMM0bzaqP3fwDKxUTn
   </data>
  </layer>
  <objectgroup id="4" name="3_ground">
@@ -231,6 +231,9 @@
    <ellipse/>
   </object>
   <object id="624" x="14592" y="1056" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="709" x="2015.33" y="1055.67" width="96" height="96">
    <ellipse/>
   </object>
  </objectgroup>
